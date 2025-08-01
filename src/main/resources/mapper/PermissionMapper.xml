@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.me.joy.clinic.mapper.PermissionMapper">
+
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="org.me.joy.clinic.entity.Permission">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="permission_code" property="permissionCode" jdbcType="VARCHAR"/>
+        <result column="permission_name" property="permissionName" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="module" property="module" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="deleted" property="deleted" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!-- 查询角色的权限列表 -->
+    <select id="findPermissionsByRoleId" resultMap="BaseResultMap">
+        SELECT p.*
+        FROM permissions p
+        JOIN role_permissions rp ON p.id = rp.permission_id
+        WHERE rp.role_id = #{roleId} AND p.deleted = 0
+    </select>
+
+    <!-- 查询用户的权限列表 -->
+    <select id="findPermissionsByUserId" resultMap="BaseResultMap">
+        SELECT DISTINCT p.*
+        FROM permissions p
+        JOIN role_permissions rp ON p.id = rp.permission_id
+        JOIN roles r ON rp.role_id = r.id AND r.deleted = 0
+        JOIN user_roles ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId} AND p.enabled = 1 AND p.deleted = 0
+    </select>
+
+    <!-- 查询模块列表 -->
+    <select id="findAllModules" resultType="java.lang.String">
+        SELECT DISTINCT module FROM permissions WHERE deleted = 0 ORDER BY module
+    </select>
+
+    <!-- 根据模块查询权限 -->
+    <select id="findByModule" resultMap="BaseResultMap">
+        SELECT * FROM permissions WHERE module = #{module} AND deleted = 0 ORDER BY permission_name
+    </select>
+
+    <!-- 查询启用的权限 -->
+    <select id="findAllEnabled" resultMap="BaseResultMap">
+        SELECT * FROM permissions WHERE enabled = 1 AND deleted = 0 ORDER BY permission_name
+    </select>
+
+    <!-- 根据模块查询启用的权限 -->
+    <select id="findByModuleAndEnabled" resultMap="BaseResultMap">
+        SELECT * FROM permissions WHERE module = #{module} AND enabled = 1 AND deleted = 0 ORDER BY permission_name
+    </select>
+
+</mapper>

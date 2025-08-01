@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.AllergyHistoryMapper">
+
+    <!-- 根据患者ID查找过敏史 -->
+    <select id="findByPatientId" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} AND deleted = 0
+        ORDER BY severity DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据患者ID和过敏原查找过敏史 -->
+    <select id="findByPatientIdAndAllergen" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} 
+        AND allergen LIKE CONCAT('%', #{allergen}, '%') 
+        AND deleted = 0
+        ORDER BY recorded_time DESC
+    </select>
+
+    <!-- 根据过敏原类型查找过敏史 -->
+    <select id="findByPatientIdAndAllergenType" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} 
+        AND allergen_type = #{allergenType} 
+        AND deleted = 0
+        ORDER BY severity DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据严重程度查找过敏史 -->
+    <select id="findByPatientIdAndSeverity" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} 
+        AND severity = #{severity} 
+        AND deleted = 0
+        ORDER BY recorded_time DESC
+    </select>
+
+    <!-- 查找已确认的过敏史 -->
+    <select id="findConfirmedAllergies" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} 
+        AND is_confirmed = 1 
+        AND deleted = 0
+        ORDER BY severity DESC, recorded_time DESC
+    </select>
+
+    <!-- 查找严重过敏史 -->
+    <select id="findSevereAllergies" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE patient_id = #{patientId} 
+        AND severity IN ('严重', '危及生命') 
+        AND deleted = 0
+        ORDER BY 
+            CASE severity 
+                WHEN '危及生命' THEN 1 
+                WHEN '严重' THEN 2 
+                ELSE 3 
+            END,
+            recorded_time DESC
+    </select>
+
+    <!-- 根据过敏原名称搜索过敏史 -->
+    <select id="searchByAllergen" resultType="org.me.joy.clinic.entity.AllergyHistory">
+        SELECT * FROM allergy_histories 
+        WHERE allergen LIKE CONCAT('%', #{allergenKeyword}, '%') 
+        AND deleted = 0
+        ORDER BY severity DESC, recorded_time DESC
+    </select>
+
+    <!-- 统计患者过敏史数量 -->
+    <select id="countByPatientId" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM allergy_histories 
+        WHERE patient_id = #{patientId} AND deleted = 0
+    </select>
+
+    <!-- 删除患者的所有过敏史 -->
+    <update id="deleteByPatientId">
+        UPDATE allergy_histories 
+        SET deleted = 1, updated_at = NOW()
+        WHERE patient_id = #{patientId} AND deleted = 0
+    </update>
+
+    <!-- 批量插入过敏史 -->
+    <insert id="batchInsert">
+        INSERT INTO allergy_histories (
+            patient_id, allergen, allergen_type, symptoms, severity,
+            first_discovered_time, last_occurrence_time, treatment, remarks,
+            is_confirmed, recorded_by, recorded_time, created_at, updated_at
+        ) VALUES
+        <foreach collection="allergyHistories" item="item" separator=",">
+            (
+                #{item.patientId}, #{item.allergen}, #{item.allergenType}, 
+                #{item.symptoms}, #{item.severity}, #{item.firstDiscoveredTime},
+                #{item.lastOccurrenceTime}, #{item.treatment}, #{item.remarks},
+                #{item.isConfirmed}, #{item.recordedBy}, #{item.recordedTime},
+                NOW(), NOW()
+            )
+        </foreach>
+    </insert>
+
+</mapper>

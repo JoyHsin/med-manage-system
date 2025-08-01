@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.me.joy.clinic.mapper.UserMapper">
+
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="org.me.joy.clinic.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="full_name" property="fullName" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="hire_date" property="hireDate" jdbcType="DATE"/>
+        <result column="employee_id" property="employeeId" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+        <result column="account_non_expired" property="accountNonExpired" jdbcType="BOOLEAN"/>
+        <result column="account_non_locked" property="accountNonLocked" jdbcType="BOOLEAN"/>
+        <result column="credentials_non_expired" property="credentialsNonExpired" jdbcType="BOOLEAN"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="password_changed_time" property="passwordChangedTime" jdbcType="TIMESTAMP"/>
+        <result column="failed_login_attempts" property="failedLoginAttempts" jdbcType="INTEGER"/>
+        <result column="locked_time" property="lockedTime" jdbcType="TIMESTAMP"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="deleted" property="deleted" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!-- 查询用户及其角色 -->
+    <select id="findByUsernameWithRoles" resultMap="BaseResultMap">
+        SELECT u.*, r.id as role_id, r.role_code, r.role_name, r.description, r.enabled, r.is_system_role
+        FROM users u
+        LEFT JOIN user_roles ur ON u.id = ur.user_id
+        LEFT JOIN roles r ON ur.role_id = r.id AND r.deleted = 0
+        WHERE u.username = #{username} AND u.deleted = 0
+    </select>
+
+    <!-- 查询用户及其角色和权限 -->
+    <select id="findByUsernameWithRolesAndPermissions" resultMap="BaseResultMap">
+        SELECT DISTINCT u.*, 
+               r.id as role_id, r.role_code, r.role_name, r.description, r.enabled, r.is_system_role,
+               p.id as permission_id, p.permission_code, p.permission_name, p.description, p.module, p.enabled
+        FROM users u
+        LEFT JOIN user_roles ur ON u.id = ur.user_id
+        LEFT JOIN roles r ON ur.role_id = r.id AND r.deleted = 0
+        LEFT JOIN role_permissions rp ON r.id = rp.role_id
+        LEFT JOIN permissions p ON rp.permission_id = p.id AND p.deleted = 0
+        WHERE u.username = #{username} AND u.enabled = #{enabled} AND u.deleted = 0
+    </select>
+
+    <!-- 查询用户的角色列表 -->
+    <select id="findRolesByUserId" resultType="org.me.joy.clinic.entity.Role">
+        SELECT r.*
+        FROM roles r
+        JOIN user_roles ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId} AND r.deleted = 0
+    </select>
+
+    <!-- 插入用户角色关联 -->
+    <insert id="insertUserRoles">
+        INSERT INTO user_roles (user_id, role_id) VALUES
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <!-- 删除用户角色关联 -->
+    <delete id="deleteUserRoles">
+        DELETE FROM user_roles WHERE user_id = #{userId}
+    </delete>
+
+    <!-- 根据角色ID查找用户 -->
+    <select id="findByRoleId" resultMap="BaseResultMap">
+        SELECT u.*
+        FROM users u
+        JOIN user_roles ur ON u.id = ur.user_id
+        WHERE ur.role_id = #{roleId} AND u.deleted = 0
+    </select>
+
+</mapper>

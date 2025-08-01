@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.MedicalHistoryMapper">
+
+    <!-- 根据患者ID查找病史 -->
+    <select id="findByPatientId" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} AND deleted = 0
+        ORDER BY 
+            CASE history_type 
+                WHEN '既往病史' THEN 1 
+                WHEN '家族病史' THEN 2 
+                WHEN '手术史' THEN 3 
+                WHEN '外伤史' THEN 4 
+                WHEN '输血史' THEN 5 
+                WHEN '药物史' THEN 6 
+                ELSE 7 
+            END,
+            diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据患者ID和病史类型查找病史 -->
+    <select id="findByPatientIdAndHistoryType" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND history_type = #{historyType} 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据疾病名称查找病史 -->
+    <select id="findByPatientIdAndDiseaseName" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND disease_name LIKE CONCAT('%', #{diseaseName}, '%') 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据疾病分类查找病史 -->
+    <select id="findByPatientIdAndDiseaseCategory" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND disease_category = #{diseaseCategory} 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 查找既往病史 -->
+    <select id="findPastMedicalHistory" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND history_type = '既往病史' 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 查找家族病史 -->
+    <select id="findFamilyHistory" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND history_type = '家族病史' 
+        AND deleted = 0
+        ORDER BY family_relation, diagnosis_date DESC
+    </select>
+
+    <!-- 查找手术史 -->
+    <select id="findSurgicalHistory" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND history_type = '手术史' 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 查找慢性疾病史 -->
+    <select id="findChronicDiseases" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND is_chronic = 1 
+        AND deleted = 0
+        ORDER BY current_status, diagnosis_date DESC
+    </select>
+
+    <!-- 查找遗传性疾病史 -->
+    <select id="findHereditaryDiseases" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND is_hereditary = 1 
+        AND deleted = 0
+        ORDER BY severity DESC, diagnosis_date DESC
+    </select>
+
+    <!-- 查找传染性疾病史 -->
+    <select id="findContagiousDiseases" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND is_contagious = 1 
+        AND deleted = 0
+        ORDER BY current_status, diagnosis_date DESC
+    </select>
+
+    <!-- 根据严重程度查找病史 -->
+    <select id="findByPatientIdAndSeverity" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND severity = #{severity} 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据当前状态查找病史 -->
+    <select id="findByPatientIdAndCurrentStatus" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND current_status = #{currentStatus} 
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 根据诊断日期范围查找病史 -->
+    <select id="findByPatientIdAndDiagnosisDateRange" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND diagnosis_date BETWEEN #{startDate} AND #{endDate}
+        AND deleted = 0
+        ORDER BY diagnosis_date DESC
+    </select>
+
+    <!-- 搜索病史 -->
+    <select id="searchMedicalHistory" resultType="org.me.joy.clinic.entity.MedicalHistory">
+        SELECT * FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND deleted = 0
+        AND (
+            disease_name LIKE CONCAT('%', #{keyword}, '%')
+            OR description LIKE CONCAT('%', #{keyword}, '%')
+            OR treatment_status LIKE CONCAT('%', #{keyword}, '%')
+            OR hospital LIKE CONCAT('%', #{keyword}, '%')
+            OR doctor LIKE CONCAT('%', #{keyword}, '%')
+        )
+        ORDER BY 
+            CASE 
+                WHEN disease_name = #{keyword} THEN 1
+                WHEN disease_name LIKE CONCAT(#{keyword}, '%') THEN 2
+                ELSE 3
+            END,
+            diagnosis_date DESC, recorded_time DESC
+    </select>
+
+    <!-- 统计患者病史数量 -->
+    <select id="countByPatientId" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM medical_histories 
+        WHERE patient_id = #{patientId} AND deleted = 0
+    </select>
+
+    <!-- 统计指定类型的病史数量 -->
+    <select id="countByPatientIdAndHistoryType" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM medical_histories 
+        WHERE patient_id = #{patientId} 
+        AND history_type = #{historyType} 
+        AND deleted = 0
+    </select>
+
+    <!-- 删除患者的所有病史 -->
+    <update id="deleteByPatientId">
+        UPDATE medical_histories 
+        SET deleted = 1, updated_at = NOW()
+        WHERE patient_id = #{patientId} AND deleted = 0
+    </update>
+
+    <!-- 批量插入病史 -->
+    <insert id="batchInsert">
+        INSERT INTO medical_histories (
+            patient_id, history_type, disease_name, disease_category,
+            onset_date, diagnosis_date, treatment_status, treatment_result,
+            hospital, doctor, description, exam_results, medications,
+            family_relation, is_hereditary, is_chronic, is_contagious,
+            severity, current_status, remarks, recorded_by, recorded_time,
+            created_at, updated_at
+        ) VALUES
+        <foreach collection="medicalHistories" item="item" separator=",">
+            (
+                #{item.patientId}, #{item.historyType}, #{item.diseaseName}, 
+                #{item.diseaseCategory}, #{item.onsetDate}, #{item.diagnosisDate},
+                #{item.treatmentStatus}, #{item.treatmentResult}, #{item.hospital},
+                #{item.doctor}, #{item.description}, #{item.examResults},
+                #{item.medications}, #{item.familyRelation}, #{item.isHereditary},
+                #{item.isChronic}, #{item.isContagious}, #{item.severity},
+                #{item.currentStatus}, #{item.remarks}, #{item.recordedBy},
+                #{item.recordedTime}, NOW(), NOW()
+            )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: clinic-management-system-test
+  
+  # Test Database Configuration (H2)
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    
+  # MyBatis-Plus Configuration for tests
+  mybatis-plus:
+    configuration:
+      map-underscore-to-camel-case: true
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    global-config:
+      db-config:
+        id-type: auto
+        logic-delete-field: deleted
+        logic-delete-value: 1
+        logic-not-delete-value: 0
+    mapper-locations: classpath*:/mapper/**/*.xml
+    
+  # H2 Console (for debugging)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      
+  # SQL initialization
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      
+
+
+# JWT Configuration for tests
+jwt:
+  secret: testSecretKey123456789012345678901234567890
+  expiration: 3600000 # 1 hour for tests
+
+# Logging Configuration for tests
+logging:
+  level:
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+    org.me.joy.clinic: DEBUG
+    
+# JPA Configuration for tests
+jpa:
+  show-sql: true
+  hibernate:
+    ddl-auto: create-drop

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.PatientMapper">
+
+    <!-- 根据患者编号查找患者 -->
+    <select id="findByPatientNumber" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE patient_number = #{patientNumber} AND deleted = 0
+    </select>
+
+    <!-- 根据身份证号查找患者 -->
+    <select id="findByIdCard" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE id_card = #{idCard} AND deleted = 0
+    </select>
+
+    <!-- 根据手机号查找患者 -->
+    <select id="findByPhone" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE phone = #{phone} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据姓名模糊查找患者 -->
+    <select id="findByNameLike" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE name LIKE CONCAT('%', #{name}, '%') AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据状态查找患者 -->
+    <select id="findByStatus" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE status = #{status} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 查找VIP患者 -->
+    <select id="findVipPatients" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE is_vip = 1 AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据年龄范围查找患者 -->
+    <select id="findByAgeRange" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE deleted = 0
+        AND birth_date IS NOT NULL
+        AND YEAR(CURDATE()) - YEAR(birth_date) BETWEEN #{minAge} AND #{maxAge}
+        ORDER BY birth_date DESC
+    </select>
+
+    <!-- 根据性别查找患者 -->
+    <select id="findByGender" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE gender = #{gender} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据就诊日期范围查找患者 -->
+    <select id="findByVisitDateRange" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE deleted = 0
+        AND (
+            (first_visit_time IS NOT NULL AND DATE(first_visit_time) BETWEEN #{startDate} AND #{endDate})
+            OR 
+            (last_visit_time IS NOT NULL AND DATE(last_visit_time) BETWEEN #{startDate} AND #{endDate})
+        )
+        ORDER BY last_visit_time DESC
+    </select>
+
+    <!-- 查找今日就诊患者 -->
+    <select id="findTodayPatients" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE deleted = 0
+        AND last_visit_time IS NOT NULL 
+        AND DATE(last_visit_time) = #{date}
+        ORDER BY last_visit_time DESC
+    </select>
+
+    <!-- 搜索患者 -->
+    <select id="searchPatients" resultType="org.me.joy.clinic.entity.Patient">
+        SELECT * FROM patients 
+        WHERE deleted = 0
+        AND (
+            name LIKE CONCAT('%', #{keyword}, '%')
+            OR phone LIKE CONCAT('%', #{keyword}, '%')
+            OR patient_number LIKE CONCAT('%', #{keyword}, '%')
+            OR id_card LIKE CONCAT('%', #{keyword}, '%')
+        )
+        ORDER BY 
+            CASE 
+                WHEN name = #{keyword} THEN 1
+                WHEN patient_number = #{keyword} THEN 2
+                WHEN phone = #{keyword} THEN 3
+                WHEN id_card = #{keyword} THEN 4
+                ELSE 5
+            END,
+            created_at DESC
+    </select>
+
+    <!-- 统计患者总数 -->
+    <select id="countAllPatients" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM patients WHERE deleted = 0
+    </select>
+
+    <!-- 统计指定状态的患者数量 -->
+    <select id="countPatientsByStatus" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM patients 
+        WHERE status = #{status} AND deleted = 0
+    </select>
+
+    <!-- 统计VIP患者数量 -->
+    <select id="countVipPatients" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM patients 
+        WHERE is_vip = 1 AND deleted = 0
+    </select>
+
+    <!-- 更新患者就诊信息 -->
+    <update id="updateVisitInfo">
+        UPDATE patients 
+        SET 
+            visit_count = COALESCE(visit_count, 0) + 1,
+            last_visit_time = NOW(),
+            first_visit_time = COALESCE(first_visit_time, NOW()),
+            updated_at = NOW()
+        WHERE id = #{patientId} AND deleted = 0
+    </update>
+
+    <!-- 批量更新患者状态 -->
+    <update id="batchUpdateStatus">
+        UPDATE patients 
+        SET status = #{status}, updated_at = NOW()
+        WHERE id IN
+        <foreach collection="patientIds" item="patientId" open="(" separator="," close=")">
+            #{patientId}
+        </foreach>
+        AND deleted = 0
+    </update>
+
+</mapper>

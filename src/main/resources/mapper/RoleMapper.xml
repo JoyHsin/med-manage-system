@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.me.joy.clinic.mapper.RoleMapper">
+
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="org.me.joy.clinic.entity.Role">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+        <result column="is_system_role" property="isSystemRole" jdbcType="BOOLEAN"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="deleted" property="deleted" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!-- 查询角色及其权限 -->
+    <select id="findByRoleCodeWithPermissions" resultMap="BaseResultMap">
+        SELECT r.*, p.id as permission_id, p.permission_code, p.permission_name, p.description, p.module, p.enabled
+        FROM roles r
+        LEFT JOIN role_permissions rp ON r.id = rp.role_id
+        LEFT JOIN permissions p ON rp.permission_id = p.id AND p.deleted = 0
+        WHERE r.role_code = #{roleCode} AND r.deleted = 0
+    </select>
+
+    <!-- 查询角色的权限列表 -->
+    <select id="findPermissionsByRoleId" resultType="org.me.joy.clinic.entity.Permission">
+        SELECT p.*
+        FROM permissions p
+        JOIN role_permissions rp ON p.id = rp.permission_id
+        WHERE rp.role_id = #{roleId} AND p.deleted = 0
+    </select>
+
+    <!-- 插入角色权限关联 -->
+    <insert id="insertRolePermissions">
+        INSERT INTO role_permissions (role_id, permission_id) VALUES
+        <foreach collection="permissionIds" item="permissionId" separator=",">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+
+    <!-- 删除角色权限关联 -->
+    <delete id="deleteRolePermissions">
+        DELETE FROM role_permissions WHERE role_id = #{roleId}
+    </delete>
+
+    <!-- 查询用户的角色列表 -->
+    <select id="findRolesByUserId" resultMap="BaseResultMap">
+        SELECT r.*
+        FROM roles r
+        JOIN user_roles ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId} AND r.deleted = 0
+    </select>
+    
+    <!-- 根据角色代码查找角色（忽略大小写） -->
+    <select id="findByRoleCodeIgnoreCase" resultMap="BaseResultMap">
+        SELECT * FROM roles WHERE LOWER(role_code) = LOWER(#{roleCode}) AND deleted = 0
+    </select>
+
+    <!-- 查询所有系统预设角色并按名称排序 -->
+    <select id="findByIsSystemRoleTrue" resultMap="BaseResultMap">
+        SELECT * FROM roles WHERE is_system_role = 1 AND deleted = 0 ORDER BY role_name
+    </select>
+
+</mapper>
