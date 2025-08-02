@@ -157,7 +157,7 @@ CREATE TABLE prescription_items (
     INDEX idx_medicine_id (medicine_id),
     INDEX idx_sort_order (sort_order),
     INDEX idx_deleted (deleted),
-    FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE,
+    FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE
     -- FOREIGN KEY (medicine_id) REFERENCES medicines(id) -- 暂时注释，等medicines表创建后再启用
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='处方项目表';
 
