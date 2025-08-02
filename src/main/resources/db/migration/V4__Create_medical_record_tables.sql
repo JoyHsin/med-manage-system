@@ -48,7 +48,7 @@ CREATE TABLE medical_records (
     INDEX idx_deleted (deleted),
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES users(id),
-    FOREIGN KEY (registration_id) REFERENCES registrations(id),
+    -- FOREIGN KEY (registration_id) REFERENCES registrations(id), -- 暂时注释，等registrations表创建后再启用
     FOREIGN KEY (review_doctor_id) REFERENCES users(id),
     FOREIGN KEY (created_by) REFERENCES users(id),
     FOREIGN KEY (last_updated_by) REFERENCES users(id)
@@ -158,7 +158,7 @@ CREATE TABLE prescription_items (
     INDEX idx_sort_order (sort_order),
     INDEX idx_deleted (deleted),
     FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE,
-    FOREIGN KEY (medicine_id) REFERENCES medicines(id)
+    -- FOREIGN KEY (medicine_id) REFERENCES medicines(id) -- 暂时注释，等medicines表创建后再启用
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='处方项目表';
 
 -- 添加医疗相关权限

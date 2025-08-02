@@ -12,6 +12,14 @@ spring:
       connection-timeout: 30000
       maximum-pool-size: 10
       minimum-idle: 5
+      
+  # CORS Configuration
+  web:
+    cors:
+      allowed-origins: http://localhost:5173
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: Authorization,Content-Type
+      allow-credentials: true
     
   # MyBatis-Plus Configuration
   mybatis-plus:
