@@ -4,13 +4,13 @@ import jakarta.validation.Valid;
 import org.me.joy.clinic.dto.CreateUserRequest;
 import org.me.joy.clinic.dto.UpdateUserRequest;
 import org.me.joy.clinic.dto.UserResponse;
+import org.me.joy.clinic.security.RequiresPermission;
 import org.me.joy.clinic.service.UserManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import java.util.Map;
  * 处理用户账号的创建、编辑、禁用、删除等管理功能
  */
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserManagementController {
 
@@ -35,7 +35,7 @@ public class UserManagementController {
      * 创建新用户
      */
     @PostMapping
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'CREATE')")
+    @RequiresPermission("USER_CREATE")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         try {
             logger.info("收到创建用户请求: {}", createUserRequest.getUsername());
@@ -67,7 +67,7 @@ public class UserManagementController {
      * 更新用户信息
      */
     @PutMapping("/{userId}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, 
                                        @Valid @RequestBody UpdateUserRequest updateUserRequest) {
         try {
@@ -100,7 +100,7 @@ public class UserManagementController {
      * 根据ID获取用户信息
      */
     @GetMapping("/{userId}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'READ')")
+    @RequiresPermission("USER_VIEW")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         try {
             UserResponse userResponse = userManagementService.getUserById(userId);
@@ -128,7 +128,7 @@ public class UserManagementController {
      * 根据用户名获取用户信息
      */
     @GetMapping("/username/{username}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'READ')")
+    @RequiresPermission("USER_VIEW")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
         try {
             UserResponse userResponse = userManagementService.getUserByUsername(username);
@@ -156,7 +156,7 @@ public class UserManagementController {
      * 获取所有用户列表
      */
     @GetMapping
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'READ')")
+    @RequiresPermission("USER_VIEW")
     public ResponseEntity<?> getAllUsers(@RequestParam(required = false) Boolean enabled,
                                         @RequestParam(required = false) String department,
                                         @RequestParam(required = false) String keyword) {
@@ -197,7 +197,7 @@ public class UserManagementController {
      * 禁用用户
      */
     @PutMapping("/{userId}/disable")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> disableUser(@PathVariable Long userId) {
         try {
             logger.info("收到禁用用户请求: {}", userId);
@@ -228,7 +228,7 @@ public class UserManagementController {
      * 启用用户
      */
     @PutMapping("/{userId}/enable")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> enableUser(@PathVariable Long userId) {
         try {
             logger.info("收到启用用户请求: {}", userId);
@@ -259,7 +259,7 @@ public class UserManagementController {
      * 删除用户
      */
     @DeleteMapping("/{userId}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'DELETE')")
+    @RequiresPermission("USER_DELETE")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         try {
             logger.info("收到删除用户请求: {}", userId);
@@ -290,7 +290,7 @@ public class UserManagementController {
      * 为用户分配角色
      */
     @PostMapping("/{userId}/roles/{roleId}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
         try {
             logger.info("收到用户角色分配请求: userId={}, roleId={}", userId, roleId);
@@ -321,7 +321,7 @@ public class UserManagementController {
      * 移除用户角色
      */
     @DeleteMapping("/{userId}/roles/{roleId}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> removeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
         try {
             logger.info("收到移除用户角色请求: userId={}, roleId={}", userId, roleId);
@@ -352,7 +352,7 @@ public class UserManagementController {
      * 重置用户密码
      */
     @PutMapping("/{userId}/reset-password")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'UPDATE')")
+    @RequiresPermission("USER_UPDATE")
     public ResponseEntity<?> resetUserPassword(@PathVariable Long userId, 
                                               @RequestBody Map<String, String> request) {
         try {
@@ -393,7 +393,7 @@ public class UserManagementController {
      * 检查用户名是否存在
      */
     @GetMapping("/check-username/{username}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'READ')")
+    @RequiresPermission("USER_VIEW")
     public ResponseEntity<?> checkUsernameExists(@PathVariable String username) {
         try {
             boolean exists = userManagementService.existsByUsername(username);
@@ -421,7 +421,7 @@ public class UserManagementController {
      * 检查邮箱是否存在
      */
     @GetMapping("/check-email/{email}")
-    @PreAuthorize("hasPermission('USER_MANAGEMENT', 'READ')")
+    @RequiresPermission("USER_VIEW")
     public ResponseEntity<?> checkEmailExists(@PathVariable String email) {
         try {
             boolean exists = userManagementService.existsByEmail(email);

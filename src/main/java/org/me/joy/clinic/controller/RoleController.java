@@ -24,7 +24,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/roles")
-@RequiresPermission("ROLE_VIEW")
 public class RoleController {
 
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
@@ -36,6 +35,7 @@ public class RoleController {
      * 获取所有角色
      */
     @GetMapping
+    @RequiresPermission("ROLE_VIEW")
     public ResponseEntity<Map<String, Object>> getAllRoles() {
         logger.info("获取所有角色");
         
@@ -53,6 +53,7 @@ public class RoleController {
      * 获取所有启用的角色
      */
     @GetMapping("/enabled")
+    @RequiresPermission("ROLE_VIEW")
     public ResponseEntity<Map<String, Object>> getEnabledRoles() {
         logger.info("获取所有启用的角色");
         
@@ -70,6 +71,7 @@ public class RoleController {
      * 根据ID获取角色
      */
     @GetMapping("/{roleId}")
+    @RequiresPermission("ROLE_VIEW")
     public ResponseEntity<Map<String, Object>> getRoleById(@PathVariable Long roleId) {
         logger.info("根据ID获取角色: {}", roleId);
         
@@ -214,6 +216,7 @@ public class RoleController {
      * 获取用户的所有角色
      */
     @GetMapping("/users/{userId}")
+    @RequiresPermission("ROLE_VIEW")
     public ResponseEntity<Map<String, Object>> getUserRoles(@PathVariable Long userId) {
         logger.info("获取用户角色: {}", userId);
         
@@ -231,6 +234,7 @@ public class RoleController {
      * 获取角色的所有权限
      */
     @GetMapping("/{roleId}/permissions")
+    @RequiresPermission("ROLE_VIEW")
     public ResponseEntity<Map<String, Object>> getRolePermissions(@PathVariable Long roleId) {
         logger.info("获取角色权限: {}", roleId);
         

@@ -1,0 +1,269 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m----------------< [0;36morg.me.joy:clinic-management-system[0;1m >-----------------[m
+[[1;34mINFO[m] [1mBuilding Clinic Management System 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.3.2:clean[m [1m(default-clean)[m @ [36mclinic-management-system[0;1m ---[m
+[[1;34mINFO[m] Deleting /Users/joyhsin/work/codes/med-manage-system/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mclinic-management-system[0;1m ---[m
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 17 resources from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:compile[m [1m(default-compile)[m @ [36mclinic-management-system[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module! :source
+[[1;34mINFO[m] Compiling 129 source files with javac [debug release 17] to target/classes
+[[1;34mINFO[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/entity/VitalSigns.java: 某些输入文件使用或覆盖了已过时的 API。
+[[1;34mINFO[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/entity/VitalSigns.java: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;31mERROR[m] COMPILATION ERROR : 
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[5,32] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[21,5] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[28,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[35,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[44,5] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[53,5] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[62,5] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[69,5] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[75,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[84,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[93,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[6,32] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[7,32] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[16,56] 找不到符号
+  符号: 类 MedicalOrder
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[33,12] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[63,17] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[75,17] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[86,12] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[152,12] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[192,12] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[232,12] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[249,17] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[256,17] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[271,17] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[22,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[28,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[34,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[42,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[50,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[56,10] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[40,9] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[40,41] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[48,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[98,9] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[104,33] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[109,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[120,35] 程序包MedicalOrder.OrderType不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[130,42] 程序包MedicalOrder.OrderType不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[167,9] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[173,33] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[178,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[204,9] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[210,32] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[215,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[239,9] 找不到符号
+  符号:   类 MedicalOrder
+  位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;34mINFO[m] 45 errors 
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  1.677 s
+[[1;34mINFO[m] Finished at: 2025-08-02T14:34:35+08:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile[m [1m(default-compile)[m on project [36mclinic-management-system[m: [1;31mCompilation failure[m: Compilation failure: 
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[5,32] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[21,5] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[28,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[35,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[44,5] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[53,5] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[62,5] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[69,5] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[75,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[84,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/MedicalOrderService.java:[93,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.service.MedicalOrderService
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[6,32] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[7,32] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 程序包 org.me.joy.clinic.entity
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[16,56] 找不到符号
+[[1;31mERROR[m]   符号: 类 MedicalOrder
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[33,12] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[63,17] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[75,17] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[86,12] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[152,12] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[192,12] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[232,12] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[249,17] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[256,17] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[271,17] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[22,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[28,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[34,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[42,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[50,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/mapper/MedicalOrderMapper.java:[56,10] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 接口 org.me.joy.clinic.mapper.MedicalOrderMapper
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[40,9] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[40,41] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[48,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[98,9] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[104,33] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[109,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[120,35] 程序包MedicalOrder.OrderType不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[130,42] 程序包MedicalOrder.OrderType不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[167,9] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[173,33] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[178,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[204,9] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[210,32] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[215,51] 程序包MedicalOrder.Status不存在
+[[1;31mERROR[m] /Users/joyhsin/work/codes/med-manage-system/src/main/java/org/me/joy/clinic/service/impl/MedicalOrderServiceImpl.java:[239,9] 找不到符号
+[[1;31mERROR[m]   符号:   类 MedicalOrder
+[[1;31mERROR[m]   位置: 类 org.me.joy.clinic.service.impl.MedicalOrderServiceImpl
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

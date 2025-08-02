@@ -15,24 +15,14 @@ import java.util.Collections;
  * CORS跨域配置
  */
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:5173", "http://127.0.0.1:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
+public class CorsConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // 允许的源
-        configuration.setAllowedOrigins(Arrays.asList(
+        // 允许的源模式 (解决 allowCredentials=true 时不能使用 "*" 的问题)
+        configuration.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:5173",
             "http://127.0.0.1:5173"
         ));
@@ -52,7 +42,7 @@ public class CorsConfig implements WebMvcConfigurer {
         configuration.setMaxAge(3600L);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         
         return source;
     }

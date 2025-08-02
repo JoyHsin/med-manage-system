@@ -22,8 +22,7 @@ import java.util.Map;
  * 处理用户登录、登出等认证相关请求
  */
 @RestController
-@RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("/auth")
 public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
