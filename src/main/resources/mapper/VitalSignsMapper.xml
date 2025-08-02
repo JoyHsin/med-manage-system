@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.VitalSignsMapper">
+    
+    <!-- 查询异常生命体征记录 -->
+    <select id="findAbnormalVitalSigns" resultType="org.me.joy.clinic.entity.VitalSigns">
+        SELECT * FROM vital_signs 
+        WHERE is_abnormal = true AND deleted = false
+        <if test="patientId != null">
+            AND patient_id = #{patientId}
+        </if>
+        <if test="startTime != null">
+            AND recorded_at >= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND recorded_at &lt;= #{endTime}
+        </if>
+        ORDER BY recorded_at DESC
+    </select>
+    
+</mapper>

@@ -25,7 +25,11 @@ const { Option } = Select;
 
 const SimpleUserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'enabled' | 'disabled'>('all');
+  const [departmentFilter, setDepartmentFilter] = useState<string>('all');
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isRoleModalVisible, setIsRoleModalVisible] = useState(false);
@@ -61,6 +65,36 @@ const SimpleUserManagement: React.FC = () => {
     }
   };
 
+  // 搜索和过滤逻辑
+  const filterUsers = () => {
+    let filtered = [...users];
+
+    // 文本搜索
+    if (searchText) {
+      filtered = filtered.filter(user => 
+        user.username.toLowerCase().includes(searchText.toLowerCase()) ||
+        user.fullName.toLowerCase().includes(searchText.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchText.toLowerCase()) ||
+        user.department.toLowerCase().includes(searchText.toLowerCase()) ||
+        user.position.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+
+    // 状态过滤
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(user => 
+        statusFilter === 'enabled' ? user.enabled : !user.enabled
+      );
+    }
+
+    // 部门过滤
+    if (departmentFilter !== 'all') {
+      filtered = filtered.filter(user => user.department === departmentFilter);
+    }
+
+    setFilteredUsers(filtered);
+  };
+
   // 获取用户列表
   const fetchUsers = async () => {
     setLoading(true);
@@ -69,6 +103,7 @@ const SimpleUserManagement: React.FC = () => {
       console.log('User list response:', response);
       if (response.success && response.data) {
         setUsers(response.data);
+        setFilteredUsers(response.data); // 初始化过滤后的用户列表
         message.success(`成功加载 ${response.data.length} 个用户`);
       } else {
         message.error('获取用户列表失败');
@@ -271,6 +306,11 @@ const SimpleUserManagement: React.FC = () => {
     fetchRoles();
   }, []);
 
+  // 监听搜索和过滤条件变化
+  useEffect(() => {
+    filterUsers();
+  }, [users, searchText, statusFilter, departmentFilter]);
+
   // 表格列定义
   const columns = [
     {
@@ -351,13 +391,6 @@ const SimpleUserManagement: React.FC = () => {
             label: record.enabled ? '禁用' : '启用',
             onClick: () => handleToggleUserStatus(record.id, !record.enabled),
           },
-          {
-            key: 'delete',
-            icon: <DeleteOutlined />,
-            label: '删除',
-            danger: true,
-            onClick: () => handleDeleteUser(record.id),
-          },
         ];
 
         return (
@@ -380,6 +413,18 @@ const SimpleUserManagement: React.FC = () => {
                 {record.enabled ? '禁用' : '启用'}
               </Button>
             </Popconfirm>
+            <Popconfirm
+              title={`确定删除用户 "${record.fullName}" 吗？`}
+              description="删除后将无法恢复，请谨慎操作！"
+              onConfirm={() => handleDeleteUser(record.id)}
+              okText="确定删除"
+              cancelText="取消"
+              okType="danger"
+            >
+              <Button size="small" danger icon={<DeleteOutlined />}>
+                删除
+              </Button>
+            </Popconfirm>
             <Dropdown menu={{ items: menuItems }}>
               <Button size="small" icon={<MoreOutlined />} />
             </Dropdown>
@@ -394,6 +439,43 @@ const SimpleUserManagement: React.FC = () => {
       <Title level={2}>用户管理</Title>
       
       <Card>
+        {/* 搜索和过滤区域 */}
+        <div style={{ marginBottom: 16 }}>
+          <Space wrap>
+            <Input.Search
+              placeholder="搜索用户名、姓名、邮箱、部门或职位"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ width: 300 }}
+              allowClear
+            />
+            <Select
+              value={statusFilter}
+              onChange={setStatusFilter}
+              style={{ width: 120 }}
+            >
+              <Option value="all">全部状态</Option>
+              <Option value="enabled">已启用</Option>
+              <Option value="disabled">已禁用</Option>
+            </Select>
+            <Select
+              value={departmentFilter}
+              onChange={setDepartmentFilter}
+              style={{ width: 120 }}
+            >
+              <Option value="all">全部部门</Option>
+              <Option value="内科">内科</Option>
+              <Option value="外科">外科</Option>
+              <Option value="儿科">儿科</Option>
+              <Option value="妇科">妇科</Option>
+              <Option value="药房">药房</Option>
+              <Option value="护理部">护理部</Option>
+              <Option value="行政部">行政部</Option>
+            </Select>
+          </Space>
+        </div>
+
+        {/* 操作按钮区域 */}
         <div style={{ marginBottom: 16 }}>
           <Space>
             <Button 
@@ -415,13 +497,13 @@ const SimpleUserManagement: React.FC = () => {
 
         <Table
           columns={columns}
-          dataSource={users}
+          dataSource={filteredUsers}
           loading={loading}
           rowKey="id"
           pagination={{
             showSizeChanger: true,
             showQuickJumper: true,
-            showTotal: (total) => `共 ${total} 条记录`,
+            showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 条记录`,
           }}
         />
       </Card>

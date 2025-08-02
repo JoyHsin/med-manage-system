@@ -49,13 +49,6 @@ public interface VitalSignsMapper extends BaseMapper<VitalSigns> {
      * @param endTime 结束时间（可选）
      * @return 异常生命体征记录列表
      */
-    @Select("<script>" +
-            "SELECT * FROM vital_signs WHERE is_abnormal = true AND deleted = false" +
-            "<if test='patientId != null'> AND patient_id = #{patientId}</if>" +
-            "<if test='startTime != null'> AND recorded_at >= #{startTime}</if>" +
-            "<if test='endTime != null'> AND recorded_at <= #{endTime}</if>" +
-            " ORDER BY recorded_at DESC" +
-            "</script>")
     List<VitalSigns> findAbnormalVitalSigns(@Param("patientId") Long patientId,
                                             @Param("startTime") LocalDateTime startTime,
                                             @Param("endTime") LocalDateTime endTime);
