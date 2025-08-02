@@ -29,13 +29,24 @@ export interface User {
 
 export interface Role {
   id: number;
-  roleName: string;
-  roleCode: string;
+  name: string;
+  code: string;
   description?: string;
   isSystemRole: boolean;
   enabled: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateRoleRequest {
+  roleName: string;
+  roleCode: string;
+  description?: string;
+}
+
+export interface UpdateRoleRequest {
+  roleName?: string;
+  description?: string;
 }
 
 export interface AuthResponse {

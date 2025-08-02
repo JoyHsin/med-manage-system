@@ -8,6 +8,8 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import SimpleUserManagement from './pages/SimpleUserManagement';
 import DebugUserManagement from './pages/DebugUserManagement';
+import RolePermissionManagement from './pages/RolePermissionManagement';
+import PatientManagement from './pages/PatientManagement';
 import './App.css';
 
 // 简化的Dashboard组件
@@ -39,6 +41,8 @@ const App: React.FC = () => {
                       <Routes>
                         <Route path="/dashboard" element={<SimpleDashboard />} />
                         <Route path="/users" element={<SimpleUserManagement />} />
+                        <Route path="/roles" element={<RolePermissionManagement />} />
+                        <Route path="/patients" element={<PatientManagement />} />
                       </Routes>
                     </Layout>
                   </ProtectedRoute>

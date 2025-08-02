@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.me.joy.clinic.dto.CreateMedicalOrderRequest;
 import org.me.joy.clinic.dto.ExecuteMedicalOrderRequest;
 import org.me.joy.clinic.entity.MedicalOrder;
+import org.me.joy.clinic.entity.User;
 import org.me.joy.clinic.security.CustomUserPrincipal;
 import org.me.joy.clinic.service.MedicalOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,12 @@ class MedicalOrderControllerTest {
         medicalOrder.setStatus("PENDING");
         medicalOrder.setPrescribedAt(LocalDateTime.now());
 
-        userPrincipal = new CustomUserPrincipal(1L, "doctor", "password", true, Arrays.asList());
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("doctor");
+        user.setPassword("password");
+        user.setEnabled(true);
+        userPrincipal = new CustomUserPrincipal(user);
     }
 
     @Test
@@ -266,7 +272,7 @@ class MedicalOrderControllerTest {
     @WithMockUser(authorities = "MEDICAL_ORDER_READ")
     void testCountOrdersByPatientAndStatus_Success() throws Exception {
         // 准备数据
-        when(medicalOrderService.countOrdersByPatientIdAndStatus(1L, "PENDING")).thenReturn(3);
+        when(medicalOrderService.countOrdersByPatientIdAndStatus(1L, "PENDING")).thenReturn(3L);
 
         // 执行测试
         mockMvc.perform(get("/api/medical-orders/patient/1/count")
