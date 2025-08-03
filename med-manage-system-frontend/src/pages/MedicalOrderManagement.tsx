@@ -42,8 +42,9 @@ import {
   ORDER_STATUS_CONFIG,
   ORDER_PRIORITY_CONFIG,
   ORDER_TYPE_CONFIG,
-  MEDICATION_ROUTES,
-  INJECTION_SITES
+  ROUTE_OPTIONS,
+  FREQUENCY_OPTIONS,
+  INJECTION_SITE_OPTIONS
 } from '../types/medicalOrder';
 
 const { Title, Text } = Typography;
@@ -551,7 +552,7 @@ const MedicalOrderManagement: React.FC = () => {
               <>
                 <Form.Item label="实际给药途径" name="actualRoute">
                   <Select placeholder="选择给药途径">
-                    {MEDICATION_ROUTES.map(route => (
+                    {ROUTE_OPTIONS.map(route => (
                       <Option key={route.value} value={route.value}>
                         {route.label}
                       </Option>
@@ -561,7 +562,7 @@ const MedicalOrderManagement: React.FC = () => {
 
                 <Form.Item label="注射部位" name="injectionSite">
                   <Select placeholder="选择注射部位">
-                    {INJECTION_SITES.map(site => (
+                    {INJECTION_SITE_OPTIONS.map(site => (
                       <Option key={site.value} value={site.value}>
                         {site.label}
                       </Option>

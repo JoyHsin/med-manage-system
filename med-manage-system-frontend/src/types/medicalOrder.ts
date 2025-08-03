@@ -219,6 +219,19 @@ export const UNIT_OPTIONS = [
   { value: '项', label: '项' }
 ] as const;
 
+// 注射部位选项
+export const INJECTION_SITE_OPTIONS = [
+  { value: '左上臂', label: '左上臂' },
+  { value: '右上臂', label: '右上臂' },
+  { value: '左臀部', label: '左臀部' },
+  { value: '右臀部', label: '右臀部' },
+  { value: '左大腿', label: '左大腿' },
+  { value: '右大腿', label: '右大腿' },
+  { value: '腹部', label: '腹部' },
+  { value: '背部', label: '背部' },
+  { value: '其他', label: '其他' }
+] as const;
+
 // 常用医嘱内容模板
 export const COMMON_ORDER_TEMPLATES = {
   INJECTION: [

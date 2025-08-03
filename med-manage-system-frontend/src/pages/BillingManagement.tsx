@@ -362,9 +362,9 @@ const BillingManagement: React.FC = () => {
         <div>
           <p>确认取消此账单吗？</p>
           <TextArea
-            placeholder=\"取消原因\"
+            placeholder="取消原因"
             rows={3}
-            id=\"cancelReason\"
+            id="cancelReason"
             required
           />
         </div>
@@ -509,10 +509,10 @@ const BillingManagement: React.FC = () => {
       key: 'actions',
       width: 250,
       render: (_, record) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<EyeOutlined />}
             onClick={() => handleViewBill(record)}
           >
@@ -521,16 +521,16 @@ const BillingManagement: React.FC = () => {
           {record.status === 'PENDING' && (
             <>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 icon={<EditOutlined />}
                 onClick={() => handleEditBill(record)}
               >
                 编辑
               </Button>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 icon={<PayCircleOutlined />}
                 onClick={() => {
                   setCurrentBill(record);
@@ -544,8 +544,8 @@ const BillingManagement: React.FC = () => {
           )}
           {(record.status === 'PAID' || record.status === 'PARTIALLY_PAID') && (
             <Button
-              type=\"link\"
-              size=\"small\"
+              type="link"
+              size="small"
               icon={<UndoOutlined />}
               onClick={() => {
                 setCurrentBill(record);
@@ -557,8 +557,8 @@ const BillingManagement: React.FC = () => {
             </Button>
           )}
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<PrinterOutlined />}
             onClick={() => handlePrintBill(record)}
           >
@@ -566,8 +566,8 @@ const BillingManagement: React.FC = () => {
           </Button>
           {record.status === 'PENDING' && (
             <Button
-              type=\"link\"
-              size=\"small\"
+              type="link"
+              size="small"
               danger
               icon={<CloseCircleOutlined />}
               onClick={() => handleCancelBill(record)}
@@ -643,17 +643,17 @@ const BillingManagement: React.FC = () => {
       key: 'actions',
       width: 120,
       render: (_: any, record: BillItem, index: number) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             onClick={() => handleEditItem(index)}
           >
             编辑
           </Button>
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             danger
             onClick={() => handleDeleteItem(index)}
           >
@@ -678,13 +678,13 @@ const BillingManagement: React.FC = () => {
         <Row gutter={16} style={{ marginBottom: 24 }}>
           <Col span={4}>
             <Card>
-              <Statistic title=\"总账单数\" value={stats.totalBills} />
+              <Statistic title="总账单数" value={stats.totalBills} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"待付款\" 
+                title="待付款" 
                 value={stats.pendingBills}
                 valueStyle={{ color: '#faad14' }}
               />
@@ -693,7 +693,7 @@ const BillingManagement: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"已付款\" 
+                title="已付款" 
                 value={stats.paidBills}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -702,7 +702,7 @@ const BillingManagement: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"部分付款\" 
+                title="部分付款" 
                 value={stats.partiallyPaidBills}
                 valueStyle={{ color: '#1890ff' }}
               />
@@ -711,10 +711,10 @@ const BillingManagement: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"今日收入\" 
+                title="今日收入" 
                 value={stats.todayRevenue} 
                 precision={2}
-                prefix=\"¥\"
+                prefix="¥"
                 valueStyle={{ color: '#52c41a' }}
               />
             </Card>
@@ -722,10 +722,10 @@ const BillingManagement: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"本月收入\" 
+                title="本月收入" 
                 value={stats.monthRevenue} 
                 precision={2}
-                prefix=\"¥\"
+                prefix="¥"
                 valueStyle={{ color: '#52c41a' }}
               />
             </Card>
@@ -735,13 +735,13 @@ const BillingManagement: React.FC = () => {
 
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         {/* 账单列表 */}
-        <TabPane tab=\"账单列表\" key=\"list\">
+        <TabPane tab="账单列表" key="list">
           <Card
-            title=\"账单列表\"
+            title="账单列表"
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<PlusOutlined />}
                   onClick={handleNewBill}
                 >
@@ -762,23 +762,23 @@ const BillingManagement: React.FC = () => {
             {/* 搜索表单 */}
             <Form
               form={searchForm}
-              layout=\"inline\"
+              layout="inline"
               onFinish={handleSearch}
               style={{ marginBottom: 16 }}
             >
-              <Form.Item name=\"keyword\">
+              <Form.Item name="keyword">
                 <Input
-                  placeholder=\"搜索账单编号、患者姓名\"
+                  placeholder="搜索账单编号、患者姓名"
                   prefix={<SearchOutlined />}
                   style={{ width: 200 }}
                 />
               </Form.Item>
-              <Form.Item name=\"patientId\">
+              <Form.Item name="patientId">
                 <Select
-                  placeholder=\"选择患者\"
+                  placeholder="选择患者"
                   style={{ width: 150 }}
                   showSearch
-                  optionFilterProp=\"children\"
+                  optionFilterProp="children"
                   allowClear
                 >
                   {patients.map(patient => (
@@ -788,19 +788,19 @@ const BillingManagement: React.FC = () => {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name=\"status\">
-                <Select placeholder=\"账单状态\" style={{ width: 120 }} allowClear>
-                  <Option value=\"PENDING\">待付款</Option>
-                  <Option value=\"PAID\">已付款</Option>
-                  <Option value=\"PARTIALLY_PAID\">部分付款</Option>
-                  <Option value=\"CANCELLED\">已取消</Option>
+              <Form.Item name="status">
+                <Select placeholder="账单状态" style={{ width: 120 }} allowClear>
+                  <Option value="PENDING">待付款</Option>
+                  <Option value="PAID">已付款</Option>
+                  <Option value="PARTIALLY_PAID">部分付款</Option>
+                  <Option value="CANCELLED">已取消</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name=\"dateRange\">
+              <Form.Item name="dateRange">
                 <RangePicker placeholder={['开始日期', '结束日期']} />
               </Form.Item>
               <Form.Item>
-                <Button type=\"primary\" htmlType=\"submit\" icon={<SearchOutlined />}>
+                <Button type="primary" htmlType="submit" icon={<SearchOutlined />}>
                   搜索
                 </Button>
               </Form.Item>
@@ -819,7 +819,7 @@ const BillingManagement: React.FC = () => {
             <Table
               columns={billColumns}
               dataSource={bills}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -832,13 +832,13 @@ const BillingManagement: React.FC = () => {
         </TabPane>
 
         {/* 账单表单 */}
-        <TabPane tab={currentBill ? '编辑账单' : '新建账单'} key=\"form\" disabled={!isEditing}>
+        <TabPane tab={currentBill ? '编辑账单' : '新建账单'} key="form" disabled={!isEditing}>
           <Card
             title={currentBill ? '编辑账单' : '新建账单'}
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<SaveOutlined />}
                   loading={loading}
                   onClick={() => form.submit()}
@@ -858,20 +858,20 @@ const BillingManagement: React.FC = () => {
           >
             <Form
               form={form}
-              layout=\"vertical\"
+              layout="vertical"
               onFinish={handleSaveBill}
             >
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item
-                    label=\"患者\"
-                    name=\"patientId\"
+                    label="患者"
+                    name="patientId"
                     rules={[{ required: true, message: '请选择患者' }]}
                   >
                     <Select
-                      placeholder=\"选择患者\"
+                      placeholder="选择患者"
                       showSearch
-                      optionFilterProp=\"children\"
+                      optionFilterProp="children"
                     >
                       {patients.map(patient => (
                         <Option key={patient.id} value={patient.id}>
@@ -882,19 +882,19 @@ const BillingManagement: React.FC = () => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label=\"挂号ID\" name=\"registrationId\">
+                  <Form.Item label="挂号ID" name="registrationId">
                     <InputNumber
                       style={{ width: '100%' }}
-                      placeholder=\"关联的挂号ID（可选）\"
+                      placeholder="关联的挂号ID（可选）"
                     />
                   </Form.Item>
                 </Col>
               </Row>
 
-              <Form.Item label=\"备注\" name=\"notes\">
+              <Form.Item label="备注" name="notes">
                 <TextArea
                   rows={2}
-                  placeholder=\"账单备注信息...\"
+                  placeholder="账单备注信息..."
                   maxLength={500}
                   showCount
                 />
@@ -905,7 +905,7 @@ const BillingManagement: React.FC = () => {
               <div style={{ marginBottom: 16 }}>
                 <Space>
                   <Button
-                    type=\"dashed\"
+                    type="dashed"
                     icon={<PlusOutlined />}
                     onClick={() => {
                       setEditingItemIndex(null);
@@ -930,14 +930,14 @@ const BillingManagement: React.FC = () => {
                                   {BILL_ITEM_TYPE_CONFIG[type as keyof typeof BILL_ITEM_TYPE_CONFIG].text}
                                 </Title>
                                 <List
-                                  size=\"small\"
+                                  size="small"
                                   dataSource={items}
                                   renderItem={(item) => (
                                     <List.Item
                                       actions={[
                                         <Button
-                                          type=\"link\"
-                                          size=\"small\"
+                                          type="link"
+                                          size="small"
                                           onClick={() => handleAddFromTemplate(type, item)}
                                         >
                                           添加
@@ -966,7 +966,7 @@ const BillingManagement: React.FC = () => {
               <Table
                 columns={itemColumns}
                 dataSource={billItems}
-                rowKey=\"id\"
+                rowKey="id"
                 pagination={false}
                 summary={() => (
                   <Table.Summary.Row>
@@ -1001,69 +1001,69 @@ const BillingManagement: React.FC = () => {
       >
         <Form
           form={itemForm}
-          layout=\"vertical\"
+          layout="vertical"
           onFinish={handleAddItem}
         >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label=\"项目类型\"
-                name=\"itemType\"
+                label="项目类型"
+                name="itemType"
                 rules={[{ required: true, message: '请选择项目类型' }]}
               >
-                <Select placeholder=\"选择项目类型\">
-                  <Option value=\"REGISTRATION\">📋 挂号费</Option>
-                  <Option value=\"CONSULTATION\">👨‍⚕️ 诊疗费</Option>
-                  <Option value=\"MEDICINE\">💊 药品费</Option>
-                  <Option value=\"EXAMINATION\">🔍 检查费</Option>
-                  <Option value=\"TREATMENT\">⚕️ 治疗费</Option>
-                  <Option value=\"OTHER\">📄 其他费用</Option>
+                <Select placeholder="选择项目类型">
+                  <Option value="REGISTRATION">📋 挂号费</Option>
+                  <Option value="CONSULTATION">👨‍⚕️ 诊疗费</Option>
+                  <Option value="MEDICINE">💊 药品费</Option>
+                  <Option value="EXAMINATION">🔍 检查费</Option>
+                  <Option value="TREATMENT">⚕️ 治疗费</Option>
+                  <Option value="OTHER">📄 其他费用</Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label=\"项目名称\"
-                name=\"itemName\"
+                label="项目名称"
+                name="itemName"
                 rules={[{ required: true, message: '请输入项目名称' }]}
               >
-                <Input placeholder=\"请输入项目名称\" />
+                <Input placeholder="请输入项目名称" />
               </Form.Item>
             </Col>
           </Row>
 
           <Row gutter={16}>
             <Col span={8}>
-              <Form.Item label=\"项目编码\" name=\"itemCode\">
-                <Input placeholder=\"项目编码\" />
+              <Form.Item label="项目编码" name="itemCode">
+                <Input placeholder="项目编码" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item
-                label=\"单价\"
-                name=\"unitPrice\"
+                label="单价"
+                name="unitPrice"
                 rules={[{ required: true, message: '请输入单价' }]}
               >
                 <InputNumber
                   style={{ width: '100%' }}
                   min={0}
                   precision={2}
-                  placeholder=\"单价\"
-                  prefix=\"¥\"
+                  placeholder="单价"
+                  prefix="¥"
                 />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item
-                label=\"数量\"
-                name=\"quantity\"
+                label="数量"
+                name="quantity"
                 rules={[{ required: true, message: '请输入数量' }]}
                 initialValue={1}
               >
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}
-                  placeholder=\"数量\"
+                  placeholder="数量"
                 />
               </Form.Item>
             </Col>
@@ -1071,27 +1071,27 @@ const BillingManagement: React.FC = () => {
 
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label=\"折扣金额\" name=\"discount\" initialValue={0}>
+              <Form.Item label="折扣金额" name="discount" initialValue={0}>
                 <InputNumber
                   style={{ width: '100%' }}
                   min={0}
                   precision={2}
-                  placeholder=\"折扣金额\"
-                  prefix=\"¥\"
+                  placeholder="折扣金额"
+                  prefix="¥"
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label=\"规格/单位\" name=\"specification\">
-                <Input placeholder=\"如：次、盒、支\" />
+              <Form.Item label="规格/单位" name="specification">
+                <Input placeholder="如：次、盒、支" />
               </Form.Item>
             </Col>
           </Row>
 
-          <Form.Item label=\"备注\" name=\"notes\">
+          <Form.Item label="备注" name="notes">
             <TextArea
               rows={2}
-              placeholder=\"项目备注...\"
+              placeholder="项目备注..."
               maxLength={500}
               showCount
             />
@@ -1099,7 +1099,7 @@ const BillingManagement: React.FC = () => {
 
           <Form.Item>
             <Space>
-              <Button type=\"primary\" htmlType=\"submit\">
+              <Button type="primary" htmlType="submit">
                 {editingItemIndex !== null ? '更新' : '添加'}
               </Button>
               <Button
@@ -1118,7 +1118,7 @@ const BillingManagement: React.FC = () => {
 
       {/* 收费模态框 */}
       <Modal
-        title=\"收费\"
+        title="收费"
         open={paymentModalVisible}
         onCancel={() => {
           setPaymentModalVisible(false);
@@ -1138,18 +1138,18 @@ const BillingManagement: React.FC = () => {
                   <div>剩余金额: ¥{(currentBill.totalAmount - currentBill.paidAmount).toFixed(2)}</div>
                 </div>
               }
-              type=\"info\"
+              type="info"
               style={{ marginBottom: 16 }}
             />
 
             <Form
               form={paymentForm}
-              layout=\"vertical\"
+              layout="vertical"
               onFinish={handlePayment}
             >
               <Form.Item
-                label=\"支付金额\"
-                name=\"paymentAmount\"
+                label="支付金额"
+                name="paymentAmount"
                 rules={[{ required: true, message: '请输入支付金额' }]}
               >
                 <InputNumber
@@ -1157,37 +1157,37 @@ const BillingManagement: React.FC = () => {
                   min={0.01}
                   max={currentBill.totalAmount - currentBill.paidAmount}
                   precision={2}
-                  placeholder=\"支付金额\"
-                  prefix=\"¥\"
+                  placeholder="支付金额"
+                  prefix="¥"
                 />
               </Form.Item>
 
               <Form.Item
-                label=\"支付方式\"
-                name=\"paymentMethod\"
+                label="支付方式"
+                name="paymentMethod"
                 rules={[{ required: true, message: '请选择支付方式' }]}
               >
-                <Select placeholder=\"选择支付方式\">
-                  <Option value=\"CASH\">💵 现金</Option>
-                  <Option value=\"CARD\">💳 银行卡</Option>
-                  <Option value=\"ALIPAY\">📱 支付宝</Option>
-                  <Option value=\"WECHAT\">💬 微信支付</Option>
-                  <Option value=\"INSURANCE\">🏥 医保</Option>
-                  <Option value=\"OTHER\">💰 其他</Option>
+                <Select placeholder="选择支付方式">
+                  <Option value="CASH">💵 现金</Option>
+                  <Option value="CARD">💳 银行卡</Option>
+                  <Option value="ALIPAY">📱 支付宝</Option>
+                  <Option value="WECHAT">💬 微信支付</Option>
+                  <Option value="INSURANCE">🏥 医保</Option>
+                  <Option value="OTHER">💰 其他</Option>
                 </Select>
               </Form.Item>
 
-              <Form.Item label=\"支付凭证号\" name=\"paymentReference\">
-                <Input placeholder=\"支付凭证号或交易号\" />
+              <Form.Item label="支付凭证号" name="paymentReference">
+                <Input placeholder="支付凭证号或交易号" />
               </Form.Item>
 
-              <Form.Item label=\"备注\" name=\"notes\">
-                <TextArea rows={2} placeholder=\"支付备注...\" />
+              <Form.Item label="备注" name="notes">
+                <TextArea rows={2} placeholder="支付备注..." />
               </Form.Item>
 
               <Form.Item>
                 <Space>
-                  <Button type=\"primary\" htmlType=\"submit\">
+                  <Button type="primary" htmlType="submit">
                     确认收费
                   </Button>
                   <Button
@@ -1207,7 +1207,7 @@ const BillingManagement: React.FC = () => {
 
       {/* 退费模态框 */}
       <Modal
-        title=\"申请退费\"
+        title="申请退费"
         open={refundModalVisible}
         onCancel={() => {
           setRefundModalVisible(false);
@@ -1226,18 +1226,18 @@ const BillingManagement: React.FC = () => {
                   <div>已付金额: ¥{currentBill.paidAmount.toFixed(2)}</div>
                 </div>
               }
-              type=\"info\"
+              type="info"
               style={{ marginBottom: 16 }}
             />
 
             <Form
               form={refundForm}
-              layout=\"vertical\"
+              layout="vertical"
               onFinish={handleRefund}
             >
               <Form.Item
-                label=\"退费金额\"
-                name=\"refundAmount\"
+                label="退费金额"
+                name="refundAmount"
                 rules={[{ required: true, message: '请输入退费金额' }]}
               >
                 <InputNumber
@@ -1245,40 +1245,40 @@ const BillingManagement: React.FC = () => {
                   min={0.01}
                   max={currentBill.paidAmount}
                   precision={2}
-                  placeholder=\"退费金额\"
-                  prefix=\"¥\"
+                  placeholder="退费金额"
+                  prefix="¥"
                 />
               </Form.Item>
 
               <Form.Item
-                label=\"退费原因\"
-                name=\"refundReason\"
+                label="退费原因"
+                name="refundReason"
                 rules={[{ required: true, message: '请输入退费原因' }]}
               >
-                <TextArea rows={3} placeholder=\"请详细说明退费原因...\" />
+                <TextArea rows={3} placeholder="请详细说明退费原因..." />
               </Form.Item>
 
               <Form.Item
-                label=\"退费方式\"
-                name=\"refundMethod\"
+                label="退费方式"
+                name="refundMethod"
                 rules={[{ required: true, message: '请选择退费方式' }]}
               >
-                <Select placeholder=\"选择退费方式\">
-                  <Option value=\"CASH\">💵 现金</Option>
-                  <Option value=\"CARD\">💳 银行卡</Option>
-                  <Option value=\"ALIPAY\">📱 支付宝</Option>
-                  <Option value=\"WECHAT\">💬 微信支付</Option>
-                  <Option value=\"OTHER\">💰 其他</Option>
+                <Select placeholder="选择退费方式">
+                  <Option value="CASH">💵 现金</Option>
+                  <Option value="CARD">💳 银行卡</Option>
+                  <Option value="ALIPAY">📱 支付宝</Option>
+                  <Option value="WECHAT">💬 微信支付</Option>
+                  <Option value="OTHER">💰 其他</Option>
                 </Select>
               </Form.Item>
 
-              <Form.Item label=\"备注\" name=\"notes\">
-                <TextArea rows={2} placeholder=\"退费备注...\" />
+              <Form.Item label="备注" name="notes">
+                <TextArea rows={2} placeholder="退费备注..." />
               </Form.Item>
 
               <Form.Item>
                 <Space>
-                  <Button type=\"primary\" htmlType=\"submit\">
+                  <Button type="primary" htmlType="submit">
                     提交申请
                   </Button>
                   <Button
@@ -1298,8 +1298,8 @@ const BillingManagement: React.FC = () => {
 
       {/* 账单详情抽屉 */}
       <Drawer
-        title=\"账单详情\"
-        placement=\"right\"
+        title="账单详情"
+        placement="right"
         width={800}
         open={detailDrawerVisible}
         onClose={() => setDetailDrawerVisible(false)}
@@ -1307,30 +1307,30 @@ const BillingManagement: React.FC = () => {
         {currentBill && (
           <div>
             <Descriptions column={2} bordered>
-              <Descriptions.Item label=\"账单编号\">
+              <Descriptions.Item label="账单编号">
                 <Text code>{currentBill.billNumber}</Text>
               </Descriptions.Item>
-              <Descriptions.Item label=\"状态\">
+              <Descriptions.Item label="状态">
                 <Badge 
                   status={BILL_STATUS_CONFIG[currentBill.status].badge as any} 
                   text={BILL_STATUS_CONFIG[currentBill.status].text} 
                 />
               </Descriptions.Item>
-              <Descriptions.Item label=\"患者\">
+              <Descriptions.Item label="患者">
                 {currentBill.patientName || `患者${currentBill.patientId}`}
               </Descriptions.Item>
-              <Descriptions.Item label=\"创建时间\">
+              <Descriptions.Item label="创建时间">
                 {dayjs(currentBill.createdAt).format('YYYY-MM-DD HH:mm:ss')}
               </Descriptions.Item>
-              <Descriptions.Item label=\"总金额\">
+              <Descriptions.Item label="总金额">
                 <Text strong>¥{currentBill.totalAmount.toFixed(2)}</Text>
               </Descriptions.Item>
-              <Descriptions.Item label=\"已付金额\">
+              <Descriptions.Item label="已付金额">
                 <Text strong style={{ color: '#52c41a' }}>
                   ¥{currentBill.paidAmount.toFixed(2)}
                 </Text>
               </Descriptions.Item>
-              <Descriptions.Item label=\"剩余金额\" span={2}>
+              <Descriptions.Item label="剩余金额" span={2}>
                 <Text strong style={{ color: '#f5222d' }}>
                   ¥{(currentBill.totalAmount - currentBill.paidAmount).toFixed(2)}
                 </Text>
@@ -1349,9 +1349,9 @@ const BillingManagement: React.FC = () => {
               <Table
                 columns={itemColumns.filter(col => col.key !== 'actions')}
                 dataSource={billItems}
-                rowKey=\"id\"
+                rowKey="id"
                 pagination={false}
-                size=\"small\"
+                size="small"
                 summary={() => (
                   <Table.Summary.Row>
                     <Table.Summary.Cell index={0} colSpan={6}>

@@ -191,9 +191,9 @@ const PharmacyDispensing: React.FC = () => {
         <div>
           <p>确认退回此处方吗？</p>
           <TextArea
-            placeholder=\"退回原因\"
+            placeholder="退回原因"
             rows={3}
-            id=\"returnReason\"
+            id="returnReason"
             required
           />
         </div>
@@ -264,18 +264,18 @@ const PharmacyDispensing: React.FC = () => {
       key: 'actions',
       width: 120,
       render: (_, record) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"primary\"
-            size=\"small\"
+            type="primary"
+            size="small"
             icon={<CheckOutlined />}
             onClick={() => handleStartDispensing(record)}
           >
             开始调剂
           </Button>
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<EyeOutlined />}
           >
             查看
@@ -342,18 +342,18 @@ const PharmacyDispensing: React.FC = () => {
       key: 'actions',
       width: 150,
       render: (_, record) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"primary\"
-            size=\"small\"
+            type="primary"
+            size="small"
             icon={<CheckCircleOutlined />}
             onClick={() => handleCompleteDispensing(record)}
           >
             完成
           </Button>
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             danger
             icon={<CloseOutlined />}
             onClick={() => handleReturnPrescription(record)}
@@ -377,13 +377,13 @@ const PharmacyDispensing: React.FC = () => {
         <Row gutter={16} style={{ marginBottom: 24 }}>
           <Col span={4}>
             <Card>
-              <Statistic title=\"待调剂\" value={stats.pendingPrescriptions} />
+              <Statistic title="待调剂" value={stats.pendingPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"调剂中\" 
+                title="调剂中" 
                 value={stats.inProgressPrescriptions}
                 valueStyle={{ color: '#1890ff' }}
               />
@@ -392,7 +392,7 @@ const PharmacyDispensing: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"今日完成\" 
+                title="今日完成" 
                 value={stats.todayDispensed}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -401,7 +401,7 @@ const PharmacyDispensing: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"本周完成\" 
+                title="本周完成" 
                 value={stats.weekDispensed}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -410,7 +410,7 @@ const PharmacyDispensing: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"本月完成\" 
+                title="本月完成" 
                 value={stats.monthDispensed}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -419,9 +419,9 @@ const PharmacyDispensing: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"平均耗时\" 
+                title="平均耗时" 
                 value={stats.averageDispensingTime} 
-                suffix=\"分钟\"
+                suffix="分钟"
                 valueStyle={{ color: '#faad14' }}
               />
             </Card>
@@ -437,13 +437,13 @@ const PharmacyDispensing: React.FC = () => {
               <span>待调剂处方</span>
             </Badge>
           } 
-          key=\"pending\"
+          key="pending"
         >
-          <Card title=\"待调剂处方列表\">
+          <Card title="待调剂处方列表">
             <Table
               columns={pendingColumns}
               dataSource={pendingPrescriptions}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -461,13 +461,13 @@ const PharmacyDispensing: React.FC = () => {
               <span>调剂中</span>
             </Badge>
           } 
-          key=\"in-progress\"
+          key="in-progress"
         >
-          <Card title=\"调剂中记录\">
+          <Card title="调剂中记录">
             <Table
               columns={inProgressColumns}
               dataSource={inProgressDispenses}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -485,9 +485,9 @@ const PharmacyDispensing: React.FC = () => {
               <span>待发药</span>
             </Badge>
           } 
-          key=\"ready\"
+          key="ready"
         >
-          <Card title=\"待发药列表\">
+          <Card title="待发药列表">
             <Table
               columns={[
                 ...inProgressColumns.slice(0, -1),
@@ -496,10 +496,10 @@ const PharmacyDispensing: React.FC = () => {
                   key: 'actions',
                   width: 120,
                   render: (_, record) => (
-                    <Space size=\"small\">
+                    <Space size="small">
                       <Button
-                        type=\"primary\"
-                        size=\"small\"
+                        type="primary"
+                        size="small"
                         icon={<MedicineBoxOutlined />}
                         onClick={() => handleDeliverMedicine(record)}
                       >
@@ -510,7 +510,7 @@ const PharmacyDispensing: React.FC = () => {
                 }
               ]}
               dataSource={readyForDelivery}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -528,9 +528,9 @@ const PharmacyDispensing: React.FC = () => {
               <span>待复核</span>
             </Badge>
           } 
-          key=\"review\"
+          key="review"
         >
-          <Card title=\"待复核列表\">
+          <Card title="待复核列表">
             <Table
               columns={[
                 ...inProgressColumns.slice(0, -1),
@@ -539,10 +539,10 @@ const PharmacyDispensing: React.FC = () => {
                   key: 'actions',
                   width: 120,
                   render: (_, record) => (
-                    <Space size=\"small\">
+                    <Space size="small">
                       <Button
-                        type=\"primary\"
-                        size=\"small\"
+                        type="primary"
+                        size="small"
                         icon={<CheckCircleOutlined />}
                         onClick={async () => {
                           try {
@@ -565,7 +565,7 @@ const PharmacyDispensing: React.FC = () => {
                 }
               ]}
               dataSource={needingReview}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,

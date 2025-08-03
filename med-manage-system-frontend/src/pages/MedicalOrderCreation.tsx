@@ -235,9 +235,9 @@ const MedicalOrderCreation: React.FC = () => {
         <div>
           <p>确认取消此医嘱吗？</p>
           <TextArea
-            placeholder=\"取消原因\"
+            placeholder="取消原因"
             rows={3}
-            id=\"cancelReason\"
+            id="cancelReason"
             required
           />
         </div>
@@ -421,10 +421,10 @@ const MedicalOrderCreation: React.FC = () => {
       key: 'actions',
       width: 200,
       render: (_, record) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<EyeOutlined />}
             onClick={() => handleViewOrder(record)}
           >
@@ -433,16 +433,16 @@ const MedicalOrderCreation: React.FC = () => {
           {record.status === 'PENDING' && (
             <>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 icon={<EditOutlined />}
                 onClick={() => handleEditOrder(record)}
               >
                 编辑
               </Button>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 danger
                 icon={<CloseCircleOutlined />}
                 onClick={() => handleCancelOrder(record)}
@@ -452,8 +452,8 @@ const MedicalOrderCreation: React.FC = () => {
             </>
           )}
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<CopyOutlined />}
             onClick={() => handleCopyOrder(record)}
           >
@@ -461,12 +461,12 @@ const MedicalOrderCreation: React.FC = () => {
           </Button>
           {record.status === 'PENDING' && (
             <Popconfirm
-              title=\"确定删除此医嘱吗？\"
+              title="确定删除此医嘱吗？"
               onConfirm={() => handleDeleteOrder(record)}
             >
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 danger
                 icon={<DeleteOutlined />}
               >
@@ -491,13 +491,13 @@ const MedicalOrderCreation: React.FC = () => {
         <Row gutter={16} style={{ marginBottom: 24 }}>
           <Col span={4}>
             <Card>
-              <Statistic title=\"总医嘱数\" value={stats.totalOrders} />
+              <Statistic title="总医嘱数" value={stats.totalOrders} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"待执行\" 
+                title="待执行" 
                 value={stats.pendingOrders}
                 valueStyle={{ color: '#1890ff' }}
               />
@@ -506,7 +506,7 @@ const MedicalOrderCreation: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"已执行\" 
+                title="已执行" 
                 value={stats.executedOrders}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -515,7 +515,7 @@ const MedicalOrderCreation: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"暂缓执行\" 
+                title="暂缓执行" 
                 value={stats.postponedOrders}
                 valueStyle={{ color: '#faad14' }}
               />
@@ -524,7 +524,7 @@ const MedicalOrderCreation: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"已取消\" 
+                title="已取消" 
                 value={stats.cancelledOrders}
                 valueStyle={{ color: '#f5222d' }}
               />
@@ -533,7 +533,7 @@ const MedicalOrderCreation: React.FC = () => {
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"紧急医嘱\" 
+                title="紧急医嘱" 
                 value={stats.urgentOrders}
                 valueStyle={{ color: '#f5222d' }}
                 prefix={<ThunderboltOutlined />}
@@ -545,13 +545,13 @@ const MedicalOrderCreation: React.FC = () => {
 
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         {/* 医嘱列表 */}
-        <TabPane tab=\"医嘱列表\" key=\"list\">
+        <TabPane tab="医嘱列表" key="list">
           <Card
-            title=\"医嘱列表\"
+            title="医嘱列表"
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<PlusOutlined />}
                   onClick={handleNewOrder}
                 >
@@ -578,23 +578,23 @@ const MedicalOrderCreation: React.FC = () => {
             {/* 搜索表单 */}
             <Form
               form={searchForm}
-              layout=\"inline\"
+              layout="inline"
               onFinish={handleSearch}
               style={{ marginBottom: 16 }}
             >
-              <Form.Item name=\"keyword\">
+              <Form.Item name="keyword">
                 <Input
-                  placeholder=\"搜索医嘱内容\"
+                  placeholder="搜索医嘱内容"
                   prefix={<SearchOutlined />}
                   style={{ width: 200 }}
                 />
               </Form.Item>
-              <Form.Item name=\"patientId\">
+              <Form.Item name="patientId">
                 <Select
-                  placeholder=\"选择患者\"
+                  placeholder="选择患者"
                   style={{ width: 150 }}
                   showSearch
-                  optionFilterProp=\"children\"
+                  optionFilterProp="children"
                   allowClear
                 >
                   {patients.map(patient => (
@@ -604,33 +604,33 @@ const MedicalOrderCreation: React.FC = () => {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name=\"orderType\">
-                <Select placeholder=\"医嘱类型\" style={{ width: 120 }} allowClear>
-                  <Option value=\"INJECTION\">注射</Option>
-                  <Option value=\"ORAL_MEDICATION\">口服药物</Option>
-                  <Option value=\"EXAMINATION\">检查</Option>
-                  <Option value=\"NURSING_CARE\">护理</Option>
-                  <Option value=\"TREATMENT\">治疗</Option>
-                  <Option value=\"OBSERVATION\">观察</Option>
+              <Form.Item name="orderType">
+                <Select placeholder="医嘱类型" style={{ width: 120 }} allowClear>
+                  <Option value="INJECTION">注射</Option>
+                  <Option value="ORAL_MEDICATION">口服药物</Option>
+                  <Option value="EXAMINATION">检查</Option>
+                  <Option value="NURSING_CARE">护理</Option>
+                  <Option value="TREATMENT">治疗</Option>
+                  <Option value="OBSERVATION">观察</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name=\"status\">
-                <Select placeholder=\"状态\" style={{ width: 100 }} allowClear>
-                  <Option value=\"PENDING\">待执行</Option>
-                  <Option value=\"EXECUTED\">已执行</Option>
-                  <Option value=\"POSTPONED\">暂缓执行</Option>
-                  <Option value=\"CANCELLED\">已取消</Option>
+              <Form.Item name="status">
+                <Select placeholder="状态" style={{ width: 100 }} allowClear>
+                  <Option value="PENDING">待执行</Option>
+                  <Option value="EXECUTED">已执行</Option>
+                  <Option value="POSTPONED">暂缓执行</Option>
+                  <Option value="CANCELLED">已取消</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name=\"priority\">
-                <Select placeholder=\"优先级\" style={{ width: 100 }} allowClear>
-                  <Option value=\"URGENT\">紧急</Option>
-                  <Option value=\"NORMAL\">普通</Option>
-                  <Option value=\"LOW\">低</Option>
+              <Form.Item name="priority">
+                <Select placeholder="优先级" style={{ width: 100 }} allowClear>
+                  <Option value="URGENT">紧急</Option>
+                  <Option value="NORMAL">普通</Option>
+                  <Option value="LOW">低</Option>
                 </Select>
               </Form.Item>
               <Form.Item>
-                <Button type=\"primary\" htmlType=\"submit\" icon={<SearchOutlined />}>
+                <Button type="primary" htmlType="submit" icon={<SearchOutlined />}>
                   搜索
                 </Button>
               </Form.Item>
@@ -649,7 +649,7 @@ const MedicalOrderCreation: React.FC = () => {
             <Table
               columns={orderColumns}
               dataSource={medicalOrders}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -662,13 +662,13 @@ const MedicalOrderCreation: React.FC = () => {
         </TabPane>
 
         {/* 医嘱表单 */}
-        <TabPane tab={currentOrder ? '编辑医嘱' : '新建医嘱'} key=\"form\" disabled={!isEditing}>
+        <TabPane tab={currentOrder ? '编辑医嘱' : '新建医嘱'} key="form" disabled={!isEditing}>
           <Card
             title={currentOrder ? '编辑医嘱' : '新建医嘱'}
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<SaveOutlined />}
                   loading={loading}
                   onClick={() => form.submit()}
@@ -688,20 +688,20 @@ const MedicalOrderCreation: React.FC = () => {
           >
             <Form
               form={form}
-              layout=\"vertical\"
+              layout="vertical"
               onFinish={handleSaveOrder}
             >
               <Row gutter={16}>
                 <Col span={8}>
                   <Form.Item
-                    label=\"患者\"
-                    name=\"patientId\"
+                    label="患者"
+                    name="patientId"
                     rules={[{ required: true, message: '请选择患者' }]}
                   >
                     <Select
-                      placeholder=\"选择患者\"
+                      placeholder="选择患者"
                       showSearch
-                      optionFilterProp=\"children\"
+                      optionFilterProp="children"
                       onChange={handlePatientSelect}
                     >
                       {patients.map(patient => (
@@ -714,43 +714,43 @@ const MedicalOrderCreation: React.FC = () => {
                 </Col>
                 <Col span={8}>
                   <Form.Item
-                    label=\"医嘱类型\"
-                    name=\"orderType\"
+                    label="医嘱类型"
+                    name="orderType"
                     rules={[{ required: true, message: '请选择医嘱类型' }]}
                   >
                     <Select onChange={handleOrderTypeChange}>
-                      <Option value=\"INJECTION\">💉 注射</Option>
-                      <Option value=\"ORAL_MEDICATION\">💊 口服药物</Option>
-                      <Option value=\"EXAMINATION\">🔍 检查</Option>
-                      <Option value=\"NURSING_CARE\">🩺 护理</Option>
-                      <Option value=\"TREATMENT\">⚕️ 治疗</Option>
-                      <Option value=\"OBSERVATION\">👁️ 观察</Option>
+                      <Option value="INJECTION">💉 注射</Option>
+                      <Option value="ORAL_MEDICATION">💊 口服药物</Option>
+                      <Option value="EXAMINATION">🔍 检查</Option>
+                      <Option value="NURSING_CARE">🩺 护理</Option>
+                      <Option value="TREATMENT">⚕️ 治疗</Option>
+                      <Option value="OBSERVATION">👁️ 观察</Option>
                     </Select>
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item
-                    label=\"优先级\"
-                    name=\"priority\"
+                    label="优先级"
+                    name="priority"
                     rules={[{ required: true, message: '请选择优先级' }]}
                   >
                     <Select>
-                      <Option value=\"URGENT\">🔴 紧急</Option>
-                      <Option value=\"NORMAL\">🔵 普通</Option>
-                      <Option value=\"LOW\">⚪ 低</Option>
+                      <Option value="URGENT">🔴 紧急</Option>
+                      <Option value="NORMAL">🔵 普通</Option>
+                      <Option value="LOW">⚪ 低</Option>
                     </Select>
                   </Form.Item>
                 </Col>
               </Row>
 
               <Form.Item
-                label=\"医嘱内容\"
-                name=\"content\"
+                label="医嘱内容"
+                name="content"
                 rules={[{ required: true, message: '请输入医嘱内容' }]}
               >
                 <AutoComplete
                   options={contentSuggestions.map(suggestion => ({ value: suggestion }))}
-                  placeholder=\"请输入医嘱内容...\"
+                  placeholder="请输入医嘱内容..."
                   filterOption={(inputValue, option) =>
                     option!.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
                   }
@@ -765,13 +765,13 @@ const MedicalOrderCreation: React.FC = () => {
 
               <Row gutter={16}>
                 <Col span={8}>
-                  <Form.Item label=\"剂量\" name=\"dosage\">
-                    <Input placeholder=\"如：5mg、10ml\" maxLength={100} />
+                  <Form.Item label="剂量" name="dosage">
+                    <Input placeholder="如：5mg、10ml" maxLength={100} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label=\"频次\" name=\"frequency\">
-                    <Select placeholder=\"选择频次\" allowClear>
+                  <Form.Item label="频次" name="frequency">
+                    <Select placeholder="选择频次" allowClear>
                       {FREQUENCY_OPTIONS.map(freq => (
                         <Option key={freq.value} value={freq.value}>
                           {freq.label}
@@ -781,8 +781,8 @@ const MedicalOrderCreation: React.FC = () => {
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label=\"给药途径\" name=\"route\">
-                    <Select placeholder=\"选择给药途径\" allowClear>
+                  <Form.Item label="给药途径" name="route">
+                    <Select placeholder="选择给药途径" allowClear>
                       {ROUTE_OPTIONS.map(route => (
                         <Option key={route.value} value={route.value}>
                           {route.label}
@@ -795,17 +795,17 @@ const MedicalOrderCreation: React.FC = () => {
 
               <Row gutter={16}>
                 <Col span={8}>
-                  <Form.Item label=\"数量\" name=\"quantity\">
+                  <Form.Item label="数量" name="quantity">
                     <InputNumber
                       style={{ width: '100%' }}
                       min={1}
-                      placeholder=\"数量\"
+                      placeholder="数量"
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label=\"单位\" name=\"unit\">
-                    <Select placeholder=\"选择单位\" allowClear>
+                  <Form.Item label="单位" name="unit">
+                    <Select placeholder="选择单位" allowClear>
                       {UNIT_OPTIONS.map(unit => (
                         <Option key={unit.value} value={unit.value}>
                           {unit.label}
@@ -815,22 +815,22 @@ const MedicalOrderCreation: React.FC = () => {
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label=\"价格\" name=\"price\">
+                  <Form.Item label="价格" name="price">
                     <InputNumber
                       style={{ width: '100%' }}
                       min={0}
                       precision={2}
-                      placeholder=\"价格\"
-                      prefix=\"¥\"
+                      placeholder="价格"
+                      prefix="¥"
                     />
                   </Form.Item>
                 </Col>
               </Row>
 
-              <Form.Item label=\"备注\" name=\"notes\">
+              <Form.Item label="备注" name="notes">
                 <TextArea
                   rows={3}
-                  placeholder=\"医嘱备注信息...\"
+                  placeholder="医嘱备注信息..."
                   maxLength={500}
                   showCount
                 />
@@ -840,12 +840,12 @@ const MedicalOrderCreation: React.FC = () => {
         </TabPane>
 
         {/* 医嘱模板 */}
-        <TabPane tab=\"医嘱模板\" key=\"templates\">
+        <TabPane tab="医嘱模板" key="templates">
           <Card
-            title=\"医嘱模板\"
+            title="医嘱模板"
             extra={
               <Button
-                type=\"primary\"
+                type="primary"
                 icon={<PlusOutlined />}
                 onClick={() => {
                   setTemplateModalVisible(true);
@@ -862,16 +862,16 @@ const MedicalOrderCreation: React.FC = () => {
                 <List.Item
                   actions={[
                     <Button
-                      type=\"link\"
-                      size=\"small\"
+                      type="link"
+                      size="small"
                       onClick={() => handleCreateFromTemplate(template)}
                       disabled={!selectedPatient}
                     >
                       使用模板
                     </Button>,
                     <Button
-                      type=\"link\"
-                      size=\"small\"
+                      type="link"
+                      size="small"
                       danger
                       onClick={async () => {
                         try {
@@ -918,7 +918,7 @@ const MedicalOrderCreation: React.FC = () => {
 
       {/* 新建模板模态框 */}
       <Modal
-        title=\"新建医嘱模板\"
+        title="新建医嘱模板"
         open={templateModalVisible}
         onCancel={() => {
           setTemplateModalVisible(false);
@@ -929,40 +929,40 @@ const MedicalOrderCreation: React.FC = () => {
       >
         <Form
           form={templateForm}
-          layout=\"vertical\"
+          layout="vertical"
           onFinish={handleSaveAsTemplate}
         >
           <Form.Item
-            label=\"模板名称\"
-            name=\"name\"
+            label="模板名称"
+            name="name"
             rules={[{ required: true, message: '请输入模板名称' }]}
           >
-            <Input placeholder=\"请输入模板名称\" />
+            <Input placeholder="请输入模板名称" />
           </Form.Item>
 
           <Form.Item
-            label=\"医嘱类型\"
-            name=\"orderType\"
+            label="医嘱类型"
+            name="orderType"
             rules={[{ required: true, message: '请选择医嘱类型' }]}
           >
             <Select>
-              <Option value=\"INJECTION\">💉 注射</Option>
-              <Option value=\"ORAL_MEDICATION\">💊 口服药物</Option>
-              <Option value=\"EXAMINATION\">🔍 检查</Option>
-              <Option value=\"NURSING_CARE\">🩺 护理</Option>
-              <Option value=\"TREATMENT\">⚕️ 治疗</Option>
-              <Option value=\"OBSERVATION\">👁️ 观察</Option>
+              <Option value="INJECTION">💉 注射</Option>
+              <Option value="ORAL_MEDICATION">💊 口服药物</Option>
+              <Option value="EXAMINATION">🔍 检查</Option>
+              <Option value="NURSING_CARE">🩺 护理</Option>
+              <Option value="TREATMENT">⚕️ 治疗</Option>
+              <Option value="OBSERVATION">👁️ 观察</Option>
             </Select>
           </Form.Item>
 
           <Form.Item
-            label=\"医嘱内容\"
-            name=\"content\"
+            label="医嘱内容"
+            name="content"
             rules={[{ required: true, message: '请输入医嘱内容' }]}
           >
             <TextArea
               rows={3}
-              placeholder=\"请输入医嘱内容...\"
+              placeholder="请输入医嘱内容..."
               maxLength={500}
               showCount
             />
@@ -970,13 +970,13 @@ const MedicalOrderCreation: React.FC = () => {
 
           <Row gutter={16}>
             <Col span={8}>
-              <Form.Item label=\"剂量\" name=\"dosage\">
-                <Input placeholder=\"如：5mg、10ml\" />
+              <Form.Item label="剂量" name="dosage">
+                <Input placeholder="如：5mg、10ml" />
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"频次\" name=\"frequency\">
-                <Select placeholder=\"选择频次\" allowClear>
+              <Form.Item label="频次" name="frequency">
+                <Select placeholder="选择频次" allowClear>
                   {FREQUENCY_OPTIONS.map(freq => (
                     <Option key={freq.value} value={freq.value}>
                       {freq.label}
@@ -986,8 +986,8 @@ const MedicalOrderCreation: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"给药途径\" name=\"route\">
-                <Select placeholder=\"选择给药途径\" allowClear>
+              <Form.Item label="给药途径" name="route">
+                <Select placeholder="选择给药途径" allowClear>
                   {ROUTE_OPTIONS.map(route => (
                     <Option key={route.value} value={route.value}>
                       {route.label}
@@ -1000,17 +1000,17 @@ const MedicalOrderCreation: React.FC = () => {
 
           <Row gutter={16}>
             <Col span={8}>
-              <Form.Item label=\"数量\" name=\"quantity\">
+              <Form.Item label="数量" name="quantity">
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}
-                  placeholder=\"数量\"
+                  placeholder="数量"
                 />
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"单位\" name=\"unit\">
-                <Select placeholder=\"选择单位\" allowClear>
+              <Form.Item label="单位" name="unit">
+                <Select placeholder="选择单位" allowClear>
                   {UNIT_OPTIONS.map(unit => (
                     <Option key={unit.value} value={unit.value}>
                       {unit.label}
@@ -1020,22 +1020,22 @@ const MedicalOrderCreation: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"价格\" name=\"price\">
+              <Form.Item label="价格" name="price">
                 <InputNumber
                   style={{ width: '100%' }}
                   min={0}
                   precision={2}
-                  placeholder=\"价格\"
-                  prefix=\"¥\"
+                  placeholder="价格"
+                  prefix="¥"
                 />
               </Form.Item>
             </Col>
           </Row>
 
-          <Form.Item label=\"备注\" name=\"notes\">
+          <Form.Item label="备注" name="notes">
             <TextArea
               rows={2}
-              placeholder=\"模板备注...\"
+              placeholder="模板备注..."
               maxLength={500}
               showCount
             />
@@ -1043,7 +1043,7 @@ const MedicalOrderCreation: React.FC = () => {
 
           <Form.Item>
             <Space>
-              <Button type=\"primary\" htmlType=\"submit\">
+              <Button type="primary" htmlType="submit">
                 保存模板
               </Button>
               <Button
@@ -1061,8 +1061,8 @@ const MedicalOrderCreation: React.FC = () => {
 
       {/* 医嘱详情抽屉 */}
       <Drawer
-        title=\"医嘱详情\"
-        placement=\"right\"
+        title="医嘱详情"
+        placement="right"
         width={600}
         open={detailDrawerVisible}
         onClose={() => setDetailDrawerVisible(false)}
@@ -1070,30 +1070,30 @@ const MedicalOrderCreation: React.FC = () => {
         {currentOrder && (
           <div>
             <Descriptions column={2} bordered>
-              <Descriptions.Item label=\"患者\">
+              <Descriptions.Item label="患者">
                 {currentOrder.patientName || '患者' + currentOrder.patientId}
               </Descriptions.Item>
-              <Descriptions.Item label=\"医嘱类型\">
+              <Descriptions.Item label="医嘱类型">
                 <Tag color={ORDER_TYPE_CONFIG[currentOrder.orderType].color}>
                   {ORDER_TYPE_CONFIG[currentOrder.orderType].icon} {ORDER_TYPE_CONFIG[currentOrder.orderType].text}
                 </Tag>
               </Descriptions.Item>
-              <Descriptions.Item label=\"优先级\">
+              <Descriptions.Item label="优先级">
                 <Tag color={ORDER_PRIORITY_CONFIG[currentOrder.priority].color}>
                   {ORDER_PRIORITY_CONFIG[currentOrder.priority].text}
                 </Tag>
               </Descriptions.Item>
-              <Descriptions.Item label=\"状态\">
+              <Descriptions.Item label="状态">
                 <Badge 
                   status={ORDER_STATUS_CONFIG[currentOrder.status].badge as any} 
                   text={ORDER_STATUS_CONFIG[currentOrder.status].text} 
                 />
               </Descriptions.Item>
-              <Descriptions.Item label=\"开具时间\" span={2}>
+              <Descriptions.Item label="开具时间" span={2}>
                 {dayjs(currentOrder.prescribedAt).format('YYYY-MM-DD HH:mm:ss')}
               </Descriptions.Item>
               {currentOrder.executedAt && (
-                <Descriptions.Item label=\"执行时间\" span={2}>
+                <Descriptions.Item label="执行时间" span={2}>
                   {dayjs(currentOrder.executedAt).format('YYYY-MM-DD HH:mm:ss')}
                 </Descriptions.Item>
               )}
@@ -1107,23 +1107,23 @@ const MedicalOrderCreation: React.FC = () => {
             {(currentOrder.dosage || currentOrder.frequency || currentOrder.route) && (
               <div style={{ marginTop: 16 }}>
                 <Title level={5}>用药信息</Title>
-                <Descriptions column={1} size=\"small\">
+                <Descriptions column={1} size="small">
                   {currentOrder.dosage && (
-                    <Descriptions.Item label=\"剂量\">{currentOrder.dosage}</Descriptions.Item>
+                    <Descriptions.Item label="剂量">{currentOrder.dosage}</Descriptions.Item>
                   )}
                   {currentOrder.frequency && (
-                    <Descriptions.Item label=\"频次\">{currentOrder.frequency}</Descriptions.Item>
+                    <Descriptions.Item label="频次">{currentOrder.frequency}</Descriptions.Item>
                   )}
                   {currentOrder.route && (
-                    <Descriptions.Item label=\"给药途径\">{currentOrder.route}</Descriptions.Item>
+                    <Descriptions.Item label="给药途径">{currentOrder.route}</Descriptions.Item>
                   )}
                   {currentOrder.quantity && (
-                    <Descriptions.Item label=\"数量\">
+                    <Descriptions.Item label="数量">
                       {currentOrder.quantity} {currentOrder.unit}
                     </Descriptions.Item>
                   )}
                   {currentOrder.price && (
-                    <Descriptions.Item label=\"价格\">¥{currentOrder.price}</Descriptions.Item>
+                    <Descriptions.Item label="价格">¥{currentOrder.price}</Descriptions.Item>
                   )}
                 </Descriptions>
               </div>
@@ -1146,7 +1146,7 @@ const MedicalOrderCreation: React.FC = () => {
             {currentOrder.cancelReason && (
               <div style={{ marginTop: 16 }}>
                 <Title level={5}>取消原因</Title>
-                <Paragraph type=\"danger\">{currentOrder.cancelReason}</Paragraph>
+                <Paragraph type="danger">{currentOrder.cancelReason}</Paragraph>
               </div>
             )}
           </div>

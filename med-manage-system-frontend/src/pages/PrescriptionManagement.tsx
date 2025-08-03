@@ -273,9 +273,9 @@ const PrescriptionManagement: React.FC = () => {
         <div>
           <p>确认审核通过此处方吗？</p>
           <TextArea
-            placeholder=\"审核意见（可选）\"
+            placeholder="审核意见（可选）"
             rows={3}
-            id=\"reviewComments\"
+            id="reviewComments"
           />
         </div>
       ),
@@ -302,9 +302,9 @@ const PrescriptionManagement: React.FC = () => {
         <div>
           <p>确认取消此处方吗？</p>
           <TextArea
-            placeholder=\"取消原因\"
+            placeholder="取消原因"
             rows={3}
-            id=\"cancelReason\"
+            id="cancelReason"
             required
           />
         </div>
@@ -502,10 +502,10 @@ const PrescriptionManagement: React.FC = () => {
       key: 'actions',
       width: 200,
       render: (_, record) => (
-        <Space size=\"small\">
+        <Space size="small">
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<EyeOutlined />}
             onClick={() => handleViewPrescription(record)}
           >
@@ -514,16 +514,16 @@ const PrescriptionManagement: React.FC = () => {
           {record.status === '草稿' && (
             <>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 icon={<EditOutlined />}
                 onClick={() => handleEditPrescription(record)}
               >
                 编辑
               </Button>
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 icon={<CheckCircleOutlined />}
                 onClick={() => handleIssuePrescription(record)}
               >
@@ -533,8 +533,8 @@ const PrescriptionManagement: React.FC = () => {
           )}
           {record.status === '已开具' && (
             <Button
-              type=\"link\"
-              size=\"small\"
+              type="link"
+              size="small"
               icon={<CheckCircleOutlined />}
               onClick={() => handleReviewPrescription(record)}
             >
@@ -542,8 +542,8 @@ const PrescriptionManagement: React.FC = () => {
             </Button>
           )}
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<CopyOutlined />}
             onClick={() => handleCopyPrescription(record)}
           >
@@ -551,8 +551,8 @@ const PrescriptionManagement: React.FC = () => {
           </Button>
           {['草稿', '已开具', '已审核'].includes(record.status) && (
             <Button
-              type=\"link\"
-              size=\"small\"
+              type="link"
+              size="small"
               danger
               icon={<CloseCircleOutlined />}
               onClick={() => handleCancelPrescription(record)}
@@ -562,12 +562,12 @@ const PrescriptionManagement: React.FC = () => {
           )}
           {record.status === '草稿' && (
             <Popconfirm
-              title=\"确定删除此处方吗？\"
+              title="确定删除此处方吗？"
               onConfirm={() => handleDeletePrescription(record)}
             >
               <Button
-                type=\"link\"
-                size=\"small\"
+                type="link"
+                size="small"
                 danger
                 icon={<DeleteOutlined />}
               >
@@ -576,8 +576,8 @@ const PrescriptionManagement: React.FC = () => {
             </Popconfirm>
           )}
           <Button
-            type=\"link\"
-            size=\"small\"
+            type="link"
+            size="small"
             icon={<PrinterOutlined />}
             onClick={() => handlePrintPrescription(record)}
           >
@@ -600,36 +600,36 @@ const PrescriptionManagement: React.FC = () => {
         <Row gutter={16} style={{ marginBottom: 24 }}>
           <Col span={4}>
             <Card>
-              <Statistic title=\"总处方数\" value={stats.totalPrescriptions} />
+              <Statistic title="总处方数" value={stats.totalPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
-              <Statistic title=\"已开具\" value={stats.issuedPrescriptions} />
+              <Statistic title="已开具" value={stats.issuedPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
-              <Statistic title=\"已审核\" value={stats.reviewedPrescriptions} />
+              <Statistic title="已审核" value={stats.reviewedPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
-              <Statistic title=\"已调配\" value={stats.dispensedPrescriptions} />
+              <Statistic title="已调配" value={stats.dispensedPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
-              <Statistic title=\"已取消\" value={stats.cancelledPrescriptions} />
+              <Statistic title="已取消" value={stats.cancelledPrescriptions} />
             </Card>
           </Col>
           <Col span={4}>
             <Card>
               <Statistic 
-                title=\"总金额\" 
+                title="总金额" 
                 value={stats.totalAmount} 
                 precision={2}
-                prefix=\"¥\"
+                prefix="¥"
               />
             </Card>
           </Col>
@@ -638,13 +638,13 @@ const PrescriptionManagement: React.FC = () => {
 
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         {/* 处方列表 */}
-        <TabPane tab=\"处方列表\" key=\"list\">
+        <TabPane tab="处方列表" key="list">
           <Card
-            title=\"处方列表\"
+            title="处方列表"
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<PlusOutlined />}
                   onClick={handleNewPrescription}
                 >
@@ -665,23 +665,23 @@ const PrescriptionManagement: React.FC = () => {
             {/* 搜索表单 */}
             <Form
               form={searchForm}
-              layout=\"inline\"
+              layout="inline"
               onFinish={handleSearch}
               style={{ marginBottom: 16 }}
             >
-              <Form.Item name=\"keyword\">
+              <Form.Item name="keyword">
                 <Input
-                  placeholder=\"搜索处方编号、患者姓名\"
+                  placeholder="搜索处方编号、患者姓名"
                   prefix={<SearchOutlined />}
                   style={{ width: 200 }}
                 />
               </Form.Item>
-              <Form.Item name=\"patientId\">
+              <Form.Item name="patientId">
                 <Select
-                  placeholder=\"选择患者\"
+                  placeholder="选择患者"
                   style={{ width: 150 }}
                   showSearch
-                  optionFilterProp=\"children\"
+                  optionFilterProp="children"
                   allowClear
                 >
                   {patients.map(patient => (
@@ -691,34 +691,34 @@ const PrescriptionManagement: React.FC = () => {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name=\"status\">
-                <Select placeholder=\"处方状态\" style={{ width: 120 }} allowClear>
-                  <Option value=\"草稿\">草稿</Option>
-                  <Option value=\"已开具\">已开具</Option>
-                  <Option value=\"已审核\">已审核</Option>
-                  <Option value=\"已调配\">已调配</Option>
-                  <Option value=\"已发药\">已发药</Option>
-                  <Option value=\"已取消\">已取消</Option>
+              <Form.Item name="status">
+                <Select placeholder="处方状态" style={{ width: 120 }} allowClear>
+                  <Option value="草稿">草稿</Option>
+                  <Option value="已开具">已开具</Option>
+                  <Option value="已审核">已审核</Option>
+                  <Option value="已调配">已调配</Option>
+                  <Option value="已发药">已发药</Option>
+                  <Option value="已取消">已取消</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name=\"prescriptionType\">
-                <Select placeholder=\"处方类型\" style={{ width: 120 }} allowClear>
-                  <Option value=\"普通处方\">普通处方</Option>
-                  <Option value=\"急诊处方\">急诊处方</Option>
-                  <Option value=\"儿科处方\">儿科处方</Option>
-                  <Option value=\"麻醉处方\">麻醉处方</Option>
-                  <Option value=\"精神药品处方\">精神药品处方</Option>
-                  <Option value=\"毒性药品处方\">毒性药品处方</Option>
+              <Form.Item name="prescriptionType">
+                <Select placeholder="处方类型" style={{ width: 120 }} allowClear>
+                  <Option value="普通处方">普通处方</Option>
+                  <Option value="急诊处方">急诊处方</Option>
+                  <Option value="儿科处方">儿科处方</Option>
+                  <Option value="麻醉处方">麻醉处方</Option>
+                  <Option value="精神药品处方">精神药品处方</Option>
+                  <Option value="毒性药品处方">毒性药品处方</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name=\"startDate\">
-                <DatePicker placeholder=\"开始日期\" />
+              <Form.Item name="startDate">
+                <DatePicker placeholder="开始日期" />
               </Form.Item>
-              <Form.Item name=\"endDate\">
-                <DatePicker placeholder=\"结束日期\" />
+              <Form.Item name="endDate">
+                <DatePicker placeholder="结束日期" />
               </Form.Item>
               <Form.Item>
-                <Button type=\"primary\" htmlType=\"submit\" icon={<SearchOutlined />}>
+                <Button type="primary" htmlType="submit" icon={<SearchOutlined />}>
                   搜索
                 </Button>
               </Form.Item>
@@ -737,7 +737,7 @@ const PrescriptionManagement: React.FC = () => {
             <Table
               columns={prescriptionColumns}
               dataSource={prescriptions}
-              rowKey=\"id\"
+              rowKey="id"
               loading={loading}
               pagination={{
                 pageSize: 10,
@@ -750,13 +750,13 @@ const PrescriptionManagement: React.FC = () => {
         </TabPane>
 
         {/* 处方表单 */}
-        <TabPane tab={currentPrescription ? '编辑处方' : '新建处方'} key=\"form\" disabled={!isEditing}>
+        <TabPane tab={currentPrescription ? '编辑处方' : '新建处方'} key="form" disabled={!isEditing}>
           <Card
             title={currentPrescription ? '编辑处方' : '新建处方'}
             extra={
               <Space>
                 <Button
-                  type=\"primary\"
+                  type="primary"
                   icon={<SaveOutlined />}
                   loading={loading}
                   onClick={() => form.submit()}
@@ -776,43 +776,43 @@ const PrescriptionManagement: React.FC = () => {
           >
             <Form
               form={form}
-              layout=\"vertical\"
+              layout="vertical"
               onFinish={handleSavePrescription}
             >
               <Row gutter={16}>
                 <Col span={8}>
                   <Form.Item
-                    label=\"病历ID\"
-                    name=\"medicalRecordId\"
+                    label="病历ID"
+                    name="medicalRecordId"
                     rules={[{ required: true, message: '请输入病历ID' }]}
                   >
                     <InputNumber
                       style={{ width: '100%' }}
-                      placeholder=\"请输入病历ID\"
+                      placeholder="请输入病历ID"
                       min={1}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item
-                    label=\"处方类型\"
-                    name=\"prescriptionType\"
+                    label="处方类型"
+                    name="prescriptionType"
                     rules={[{ required: true, message: '请选择处方类型' }]}
                   >
                     <Select>
-                      <Option value=\"普通处方\">普通处方</Option>
-                      <Option value=\"急诊处方\">急诊处方</Option>
-                      <Option value=\"儿科处方\">儿科处方</Option>
-                      <Option value=\"麻醉处方\">麻醉处方</Option>
-                      <Option value=\"精神药品处方\">精神药品处方</Option>
-                      <Option value=\"毒性药品处方\">毒性药品处方</Option>
+                      <Option value="普通处方">普通处方</Option>
+                      <Option value="急诊处方">急诊处方</Option>
+                      <Option value="儿科处方">儿科处方</Option>
+                      <Option value="麻醉处方">麻醉处方</Option>
+                      <Option value="精神药品处方">精神药品处方</Option>
+                      <Option value="毒性药品处方">毒性药品处方</Option>
                     </Select>
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item
-                    label=\"有效期（天）\"
-                    name=\"validityDays\"
+                    label="有效期（天）"
+                    name="validityDays"
                     rules={[{ required: true, message: '请选择有效期' }]}
                   >
                     <Select>
@@ -829,8 +829,8 @@ const PrescriptionManagement: React.FC = () => {
               <Row gutter={16}>
                 <Col span={8}>
                   <Form.Item
-                    label=\"重复次数\"
-                    name=\"repeatTimes\"
+                    label="重复次数"
+                    name="repeatTimes"
                     rules={[{ required: true, message: '请输入重复次数' }]}
                   >
                     <InputNumber
@@ -841,15 +841,15 @@ const PrescriptionManagement: React.FC = () => {
                   </Form.Item>
                 </Col>
                 <Col span={16}>
-                  <Form.Item label=\"处方标识\">
+                  <Form.Item label="处方标识">
                     <Space>
-                      <Form.Item name=\"isEmergency\" valuePropName=\"checked\" noStyle>
+                      <Form.Item name="isEmergency" valuePropName="checked" noStyle>
                         <Checkbox>急诊处方</Checkbox>
                       </Form.Item>
-                      <Form.Item name=\"isChildPrescription\" valuePropName=\"checked\" noStyle>
+                      <Form.Item name="isChildPrescription" valuePropName="checked" noStyle>
                         <Checkbox>儿童处方</Checkbox>
                       </Form.Item>
-                      <Form.Item name=\"isChronicDiseasePrescription\" valuePropName=\"checked\" noStyle>
+                      <Form.Item name="isChronicDiseasePrescription" valuePropName="checked" noStyle>
                         <Checkbox>慢性病处方</Checkbox>
                       </Form.Item>
                     </Space>
@@ -857,37 +857,37 @@ const PrescriptionManagement: React.FC = () => {
                 </Col>
               </Row>
 
-              <Form.Item label=\"临床诊断\" name=\"clinicalDiagnosis\">
+              <Form.Item label="临床诊断" name="clinicalDiagnosis">
                 <TextArea
                   rows={2}
-                  placeholder=\"请输入临床诊断...\"
+                  placeholder="请输入临床诊断..."
                   maxLength={500}
                   showCount
                 />
               </Form.Item>
 
-              <Form.Item label=\"用法用量说明\" name=\"dosageInstructions\">
+              <Form.Item label="用法用量说明" name="dosageInstructions">
                 <TextArea
                   rows={3}
-                  placeholder=\"请输入用法用量说明...\"
+                  placeholder="请输入用法用量说明..."
                   maxLength={1000}
                   showCount
                 />
               </Form.Item>
 
-              <Form.Item label=\"注意事项\" name=\"precautions\">
+              <Form.Item label="注意事项" name="precautions">
                 <TextArea
                   rows={3}
-                  placeholder=\"请输入注意事项...\"
+                  placeholder="请输入注意事项..."
                   maxLength={1000}
                   showCount
                 />
               </Form.Item>
 
-              <Form.Item label=\"备注\" name=\"remarks\">
+              <Form.Item label="备注" name="remarks">
                 <TextArea
                   rows={2}
-                  placeholder=\"请输入备注信息...\"
+                  placeholder="请输入备注信息..."
                   maxLength={1000}
                   showCount
                 />
@@ -897,7 +897,7 @@ const PrescriptionManagement: React.FC = () => {
               <Divider>处方项目</Divider>
               <div style={{ marginBottom: 16 }}>
                 <Button
-                  type=\"dashed\"
+                  type="dashed"
                   icon={<PlusOutlined />}
                   onClick={() => {
                     setEditingItemIndex(null);
@@ -918,15 +918,15 @@ const PrescriptionManagement: React.FC = () => {
                     <List.Item
                       actions={[
                         <Button
-                          type=\"link\"
-                          size=\"small\"
+                          type="link"
+                          size="small"
                           onClick={() => handleEditItem(index)}
                         >
                           编辑
                         </Button>,
                         <Button
-                          type=\"link\"
-                          size=\"small\"
+                          type="link"
+                          size="small"
                           danger
                           onClick={() => handleDeleteItem(index)}
                         >
@@ -981,20 +981,20 @@ const PrescriptionManagement: React.FC = () => {
       >
         <Form
           form={itemForm}
-          layout=\"vertical\"
+          layout="vertical"
           onFinish={handleAddItem}
         >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label=\"药品\"
-                name=\"medicineId\"
+                label="药品"
+                name="medicineId"
                 rules={[{ required: true, message: '请选择药品' }]}
               >
                 <Select
                   showSearch
-                  placeholder=\"搜索并选择药品\"
-                  optionFilterProp=\"children\"
+                  placeholder="搜索并选择药品"
+                  optionFilterProp="children"
                   filterOption={(input, option) =>
                     (option?.children as unknown as string)
                       ?.toLowerCase()
@@ -1011,24 +1011,24 @@ const PrescriptionManagement: React.FC = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                label=\"数量\"
-                name=\"quantity\"
+                label="数量"
+                name="quantity"
                 rules={[{ required: true, message: '请输入数量' }]}
               >
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}
-                  placeholder=\"数量\"
+                  placeholder="数量"
                 />
               </Form.Item>
             </Col>
             <Col span={6}>
               <Form.Item
-                label=\"单位\"
-                name=\"unit\"
+                label="单位"
+                name="unit"
                 rules={[{ required: true, message: '请选择单位' }]}
               >
-                <Select placeholder=\"单位\">
+                <Select placeholder="单位">
                   {MEDICINE_UNITS.map(unit => (
                     <Option key={unit.value} value={unit.value}>
                       {unit.label}
@@ -1041,8 +1041,8 @@ const PrescriptionManagement: React.FC = () => {
 
           <Row gutter={16}>
             <Col span={8}>
-              <Form.Item label=\"用法\" name=\"usage\">
-                <Select placeholder=\"选择用法\" allowClear>
+              <Form.Item label="用法" name="usage">
+                <Select placeholder="选择用法" allowClear>
                   {USAGE_OPTIONS.map(usage => (
                     <Option key={usage.value} value={usage.value}>
                       {usage.label}
@@ -1052,13 +1052,13 @@ const PrescriptionManagement: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"用量\" name=\"dosage\">
-                <Input placeholder=\"如：1片、5ml\" />
+              <Form.Item label="用量" name="dosage">
+                <Input placeholder="如：1片、5ml" />
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label=\"频次\" name=\"frequency\">
-                <Select placeholder=\"选择频次\" allowClear>
+              <Form.Item label="频次" name="frequency">
+                <Select placeholder="选择频次" allowClear>
                   {FREQUENCY_OPTIONS.map(freq => (
                     <Option key={freq.value} value={freq.value}>
                       {freq.label}
@@ -1071,8 +1071,8 @@ const PrescriptionManagement: React.FC = () => {
 
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label=\"疗程（天）\" name=\"duration\">
-                <Select placeholder=\"选择疗程\" allowClear>
+              <Form.Item label="疗程（天）" name="duration">
+                <Select placeholder="选择疗程" allowClear>
                   {DURATION_OPTIONS.map(duration => (
                     <Option key={duration.value} value={duration.value}>
                       {duration.label}
@@ -1082,29 +1082,29 @@ const PrescriptionManagement: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label=\"排序\" name=\"sortOrder\">
+              <Form.Item label="排序" name="sortOrder">
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}
-                  placeholder=\"排序序号\"
+                  placeholder="排序序号"
                 />
               </Form.Item>
             </Col>
           </Row>
 
-          <Form.Item label=\"特殊说明\" name=\"specialInstructions\">
+          <Form.Item label="特殊说明" name="specialInstructions">
             <TextArea
               rows={2}
-              placeholder=\"特殊用药说明...\"
+              placeholder="特殊用药说明..."
               maxLength={500}
               showCount
             />
           </Form.Item>
 
-          <Form.Item label=\"备注\" name=\"remarks\">
+          <Form.Item label="备注" name="remarks">
             <TextArea
               rows={2}
-              placeholder=\"备注信息...\"
+              placeholder="备注信息..."
               maxLength={500}
               showCount
             />
@@ -1112,7 +1112,7 @@ const PrescriptionManagement: React.FC = () => {
 
           <Form.Item>
             <Space>
-              <Button type=\"primary\" htmlType=\"submit\">
+              <Button type="primary" htmlType="submit">
                 {editingItemIndex !== null ? '更新' : '添加'}
               </Button>
               <Button
@@ -1131,8 +1131,8 @@ const PrescriptionManagement: React.FC = () => {
 
       {/* 处方详情抽屉 */}
       <Drawer
-        title=\"处方详情\"
-        placement=\"right\"
+        title="处方详情"
+        placement="right"
         width={600}
         open={detailDrawerVisible}
         onClose={() => setDetailDrawerVisible(false)}
@@ -1140,27 +1140,27 @@ const PrescriptionManagement: React.FC = () => {
         {currentPrescription && (
           <div>
             <Descriptions column={2} bordered>
-              <Descriptions.Item label=\"处方编号\">
+              <Descriptions.Item label="处方编号">
                 <Text code>{currentPrescription.prescriptionNumber}</Text>
               </Descriptions.Item>
-              <Descriptions.Item label=\"处方类型\">
+              <Descriptions.Item label="处方类型">
                 <Tag color={PRESCRIPTION_TYPE_CONFIG[currentPrescription.prescriptionType].color}>
                   {PRESCRIPTION_TYPE_CONFIG[currentPrescription.prescriptionType].text}
                 </Tag>
               </Descriptions.Item>
-              <Descriptions.Item label=\"状态\">
+              <Descriptions.Item label="状态">
                 <Badge 
                   status={PRESCRIPTION_STATUS_CONFIG[currentPrescription.status].badge as any} 
                   text={PRESCRIPTION_STATUS_CONFIG[currentPrescription.status].text} 
                 />
               </Descriptions.Item>
-              <Descriptions.Item label=\"开具时间\">
+              <Descriptions.Item label="开具时间">
                 {dayjs(currentPrescription.prescribedAt).format('YYYY-MM-DD HH:mm')}
               </Descriptions.Item>
-              <Descriptions.Item label=\"有效期\">
+              <Descriptions.Item label="有效期">
                 {currentPrescription.validityDays}天
               </Descriptions.Item>
-              <Descriptions.Item label=\"总金额\">
+              <Descriptions.Item label="总金额">
                 ¥{currentPrescription.totalAmount?.toFixed(2) || '0.00'}
               </Descriptions.Item>
             </Descriptions>
