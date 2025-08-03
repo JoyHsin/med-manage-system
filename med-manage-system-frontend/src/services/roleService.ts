@@ -1,4 +1,4 @@
-import apiClient from '../utils/apiClient';
+import { apiClient } from './apiClient';
 import type { Role, ApiResponse, CreateRoleRequest, UpdateRoleRequest } from '../types/auth';
 
 class RoleService {

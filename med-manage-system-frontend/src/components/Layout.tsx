@@ -9,7 +9,14 @@ import {
   MedicineBoxOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  DashboardOutlined
+  DashboardOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  SoundOutlined,
+  HeartOutlined,
+  FileTextOutlined,
+  DollarOutlined,
+  ExperimentOutlined
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -73,6 +80,96 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           key: '/inventory',
           icon: <MedicineBoxOutlined />,
           label: '药品库存',
+        },
+      ],
+    },
+    {
+      key: 'clinic',
+      icon: <CalendarOutlined />,
+      label: '门诊管理',
+      children: [
+        {
+          key: '/appointments',
+          icon: <CalendarOutlined />,
+          label: '预约管理',
+        },
+        {
+          key: '/registrations',
+          icon: <ClockCircleOutlined />,
+          label: '挂号管理',
+        },
+      ],
+    },
+    {
+      key: 'nurse',
+      icon: <HeartOutlined />,
+      label: '护士工作台',
+      children: [
+        {
+          key: '/triage',
+          icon: <SoundOutlined />,
+          label: '分诊叫号',
+        },
+        {
+          key: '/vital-signs',
+          icon: <HeartOutlined />,
+          label: '生命体征',
+        },
+        {
+          key: '/medical-orders',
+          icon: <FileTextOutlined />,
+          label: '医嘱执行',
+        },
+      ],
+    },
+    {
+      key: 'doctor',
+      icon: <UserOutlined />,
+      label: '医生工作台',
+      children: [
+        {
+          key: '/medical-records',
+          icon: <FileTextOutlined />,
+          label: '电子病历',
+        },
+        {
+          key: '/prescriptions',
+          icon: <MedicineBoxOutlined />,
+          label: '处方管理',
+        },
+        {
+          key: '/medical-order-creation',
+          icon: <FileTextOutlined />,
+          label: '医嘱开具',
+        },
+      ],
+    },
+    {
+      key: 'billing',
+      icon: <DollarOutlined />,
+      label: '收费管理',
+      children: [
+        {
+          key: '/billing',
+          icon: <DollarOutlined />,
+          label: '费用管理',
+        },
+      ],
+    },
+    {
+      key: 'pharmacy',
+      icon: <MedicineBoxOutlined />,
+      label: '药房管理',
+      children: [
+        {
+          key: '/inventory',
+          icon: <MedicineBoxOutlined />,
+          label: '药品库存',
+        },
+        {
+          key: '/pharmacy-dispensing',
+          icon: <ExperimentOutlined />,
+          label: '处方调剂',
         },
       ],
     },

@@ -10,6 +10,17 @@ import SimpleUserManagement from './pages/SimpleUserManagement';
 import DebugUserManagement from './pages/DebugUserManagement';
 import RolePermissionManagement from './pages/RolePermissionManagement';
 import PatientManagement from './pages/PatientManagement';
+import AppointmentManagement from './pages/AppointmentManagement';
+import RegistrationManagement from './pages/RegistrationManagement';
+import TriageManagement from './pages/TriageManagement';
+import VitalSignsManagement from './pages/VitalSignsManagement';
+import MedicalOrderManagement from './pages/MedicalOrderManagement';
+import MedicalRecordManagement from './pages/MedicalRecordManagement';
+import PrescriptionManagement from './pages/PrescriptionManagement';
+import MedicalOrderCreation from './pages/MedicalOrderCreation';
+import BillingManagement from './pages/BillingManagement';
+import InventoryManagement from './pages/InventoryManagement';
+import PharmacyDispensing from './pages/PharmacyDispensing';
 import './App.css';
 
 // 简化的Dashboard组件
@@ -43,6 +54,17 @@ const App: React.FC = () => {
                         <Route path="/users" element={<SimpleUserManagement />} />
                         <Route path="/roles" element={<RolePermissionManagement />} />
                         <Route path="/patients" element={<PatientManagement />} />
+                        <Route path="/appointments" element={<AppointmentManagement />} />
+                        <Route path="/registrations" element={<RegistrationManagement />} />
+                        <Route path="/triage" element={<TriageManagement />} />
+                        <Route path="/vital-signs" element={<VitalSignsManagement />} />
+                        <Route path="/medical-orders" element={<MedicalOrderManagement />} />
+                        <Route path="/medical-records" element={<MedicalRecordManagement />} />
+                        <Route path="/prescriptions" element={<PrescriptionManagement />} />
+                        <Route path="/medical-order-creation" element={<MedicalOrderCreation />} />
+                        <Route path="/billing" element={<BillingManagement />} />
+                        <Route path="/inventory" element={<InventoryManagement />} />
+                        <Route path="/pharmacy-dispensing" element={<PharmacyDispensing />} />
                       </Routes>
                     </Layout>
                   </ProtectedRoute>
