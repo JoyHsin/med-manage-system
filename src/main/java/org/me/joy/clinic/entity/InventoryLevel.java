@@ -310,7 +310,7 @@ public class InventoryLevel extends BaseEntity {
     /**
      * 更新可用库存
      */
-    private void updateAvailableStock() {
+    public void updateAvailableStock() {
         if (currentStock != null) {
             int reserved = reservedStock != null ? reservedStock : 0;
             int locked = lockedStock != null ? lockedStock : 0;
