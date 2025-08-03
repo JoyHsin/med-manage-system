@@ -27,6 +27,15 @@ export interface User {
   roles: Role[];
 }
 
+export interface Permission {
+  id: number;
+  name: string;
+  code: string;
+  description?: string;
+  resource?: string;
+  action?: string;
+}
+
 export interface Role {
   id: number;
   name: string;
@@ -36,6 +45,7 @@ export interface Role {
   enabled: boolean;
   createdAt: string;
   updatedAt: string;
+  permissions?: Permission[];
 }
 
 export interface CreateRoleRequest {
@@ -61,7 +71,7 @@ export interface AuthResponse {
   expiresIn: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   message?: string;
   data?: T;

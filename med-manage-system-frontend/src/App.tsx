@@ -5,6 +5,7 @@ import zhCN from 'antd/locale/zh_CN';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
 import Login from './pages/Login';
 import SimpleUserManagement from './pages/SimpleUserManagement';
 import DebugUserManagement from './pages/DebugUserManagement';
@@ -37,44 +38,48 @@ const SimpleDashboard: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ConfigProvider locale={zhCN}>
-      <AuthProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <Routes>
-                        <Route path="/dashboard" element={<SimpleDashboard />} />
-                        <Route path="/users" element={<SimpleUserManagement />} />
-                        <Route path="/roles" element={<RolePermissionManagement />} />
-                        <Route path="/patients" element={<PatientManagement />} />
-                        <Route path="/appointments" element={<AppointmentManagement />} />
-                        <Route path="/registrations" element={<RegistrationManagement />} />
-                        <Route path="/triage" element={<TriageManagement />} />
-                        <Route path="/vital-signs" element={<VitalSignsManagement />} />
-                        <Route path="/medical-orders" element={<MedicalOrderManagement />} />
-                        <Route path="/medical-records" element={<MedicalRecordManagement />} />
-                        <Route path="/prescriptions" element={<PrescriptionManagement />} />
-                        <Route path="/medical-order-creation" element={<MedicalOrderCreation />} />
-                        <Route path="/billing" element={<BillingManagement />} />
-                        <Route path="/inventory" element={<InventoryManagement />} />
-                        <Route path="/pharmacy-dispensing" element={<PharmacyDispensing />} />
-                      </Routes>
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
-        </Router>
-      </AuthProvider>
-    </ConfigProvider>
+    <ErrorBoundary>
+      <ConfigProvider locale={zhCN}>
+        <AuthProvider>
+          <Router>
+            <div className="App">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <ErrorBoundary>
+                          <Routes>
+                            <Route path="/dashboard" element={<SimpleDashboard />} />
+                            <Route path="/users" element={<SimpleUserManagement />} />
+                            <Route path="/roles" element={<RolePermissionManagement />} />
+                            <Route path="/patients" element={<PatientManagement />} />
+                            <Route path="/appointments" element={<AppointmentManagement />} />
+                            <Route path="/registrations" element={<RegistrationManagement />} />
+                            <Route path="/triage" element={<TriageManagement />} />
+                            <Route path="/vital-signs" element={<VitalSignsManagement />} />
+                            <Route path="/medical-orders" element={<MedicalOrderManagement />} />
+                            <Route path="/medical-records" element={<MedicalRecordManagement />} />
+                            <Route path="/prescriptions" element={<PrescriptionManagement />} />
+                            <Route path="/medical-order-creation" element={<MedicalOrderCreation />} />
+                            <Route path="/billing" element={<BillingManagement />} />
+                            <Route path="/inventory" element={<InventoryManagement />} />
+                            <Route path="/pharmacy-dispensing" element={<PharmacyDispensing />} />
+                          </Routes>
+                        </ErrorBoundary>
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </div>
+          </Router>
+        </AuthProvider>
+      </ConfigProvider>
+    </ErrorBoundary>
   );
 };
 

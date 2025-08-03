@@ -1,5 +1,5 @@
 import { apiClient } from './apiClient';
-import type { LoginRequest, AuthResponse, ApiResponse } from '../types/auth';
+import type { LoginRequest, AuthResponse, ApiResponse, User } from '../types/auth';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {
@@ -30,9 +30,9 @@ class AuthService {
     return response.data.data!;
   }
 
-  async getCurrentUser(): Promise<any> {
-    const response = await apiClient.get('/auth/me');
-    return response.data;
+  async getCurrentUser(): Promise<User> {
+    const response = await apiClient.get<ApiResponse<User>>('/auth/me');
+    return response.data.data!;
   }
 }
 

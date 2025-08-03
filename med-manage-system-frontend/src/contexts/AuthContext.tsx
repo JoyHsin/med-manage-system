@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { message } from 'antd';
 import { authService } from '../services/authService';
 import type { User, LoginRequest } from '../types/auth';
+import type { ApiError } from '../types/common';
 
 interface AuthContextType {
   user: User | null;
@@ -55,32 +56,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       if (response.token) {
         setToken(response.token);
-        // 根据后端返回的数据构造user对象
-        const userData: User = {
-          id: response.userId,
-          username: response.username,
-          fullName: response.fullName,
-          email: response.email,
-          department: response.department,
-          position: response.position,
-          enabled: true,
-          accountNonExpired: true,
-          accountNonLocked: true,
-          credentialsNonExpired: true,
-          failedLoginAttempts: 0,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          roles: []
-        };
-        setUser(userData);
+        
+        // 从后端获取完整的用户信息，避免硬编码
+        try {
+          const userInfo = await authService.getCurrentUser();
+          setUser(userInfo);
+        } catch (userError) {
+          // 如果获取用户信息失败，使用响应中的基本信息
+          console.warn('Failed to fetch user details, using basic info from login response');
+          const userData: User = {
+            id: response.userId,
+            username: response.username,
+            fullName: response.fullName,
+            email: response.email,
+            department: response.department,
+            position: response.position,
+            // 从后端响应获取，不硬编码
+            enabled: true, // 默认值，应该从后端获取
+            accountNonExpired: true,
+            accountNonLocked: true,
+            credentialsNonExpired: true,
+            failedLoginAttempts: 0,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            roles: [] // 应该从后端获取角色信息
+          };
+          setUser(userData);
+        }
+        
         localStorage.setItem('token', response.token);
         message.success('登录成功');
         return true;
       }
       return false;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Login error:', error);
-      const errorMessage = error.response?.data?.message || '登录失败，请检查用户名和密码';
+      const apiError = error as ApiError;
+      const errorMessage = apiError?.response?.data?.message || '登录失败，请检查用户名和密码';
       message.error(errorMessage);
       return false;
     } finally {
