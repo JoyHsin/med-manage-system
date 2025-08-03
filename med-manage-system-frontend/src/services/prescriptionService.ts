@@ -7,8 +7,8 @@ import {
 } from '../types/prescription';
 
 export class PrescriptionService {
-  private baseUrl = '/api/prescriptions';
-  private pharmacyUrl = '/api/pharmacy';
+  private baseUrl = '/prescriptions';
+  private pharmacyUrl = '/pharmacy';
 
   /**
    * 创建处方
@@ -163,7 +163,7 @@ export class PrescriptionService {
     if (category) params.category = category;
     if (isPrescriptionDrug !== undefined) params.isPrescriptionDrug = isPrescriptionDrug;
 
-    const response = await apiClient.get('/api/medicines', { params });
+    const response = await apiClient.get('/medicines', { params });
     return response.data;
   }
 
@@ -171,7 +171,7 @@ export class PrescriptionService {
    * 获取药品详情
    */
   async getMedicine(id: number): Promise<Medicine> {
-    const response = await apiClient.get(`/api/medicines/${id}`);
+    const response = await apiClient.get(`/medicines/${id}`);
     return response.data;
   }
 
@@ -183,7 +183,7 @@ export class PrescriptionService {
     currentStock: number;
     message: string;
   }> {
-    const response = await apiClient.get(`/api/medicines/${medicineId}/stock-check`, {
+    const response = await apiClient.get(`/medicines/${medicineId}/stock-check`, {
       params: { quantity }
     });
     return response.data;
@@ -201,7 +201,7 @@ export class PrescriptionService {
       description: string;
     }>;
   }> {
-    const response = await apiClient.post('/api/medicines/interaction-check', { medicineIds });
+    const response = await apiClient.post('/medicines/interaction-check', { medicineIds });
     return response.data;
   }
 
@@ -219,7 +219,7 @@ export class PrescriptionService {
       description: string;
     }>;
   }> {
-    const response = await apiClient.post('/api/medicines/contraindication-check', {
+    const response = await apiClient.post('/medicines/contraindication-check', {
       patientId,
       medicineIds
     });
@@ -230,7 +230,7 @@ export class PrescriptionService {
    * 获取常用药品
    */
   async getCommonMedicines(doctorId: number): Promise<Medicine[]> {
-    const response = await apiClient.get(`/api/medicines/common/doctor/${doctorId}`);
+    const response = await apiClient.get(`/medicines/common/doctor/${doctorId}`);
     return response.data;
   }
 
@@ -238,14 +238,14 @@ export class PrescriptionService {
    * 添加常用药品
    */
   async addCommonMedicine(doctorId: number, medicineId: number): Promise<void> {
-    await apiClient.post('/api/medicines/common', { doctorId, medicineId });
+    await apiClient.post('/medicines/common', { doctorId, medicineId });
   }
 
   /**
    * 移除常用药品
    */
   async removeCommonMedicine(doctorId: number, medicineId: number): Promise<void> {
-    await apiClient.delete(`/api/medicines/common/${doctorId}/${medicineId}`);
+    await apiClient.delete(`/medicines/common/${doctorId}/${medicineId}`);
   }
 
   /**

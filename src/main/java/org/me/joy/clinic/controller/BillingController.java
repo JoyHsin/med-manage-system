@@ -22,7 +22,7 @@ import java.util.Map;
  * 账单管理控制器
  */
 @RestController
-@RequestMapping("/api/billing")
+@RequestMapping("/billing")
 public class BillingController {
     
     @Autowired

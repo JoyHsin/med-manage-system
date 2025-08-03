@@ -22,6 +22,7 @@ import MedicalOrderCreation from './pages/MedicalOrderCreation';
 import BillingManagement from './pages/BillingManagement';
 import InventoryManagement from './pages/InventoryManagement';
 import PharmacyDispensing from './pages/PharmacyDispensing';
+import StaffManagement from './pages/StaffManagement';
 import './App.css';
 
 // 简化的Dashboard组件
@@ -57,6 +58,7 @@ const App: React.FC = () => {
                             <Route path="/users" element={<SimpleUserManagement />} />
                             <Route path="/roles" element={<RolePermissionManagement />} />
                             <Route path="/patients" element={<PatientManagement />} />
+                            <Route path="/staff" element={<StaffManagement />} />
                             <Route path="/appointments" element={<AppointmentManagement />} />
                             <Route path="/registrations" element={<RegistrationManagement />} />
                             <Route path="/triage" element={<TriageManagement />} />

@@ -5,6 +5,7 @@ import org.me.joy.clinic.dto.CreateAppointmentRequest;
 import org.me.joy.clinic.dto.UpdateAppointmentRequest;
 import org.me.joy.clinic.entity.Appointment;
 import org.me.joy.clinic.entity.AvailableSlot;
+import org.me.joy.clinic.security.RequiresPermission;
 import org.me.joy.clinic.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +22,7 @@ import java.util.Map;
  * 预约管理控制器
  */
 @RestController
-@RequestMapping("/api/appointments")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class AppointmentController {
      * 创建预约
      */
     @PostMapping
+    @RequiresPermission("APPOINTMENT_CREATE")
     public ResponseEntity<Appointment> createAppointment(@Valid @RequestBody CreateAppointmentRequest request) {
         Appointment appointment = appointmentService.createAppointment(request);
         return ResponseEntity.ok(appointment);
@@ -40,6 +42,7 @@ public class AppointmentController {
      * 更新预约
      */
     @PutMapping("/{id}")
+    @RequiresPermission("APPOINTMENT_UPDATE")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id, 
                                                        @Valid @RequestBody UpdateAppointmentRequest request) {
         Appointment appointment = appointmentService.updateAppointment(id, request);
@@ -50,6 +53,7 @@ public class AppointmentController {
      * 根据ID获取预约
      */
     @GetMapping("/{id}")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id) {
         Appointment appointment = appointmentService.getAppointmentById(id);
         return ResponseEntity.ok(appointment);
@@ -59,6 +63,7 @@ public class AppointmentController {
      * 根据患者ID获取预约列表
      */
     @GetMapping("/patient/{patientId}")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<List<Appointment>> getAppointmentsByPatientId(@PathVariable Long patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(patientId);
         return ResponseEntity.ok(appointments);
@@ -68,6 +73,7 @@ public class AppointmentController {
      * 根据医生ID获取预约列表
      */
     @GetMapping("/doctor/{doctorId}")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<List<Appointment>> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
         List<Appointment> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
         return ResponseEntity.ok(appointments);
@@ -77,6 +83,7 @@ public class AppointmentController {
      * 根据日期获取预约列表
      */
     @GetMapping("/date/{date}")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<List<Appointment>> getAppointmentsByDate(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<Appointment> appointments = appointmentService.getAppointmentsByDate(date);
@@ -98,6 +105,7 @@ public class AppointmentController {
      * 获取医生的可用时间段
      */
     @GetMapping("/doctor/{doctorId}/available-slots")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<List<AvailableSlot>> getAvailableSlots(
             @PathVariable Long doctorId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
@@ -122,6 +130,7 @@ public class AppointmentController {
      * 确认预约
      */
     @PostMapping("/{id}/confirm")
+    @RequiresPermission("APPOINTMENT_CONFIRM")
     public ResponseEntity<Map<String, String>> confirmAppointment(@PathVariable Long id) {
         appointmentService.confirmAppointment(id);
         Map<String, String> response = new HashMap<>();
@@ -133,6 +142,7 @@ public class AppointmentController {
      * 取消预约
      */
     @PostMapping("/{id}/cancel")
+    @RequiresPermission("APPOINTMENT_CANCEL")
     public ResponseEntity<Map<String, String>> cancelAppointment(@PathVariable Long id, 
                                                                @RequestParam String reason) {
         appointmentService.cancelAppointment(id, reason);
@@ -145,6 +155,7 @@ public class AppointmentController {
      * 标记患者到达
      */
     @PostMapping("/{id}/arrive")
+    @RequiresPermission("APPOINTMENT_UPDATE")
     public ResponseEntity<Map<String, String>> markPatientArrived(@PathVariable Long id) {
         appointmentService.markPatientArrived(id);
         Map<String, String> response = new HashMap<>();
@@ -156,6 +167,7 @@ public class AppointmentController {
      * 开始就诊
      */
     @PostMapping("/{id}/start")
+    @RequiresPermission("APPOINTMENT_UPDATE")
     public ResponseEntity<Map<String, String>> startConsultation(@PathVariable Long id) {
         appointmentService.startConsultation(id);
         Map<String, String> response = new HashMap<>();
@@ -167,6 +179,7 @@ public class AppointmentController {
      * 完成就诊
      */
     @PostMapping("/{id}/complete")
+    @RequiresPermission("APPOINTMENT_UPDATE")
     public ResponseEntity<Map<String, String>> completeConsultation(@PathVariable Long id) {
         appointmentService.completeConsultation(id);
         Map<String, String> response = new HashMap<>();
@@ -189,6 +202,7 @@ public class AppointmentController {
      * 获取今日预约
      */
     @GetMapping("/today")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<List<Appointment>> getTodayAppointments() {
         List<Appointment> appointments = appointmentService.getTodayAppointments();
         return ResponseEntity.ok(appointments);
@@ -261,6 +275,7 @@ public class AppointmentController {
      * 获取预约统计信息
      */
     @GetMapping("/statistics")
+    @RequiresPermission("APPOINTMENT_VIEW")
     public ResponseEntity<Map<String, Object>> getAppointmentStatistics() {
         Map<String, Object> statistics = new HashMap<>();
         

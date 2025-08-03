@@ -24,7 +24,7 @@ import java.util.Map;
  * 库存管理控制器
  */
 @RestController
-@RequestMapping("/api/stock-management")
+@RequestMapping("/stock-management")
 @Validated
 public class StockManagementController {
 

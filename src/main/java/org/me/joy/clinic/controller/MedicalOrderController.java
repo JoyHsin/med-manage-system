@@ -14,7 +14,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/medical-orders")
+@RequestMapping("/medical-orders")
 public class MedicalOrderController {
 
     private final MedicalOrderService medicalOrderService;

@@ -23,7 +23,7 @@ import java.util.Map;
  * @author Kiro
  */
 @RestController
-@RequestMapping("/api/vital-signs")
+@RequestMapping("/vital-signs")
 public class VitalSignsController {
 
     @Autowired

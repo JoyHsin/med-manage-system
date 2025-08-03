@@ -3,6 +3,7 @@ package org.me.joy.clinic.service;
 import org.me.joy.clinic.dto.AuthenticationResponse;
 import org.me.joy.clinic.dto.ChangePasswordRequest;
 import org.me.joy.clinic.dto.LoginRequest;
+import org.me.joy.clinic.dto.UserResponse;
 
 /**
  * 认证服务接口
@@ -42,4 +43,11 @@ public interface AuthenticationService {
      * @param changePasswordRequest 修改密码请求
      */
     void changePassword(String username, ChangePasswordRequest changePasswordRequest);
+
+    /**
+     * 获取当前用户信息（包括角色和权限）
+     * @param username 用户名
+     * @return 用户信息
+     */
+    UserResponse getCurrentUserInfo(String username);
 }

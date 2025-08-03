@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * 分诊叫号控制器
  */
 @RestController
-@RequestMapping("/api/triage")
+@RequestMapping("/triage")
 public class TriageController {
 
     private static final Logger log = Logger.getLogger(TriageController.class.getName());

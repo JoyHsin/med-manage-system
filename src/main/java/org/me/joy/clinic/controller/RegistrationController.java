@@ -18,7 +18,7 @@ import java.util.Map;
  * 挂号管理控制器
  */
 @RestController
-@RequestMapping("/api/registrations")
+@RequestMapping("/registrations")
 public class RegistrationController {
 
     @Autowired

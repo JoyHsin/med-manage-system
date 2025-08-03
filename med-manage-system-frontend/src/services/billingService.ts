@@ -14,7 +14,7 @@ import {
 } from '../types/billing';
 
 export class BillingService {
-  private baseUrl = '/api/billing';
+  private baseUrl = '/billing';
 
   /**
    * 创建账单

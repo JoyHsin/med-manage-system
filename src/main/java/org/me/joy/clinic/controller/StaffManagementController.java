@@ -24,7 +24,7 @@ import java.util.Map;
  * 提供医护人员管理的REST API接口
  */
 @RestController
-@RequestMapping("/api/staff")
+@RequestMapping("/staff")
 public class StaffManagementController {
 
     private static final Logger logger = LoggerFactory.getLogger(StaffManagementController.class);

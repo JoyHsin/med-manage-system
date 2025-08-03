@@ -79,8 +79,13 @@ export interface ApiResponse<T = any> {
 
 class PatientService {
   async getAllPatients(): Promise<ApiResponse<Patient[]>> {
-    const response = await apiClient.get<ApiResponse<Patient[]>>('/patients');
-    return response.data;
+    const response = await apiClient.get<Patient[]>('/patients');
+    // 后端直接返回数组，需要包装成ApiResponse格式
+    return {
+      success: true,
+      data: response.data,
+      message: '获取患者列表成功'
+    };
   }
 
   async getPatientById(patientId: number): Promise<ApiResponse<Patient>> {
@@ -99,8 +104,13 @@ class PatientService {
   }
 
   async createPatient(patientData: CreatePatientRequest): Promise<ApiResponse<Patient>> {
-    const response = await apiClient.post<ApiResponse<Patient>>('/patients', patientData);
-    return response.data;
+    const response = await apiClient.post<Patient>('/patients', patientData);
+    // 后端直接返回患者对象，需要包装成ApiResponse格式
+    return {
+      success: true,
+      data: response.data,
+      message: '患者创建成功'
+    };
   }
 
   async updatePatient(patientId: number, patientData: UpdatePatientRequest): Promise<ApiResponse<Patient>> {

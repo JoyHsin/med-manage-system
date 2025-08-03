@@ -8,8 +8,8 @@ import {
 } from '../types/medicalOrder';
 
 export class MedicalOrderService {
-  private baseUrl = '/api/medical-orders';
-  private templateUrl = '/api/medical-order-templates';
+  private baseUrl = '/medical-orders';
+  private templateUrl = '/medical-order-templates';
 
   /**
    * 创建医嘱

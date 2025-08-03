@@ -2,7 +2,7 @@ import { apiClient } from './apiClient';
 import { PatientQueue, CallPatientRequest, QueueFilters } from '../types/triage';
 
 export class TriageService {
-  private baseUrl = '/api/triage';
+  private baseUrl = '/triage';
 
   /**
    * 获取当日患者队列

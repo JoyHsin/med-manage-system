@@ -4,6 +4,7 @@ import org.me.joy.clinic.entity.Role;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,6 +33,7 @@ public class UserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Set<Role> roles;
+    private List<String> permissions;
 
     // 构造函数
     public UserResponse() {}
@@ -203,6 +205,14 @@ public class UserResponse {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

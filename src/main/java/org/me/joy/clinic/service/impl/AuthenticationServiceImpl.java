@@ -3,6 +3,7 @@ package org.me.joy.clinic.service.impl;
 import org.me.joy.clinic.dto.AuthenticationResponse;
 import org.me.joy.clinic.dto.ChangePasswordRequest;
 import org.me.joy.clinic.dto.LoginRequest;
+import org.me.joy.clinic.dto.UserResponse;
 import org.me.joy.clinic.entity.User;
 import org.me.joy.clinic.exception.BusinessException;
 import org.me.joy.clinic.mapper.UserMapper;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -218,6 +220,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public void changePassword(String username, ChangePasswordRequest changePasswordRequest) {
         passwordService.changePassword(username, changePasswordRequest);
+    }
+
+    @Override
+    public UserResponse getCurrentUserInfo(String username) {
+        try {
+            User user = getUserByUsername(username);
+            if (user == null) {
+                throw new BusinessException("1004", "用户不存在");
+            }
+
+            // 创建UserResponse对象
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(user.getId());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setFullName(user.getFullName());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setPhone(user.getPhone());
+            userResponse.setDepartment(user.getDepartment());
+            userResponse.setPosition(user.getPosition());
+            userResponse.setEnabled(user.getEnabled());
+            userResponse.setAccountNonExpired(user.getAccountNonExpired());
+            userResponse.setAccountNonLocked(user.getAccountNonLocked());
+            userResponse.setCredentialsNonExpired(user.getCredentialsNonExpired());
+            userResponse.setLastLoginTime(user.getLastLoginTime());
+            userResponse.setLastLoginIp(user.getLastLoginIp());
+            userResponse.setPasswordChangedTime(user.getPasswordChangedTime());
+            userResponse.setFailedLoginAttempts(user.getFailedLoginAttempts());
+            userResponse.setCreatedAt(user.getCreatedAt());
+            userResponse.setUpdatedAt(user.getUpdatedAt());
+
+            // 获取用户的权限信息
+            List<String> permissions = userMapper.findPermissionsByUsername(username);
+            userResponse.setPermissions(permissions);
+
+            return userResponse;
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            logger.error("获取用户信息时发生错误: {}", username, e);
+            throw new BusinessException("1009", "获取用户信息失败");
+        }
     }
 
     /**

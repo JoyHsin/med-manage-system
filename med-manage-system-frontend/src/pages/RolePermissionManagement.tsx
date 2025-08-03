@@ -64,8 +64,9 @@ const RolePermissionManagement: React.FC = () => {
   const handleEditRole = (role: Role) => {
     setEditingRole(role);
     form.setFieldsValue({
-      ...role,
-      code: role.code,
+      name: role.roleName,
+      code: role.roleCode,
+      description: role.description,
     });
     setIsModalVisible(true);
   };
@@ -128,15 +129,15 @@ const RolePermissionManagement: React.FC = () => {
   const columns: ColumnsType<Role> = [
     {
       title: '角色名称',
-      dataIndex: 'name',
-      key: 'name',
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      dataIndex: 'roleName',
+      key: 'roleName',
+      sorter: (a, b) => a.roleName.localeCompare(b.roleName),
     },
     {
       title: '角色编码',
-      dataIndex: 'code',
-      key: 'code',
-      sorter: (a, b) => a.code.localeCompare(b.code),
+      dataIndex: 'roleCode',
+      key: 'roleCode',
+      sorter: (a, b) => a.roleCode.localeCompare(b.roleCode),
     },
     {
       title: '描述',

@@ -246,12 +246,29 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
         try {
-            // TODO: 在后续任务中实现获取当前用户信息的功能
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "功能待实现");
-            response.put("timestamp", System.currentTimeMillis());
-            
-            return ResponseEntity.ok(response);
+            // 从JWT令牌中获取用户名
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String username = jwtUtil.extractUsername(token);
+                
+                // 获取完整的用户信息（包括角色和权限）
+                org.me.joy.clinic.dto.UserResponse userInfo = authenticationService.getCurrentUserInfo(username);
+                
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", true);
+                response.put("data", userInfo);
+                response.put("timestamp", System.currentTimeMillis());
+                
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("success", false);
+                errorResponse.put("message", "未找到有效的认证令牌");
+                errorResponse.put("timestamp", System.currentTimeMillis());
+                
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
         } catch (Exception e) {
             logger.error("获取用户信息失败: {}", e.getMessage());
             

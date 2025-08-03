@@ -1,0 +1,41 @@
+
+> med-manage-system-frontend@0.0.0 dev
+> vite --host 0.0.0.0 --port 5173
+
+
+  VITE v7.0.6  ready in 120 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.90:5173/
+  ➜  Network: http://198.18.0.1:5173/
+8:48:54 PM [vite] (client) hmr update /src/components/Layout.tsx
+8:49:20 PM [vite] (client) hmr update /src/components/Layout.tsx
+9:59:09 PM [vite] (client) hmr update /src/pages/VitalSignsManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/PrescriptionManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/MedicalRecordManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/TriageManagement.tsx, /src/components/TriageCallPanel.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/BillingManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/MedicalOrderCreation.tsx, /src/pages/MedicalOrderManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/InventoryManagement.tsx
+10:05:33 PM [vite] (client) hmr update /src/pages/PharmacyDispensing.tsx
+10:06:07 PM [vite] (client) hmr update /src/pages/PrescriptionManagement.tsx
+10:06:26 PM [vite] (client) hmr update /src/pages/PrescriptionManagement.tsx
+10:06:45 PM [vite] (client) hmr update /src/pages/MedicalOrderCreation.tsx, /src/pages/MedicalOrderManagement.tsx
+10:09:58 PM [vite] (client) hmr update /src/pages/RolePermissionManagement.tsx
+10:10:21 PM [vite] (client) hmr update /src/pages/RolePermissionManagement.tsx
+10:17:17 PM [vite] (client) hmr update /src/pages/PatientManagement.tsx
+10:22:57 PM [vite] (client) hmr update /src/App.tsx
+10:23:13 PM [vite] (client) hmr update /src/App.tsx
+10:37:40 PM [vite] (client) hmr update /src/pages/PatientManagement.tsx, /src/pages/VitalSignsManagement.tsx, /src/pages/MedicalRecordManagement.tsx, /src/pages/RegistrationManagement.tsx, /src/pages/BillingManagement.tsx, /src/pages/MedicalOrderCreation.tsx, /src/pages/MedicalOrderManagement.tsx, /src/pages/PrescriptionManagement.tsx, /src/components/AppointmentForm.tsx
+10:38:46 PM [vite] (client) hmr update /src/pages/PatientManagement.tsx, /src/pages/VitalSignsManagement.tsx, /src/pages/MedicalRecordManagement.tsx, /src/pages/RegistrationManagement.tsx, /src/pages/BillingManagement.tsx, /src/pages/MedicalOrderCreation.tsx, /src/pages/MedicalOrderManagement.tsx, /src/pages/PrescriptionManagement.tsx, /src/components/AppointmentForm.tsx
+10:40:18 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:40:39 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:41:05 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:41:34 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:42:11 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:43:11 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:43:50 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:45:43 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:46:05 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:46:24 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx
+10:46:59 PM [vite] (client) hmr update /src/pages/StaffManagement.tsx

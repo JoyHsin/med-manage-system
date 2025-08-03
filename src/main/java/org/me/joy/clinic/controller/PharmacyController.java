@@ -18,7 +18,7 @@ import java.util.Map;
  * 提供处方调剂和发药相关的REST API
  */
 @RestController
-@RequestMapping("/api/pharmacy")
+@RequestMapping("/pharmacy")
 public class PharmacyController {
 
     @Autowired

@@ -2,7 +2,7 @@ import { apiClient } from './apiClient';
 import { VitalSigns, VitalSignsRequest, VitalSignsValidationResult, VitalSignsResponse } from '../types/vitalSigns';
 
 export class VitalSignsService {
-  private baseUrl = '/api/vital-signs';
+  private baseUrl = '/vital-signs';
 
   /**
    * 录入生命体征

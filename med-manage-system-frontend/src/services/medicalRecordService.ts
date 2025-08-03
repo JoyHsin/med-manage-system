@@ -8,7 +8,7 @@ import {
 } from '../types/medicalRecord';
 
 export class MedicalRecordService {
-  private baseUrl = '/api/medical-records';
+  private baseUrl = '/medical-records';
 
   /**
    * 创建病历

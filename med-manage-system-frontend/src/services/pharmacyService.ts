@@ -14,7 +14,7 @@ import {
 } from '../types/pharmacy';
 
 export class PharmacyService {
-  private baseUrl = '/api/pharmacy';
+  private baseUrl = '/pharmacy';
 
   /**
    * 获取待调剂的处方列表

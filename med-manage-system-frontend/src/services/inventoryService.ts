@@ -12,7 +12,7 @@ import {
 } from '../types/inventory';
 
 export class InventoryService {
-  private baseUrl = '/api/inventory';
+  private baseUrl = '/inventory';
 
   /**
    * 创建药品

@@ -28,10 +28,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   // 根据用户权限过滤菜单项
   const filteredMenuItems = useMemo(() => {
+    // 如果没有用户信息，只显示仪表盘
+    if (!user) {
+      return convertToAntdMenu(menuItems.filter(item => item.key === '/dashboard'));
+    }
+
     // 获取用户权限列表
     const userPermissions = user?.roles?.flatMap(role => 
       role.permissions?.map(permission => permission.code) || []
     ) || [];
+    
+    // 对于admin用户或超级管理员，显示所有菜单
+    if (user.username === 'admin' || userPermissions.includes('SYSTEM_CONFIG')) {
+      return convertToAntdMenu(menuItems);
+    }
     
     // 过滤菜单项
     const filtered = filterMenuByPermissions(menuItems, userPermissions);

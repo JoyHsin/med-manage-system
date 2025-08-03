@@ -23,7 +23,7 @@ import java.util.Map;
  * 提供角色的CRUD操作API
  */
 @RestController
-@RequestMapping("/api/roles")
+@RequestMapping("/roles")
 public class RoleController {
 
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);

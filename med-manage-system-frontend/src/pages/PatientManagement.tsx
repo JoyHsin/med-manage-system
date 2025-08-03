@@ -26,11 +26,7 @@ const PatientManagement: React.FC = () => {
     try {
       let response;
       
-      if (searchKeyword) {
-        response = await patientService.searchPatients(searchKeyword);
-      } else {
-        response = await patientService.getAllPatients();
-      }
+      response = await patientService.getAllPatients();
       
       if (response.success && response.data) {
         let filteredData = response.data;

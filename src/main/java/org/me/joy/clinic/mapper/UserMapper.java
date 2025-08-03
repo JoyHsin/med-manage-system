@@ -120,4 +120,17 @@ public interface UserMapper extends BaseMapper<User> {
             "INNER JOIN user_roles ur ON u.id = ur.user_id " +
             "WHERE ur.role_id = #{roleId} AND u.deleted = 0")
     List<User> findByRoleId(Long roleId);
+
+    /**
+     * 根据用户名获取用户的所有权限代码
+     * @param username 用户名
+     * @return 权限代码列表
+     */
+    @Select("SELECT DISTINCT p.permission_code FROM permissions p " +
+            "INNER JOIN role_permissions rp ON p.id = rp.permission_id " +
+            "INNER JOIN user_roles ur ON rp.role_id = ur.role_id " +
+            "INNER JOIN users u ON ur.user_id = u.id " +
+            "WHERE u.username = #{username} AND u.enabled = 1 AND u.deleted = 0 " +
+            "AND p.enabled = 1")
+    List<String> findPermissionsByUsername(String username);
 }

@@ -21,7 +21,7 @@ import java.util.Map;
  * 电子病历管理控制器
  */
 @RestController
-@RequestMapping("/api/medical-records")
+@RequestMapping("/medical-records")
 public class ElectronicMedicalRecordController {
 
     @Autowired
