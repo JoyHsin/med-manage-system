@@ -42,10 +42,15 @@ const DebugUserManagement: React.FC = () => {
     try {
       // 测试获取用户列表API（只读，不需要特殊权限）
       const token = localStorage.getItem('token');
+      // 确保令牌格式正确
+      const authToken = token?.startsWith('Bearer ') ? token : `Bearer ${token}`;
+      
+      console.log('发送请求，Authorization头:', authToken.substring(0, 30) + '...');
+      
       const response = await fetch('http://localhost:8080/api/users', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': authToken,
           'Content-Type': 'application/json',
         },
       });

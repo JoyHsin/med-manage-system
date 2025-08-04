@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { authService } from '../services/authService';
 import type { User, LoginRequest } from '../types/auth';
 import type { ApiError } from '../types/common';
+import { cleanToken } from '../utils/tokenUtils';
 
 interface AuthContextType {
   user: User | null;
@@ -11,6 +12,7 @@ interface AuthContextType {
   login: (credentials: LoginRequest) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
+  fetchUserInfo: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,28 +27,52 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const savedToken = localStorage.getItem('token');
-      if (savedToken) {
-        setToken(savedToken);
-        // 验证token是否还有效
-        authService.validateToken().then(isValid => {
-          if (!isValid) {
-            // Token无效，清除存储
+    const initializeAuth = async () => {
+      try {
+        const savedToken = localStorage.getItem('token');
+        console.log('初始化认证，从localStorage获取token:', savedToken ? `${savedToken.substring(0, 20)}...` : 'null');
+        
+        if (savedToken) {
+          // 确保令牌格式正确，移除可能存在的 Bearer 前缀
+          const cleanedToken = cleanToken(savedToken);
+          console.log('清理后的token:', cleanedToken ? `${cleanedToken.substring(0, 20)}...` : 'null');
+          
+          if (cleanedToken !== savedToken) {
+            // 如果令牌格式不正确，更新存储
+            localStorage.setItem('token', cleanedToken || '');
+            console.log('更新localStorage中的token格式');
+          }
+          
+          setToken(cleanedToken);
+          
+          // 验证token是否还有效
+          try {
+            const isValid = await authService.validateToken();
+            if (!isValid) {
+              console.log('Token验证失败，清除存储');
+              localStorage.removeItem('token');
+              setToken(null);
+            } else {
+              console.log('Token验证成功');
+              // 注意：这里不立即获取用户信息，避免在初始化时就调用/auth/me
+              // 用户信息将在实际需要时获取
+            }
+          } catch (error) {
+            console.log('Token验证异常，清除存储:', error);
             localStorage.removeItem('token');
             setToken(null);
           }
-        }).catch(() => {
-          // 验证失败，清除存储
-          localStorage.removeItem('token');
-          setToken(null);
-        });
+        } else {
+          console.log('未找到保存的token');
+        }
+      } catch (error) {
+        console.error('初始化认证时出错:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error accessing localStorage:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    initializeAuth();
   }, []);
 
   const login = async (credentials: LoginRequest): Promise<boolean> => {
@@ -84,7 +110,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(userData);
         }
         
-        localStorage.setItem('token', response.token);
+        // 确保存储的令牌不包含 Bearer 前缀，由 apiClient 统一添加
+        const cleanedToken = cleanToken(response.token);
+        localStorage.setItem('token', cleanedToken || '');
+        
+        // 调试日志
+        console.log('登录成功，保存token:', cleanedToken?.substring(0, 20) + '...');
+        console.log('localStorage中的token:', localStorage.getItem('token')?.substring(0, 20) + '...');
+        
         message.success('登录成功');
         return true;
       }
@@ -97,6 +130,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return false;
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserInfo = async () => {
+    try {
+      if (!token) {
+        console.warn('没有token，无法获取用户信息');
+        return;
+      }
+      
+      console.log('开始获取用户信息...');
+      const userInfo = await authService.getCurrentUser();
+      setUser(userInfo);
+      console.log('获取用户信息成功:', userInfo.username);
+    } catch (error) {
+      console.error('获取用户信息失败:', error);
+      // 如果获取用户信息失败，可能是token无效，清除认证状态
+      if ((error as any)?.response?.status === 401) {
+        console.log('Token无效，清除认证状态');
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem('token');
+      }
     }
   };
 
@@ -123,6 +179,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     logout,
     loading,
+    fetchUserInfo,
   };
 
   return (

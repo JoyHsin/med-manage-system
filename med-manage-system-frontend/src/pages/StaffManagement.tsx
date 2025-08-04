@@ -46,9 +46,19 @@ const StaffManagement: React.FC = () => {
     setLoading(true);
     try {
       const response = await staffService.getAllStaff();
-      setStaff(response.data || []);
+      // 检查响应结构
+      if (Array.isArray(response.data)) {
+        setStaff(response.data);
+      } else if (response.data?.data && Array.isArray(response.data.data)) {
+        setStaff(response.data.data);
+      } else {
+        console.warn('Unexpected response structure:', response.data);
+        setStaff([]);
+      }
     } catch (error) {
+      console.error('获取员工列表失败:', error);
       message.error('获取员工列表失败');
+      setStaff([]);
     } finally {
       setLoading(false);
     }

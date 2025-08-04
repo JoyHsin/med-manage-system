@@ -73,8 +73,8 @@ const VitalSignsManagement: React.FC = () => {
 
   const loadPatients = async () => {
     try {
-      const data = await patientService.getAllPatients();
-      setPatients(data);
+      const response = await patientService.getAllPatients();
+      setPatients(response.data || []);
     } catch (error) {
       console.error('加载患者列表失败:', error);
       message.error('加载患者列表失败');

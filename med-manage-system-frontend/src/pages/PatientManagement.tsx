@@ -24,9 +24,7 @@ const PatientManagement: React.FC = () => {
   const fetchPatients = async () => {
     setLoading(true);
     try {
-      let response;
-      
-      response = await patientService.getAllPatients();
+      const response = await patientService.getAllPatients();
       
       if (response.success && response.data) {
         let filteredData = response.data;
@@ -34,9 +32,14 @@ const PatientManagement: React.FC = () => {
         // 应用过滤器
         filteredData = applyFilters(filteredData);
         setPatients(filteredData);
+      } else {
+        console.warn('Unexpected response structure:', response);
+        setPatients([]);
       }
     } catch (error) {
+      console.error('获取患者列表失败:', error);
       message.error('获取患者列表失败');
+      setPatients([]);
     } finally {
       setLoading(false);
     }

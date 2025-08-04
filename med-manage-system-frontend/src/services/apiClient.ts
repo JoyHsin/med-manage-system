@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { message } from 'antd';
+import { ensureBearerToken, debugToken } from '../utils/tokenUtils';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
@@ -30,8 +31,33 @@ class ApiClient {
     this.instance.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('token');
+        console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`);
+        console.log(`[Raw Token] ${token ? token.substring(0, 20) + '...' : 'null'}`);
+        
         if (token && config.headers) {
-          config.headers.Authorization = `Bearer ${token}`;
+          // 使用工具函数确保令牌格式正确
+          const authToken = ensureBearerToken(token);
+          if (authToken) {
+            config.headers.Authorization = authToken;
+            console.log(`[Authorization Header] ${authToken.substring(0, 30)}...`);
+            console.log(`[Token starts with Bearer] ${authToken.startsWith('Bearer ')}`);
+            
+            // 额外的调试信息
+            if (config.url?.includes('/auth/me')) {
+              console.log('=== /auth/me 请求调试信息 ===');
+              console.log('完整的Authorization头:', authToken);
+              console.log('请求配置:', {
+                url: config.url,
+                method: config.method,
+                headers: config.headers
+              });
+              debugToken();
+            }
+          } else {
+            console.warn('无法生成有效的Authorization头');
+          }
+        } else {
+          console.warn('未找到token或headers不存在');
         }
         return config;
       },
@@ -138,6 +164,13 @@ class ApiClient {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     });
+  }
+
+  // 调试方法：检查当前令牌格式
+  public debugToken(): void {
+    const token = localStorage.getItem('token');
+    console.log('Current token:', token ? `${token.substring(0, 20)}...` : 'null');
+    console.log('Token starts with Bearer:', token?.startsWith('Bearer '));
   }
 }
 
