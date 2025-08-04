@@ -8,6 +8,7 @@ import org.me.joy.clinic.entity.Registration;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 挂号数据访问层
@@ -251,4 +252,36 @@ public interface RegistrationMapper extends BaseMapper<Registration> {
     @Select("SELECT * FROM registrations WHERE status = '已完成' AND deleted = 0 " +
             "ORDER BY completed_at DESC")
     List<Registration> findCompletedRegistrations();
+
+    // Analytics methods
+    
+    /**
+     * 统计指定日期范围内的挂号数量
+     */
+    @Select("SELECT COUNT(*) FROM registrations WHERE registration_date BETWEEN #{startDate} AND #{endDate} AND deleted = 0")
+    Long countRegistrationsByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    /**
+     * 统计指定日期范围内的新患者数量
+     */
+    @Select("SELECT COUNT(DISTINCT r.patient_id) FROM registrations r " +
+            "WHERE r.registration_date BETWEEN #{startDate} AND #{endDate} " +
+            "AND r.is_first_visit = true AND r.deleted = 0")
+    Long countNewPatientsByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    /**
+     * 获取各科室就诊量统计
+     */
+    @Select("SELECT department, COUNT(*) as count FROM registrations " +
+            "WHERE registration_date BETWEEN #{startDate} AND #{endDate} AND deleted = 0 " +
+            "GROUP BY department ORDER BY count DESC")
+    List<Map<String, Object>> getDepartmentVisitStatistics(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    /**
+     * 获取每小时就诊统计
+     */
+    @Select("SELECT HOUR(registration_time) as hour, COUNT(*) as count FROM registrations " +
+            "WHERE registration_date BETWEEN #{startDate} AND #{endDate} AND deleted = 0 " +
+            "GROUP BY HOUR(registration_time) ORDER BY hour")
+    List<Map<String, Object>> getHourlyVisitStatistics(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

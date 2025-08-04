@@ -155,4 +155,12 @@
         WHERE id = #{staffId} AND deleted = 0
     </update>
 
+    <!-- 获取所有医生的ID列表 -->
+    <select id="getAllDoctorIds" resultType="java.lang.Long">
+        SELECT id FROM staff 
+        WHERE position LIKE '%医生%' OR position = '医师' OR position = '主治医师' OR position = '副主任医师' OR position = '主任医师'
+        AND work_status = '在职' AND deleted = 0
+        ORDER BY id
+    </select>
+
 </mapper>

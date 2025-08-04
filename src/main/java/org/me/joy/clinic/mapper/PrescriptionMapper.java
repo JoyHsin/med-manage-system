@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.me.joy.clinic.entity.Prescription;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -141,4 +142,17 @@ public interface PrescriptionMapper extends BaseMapper<Prescription> {
      */
     @Select("SELECT status, COUNT(*) as count FROM prescriptions WHERE deleted = 0 GROUP BY status")
     List<Object> countByStatus();
+
+    // Analytics methods
+    
+    /**
+     * 统计指定医生在指定日期范围内开具的处方数量
+     */
+    @Select("SELECT COUNT(*) FROM prescriptions " +
+            "WHERE doctor_id = #{doctorId} " +
+            "AND DATE(prescribed_at) BETWEEN #{startDate} AND #{endDate} " +
+            "AND deleted = 0")
+    Long countPrescriptionsByDoctorAndDateRange(@Param("doctorId") Long doctorId, 
+                                              @Param("startDate") LocalDate startDate, 
+                                              @Param("endDate") LocalDate endDate);
 }

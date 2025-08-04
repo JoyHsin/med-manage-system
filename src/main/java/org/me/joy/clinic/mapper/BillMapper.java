@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.me.joy.clinic.entity.Bill;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -50,4 +51,24 @@ public interface BillMapper extends BaseMapper<Bill> {
      */
     @Select("SELECT COALESCE(SUM(total_amount), 0) FROM bills WHERE DATE(created_at) = #{date} AND status IN ('PAID', 'PARTIALLY_PAID')")
     java.math.BigDecimal getTotalAmountByDate(@Param("date") LocalDate date);
+    
+    /**
+     * 根据创建时间范围查询账单
+     */
+    @Select("SELECT * FROM bills WHERE created_at >= #{startDateTime} AND created_at < #{endDateTime} ORDER BY created_at DESC")
+    List<Bill> findByCreatedAtBetween(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+
+    // Analytics methods
+    
+    /**
+     * 统计指定医生在指定日期范围内产生的收入
+     */
+    @Select("SELECT COALESCE(SUM(b.total_amount), 0) FROM bills b " +
+            "JOIN medical_records mr ON b.registration_id = mr.registration_id " +
+            "WHERE mr.doctor_id = #{doctorId} " +
+            "AND DATE(b.created_at) BETWEEN #{startDate} AND #{endDate} " +
+            "AND b.status IN ('PAID', 'PARTIALLY_PAID')")
+    Double sumRevenueByDoctorAndDateRange(@Param("doctorId") Long doctorId, 
+                                        @Param("startDate") LocalDate startDate, 
+                                        @Param("endDate") LocalDate endDate);
 }

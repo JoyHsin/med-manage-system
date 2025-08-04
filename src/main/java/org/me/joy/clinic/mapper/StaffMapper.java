@@ -158,4 +158,12 @@ public interface StaffMapper extends BaseMapper<Staff> {
      */
     int updateLastWorkDate(@Param("staffId") Long staffId, 
                           @Param("lastWorkDate") LocalDate lastWorkDate);
+
+    // Analytics methods
+    
+    /**
+     * 获取所有医生的ID列表
+     * @return 医生ID列表
+     */
+    List<Long> getAllDoctorIds();
 }

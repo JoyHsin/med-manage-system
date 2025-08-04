@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.me.joy.clinic.entity.MedicalRecord;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 病历数据访问接口
@@ -107,4 +109,42 @@ public interface MedicalRecordMapper extends BaseMapper<MedicalRecord> {
      */
     @Select("SELECT COUNT(*) > 0 FROM medical_records WHERE record_number = #{recordNumber} AND deleted = 0")
     boolean existsByRecordNumber(@Param("recordNumber") String recordNumber);
+
+    // Analytics methods
+    
+    /**
+     * 统计指定医生在指定日期范围内的患者数量
+     */
+    @Select("SELECT COUNT(DISTINCT patient_id) FROM medical_records " +
+            "WHERE doctor_id = #{doctorId} " +
+            "AND DATE(record_date) BETWEEN #{startDate} AND #{endDate} " +
+            "AND deleted = 0")
+    Long countPatientsByDoctorAndDateRange(@Param("doctorId") Long doctorId, 
+                                         @Param("startDate") LocalDate startDate, 
+                                         @Param("endDate") LocalDate endDate);
+
+    /**
+     * 统计指定医生在指定日期范围内完成的咨询数量
+     */
+    @Select("SELECT COUNT(*) FROM medical_records " +
+            "WHERE doctor_id = #{doctorId} " +
+            "AND DATE(record_date) BETWEEN #{startDate} AND #{endDate} " +
+            "AND status = '已完成' " +
+            "AND deleted = 0")
+    Long countCompletedConsultationsByDoctorAndDateRange(@Param("doctorId") Long doctorId, 
+                                                       @Param("startDate") LocalDate startDate, 
+                                                       @Param("endDate") LocalDate endDate);
+
+    /**
+     * 获取指定医生在指定日期范围内的咨询时间数据
+     */
+    @Select("SELECT record_date as start_time, completed_at as end_time " +
+            "FROM medical_records " +
+            "WHERE doctor_id = #{doctorId} " +
+            "AND DATE(record_date) BETWEEN #{startDate} AND #{endDate} " +
+            "AND completed_at IS NOT NULL " +
+            "AND deleted = 0")
+    List<Map<String, Object>> getConsultationTimesByDoctorAndDateRange(@Param("doctorId") Long doctorId, 
+                                                                      @Param("startDate") LocalDate startDate, 
+                                                                      @Param("endDate") LocalDate endDate);
 }
