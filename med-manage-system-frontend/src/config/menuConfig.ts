@@ -148,6 +148,12 @@ export const menuItems: MenuItem[] = [
     label: '药房管理',
     children: [
       {
+        key: '/prescription-queue',
+        iconType: 'ClockCircleOutlined',
+        label: '处方队列',
+        permissions: ['PRESCRIPTION_DISPENSE'],
+      },
+      {
         key: '/pharmacy-dispensing',
         iconType: 'ExperimentOutlined',
         label: '处方调剂',

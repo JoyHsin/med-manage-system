@@ -2,10 +2,13 @@ package org.me.joy.clinic.security;
 
 import org.me.joy.clinic.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 自定义用户主体
@@ -14,15 +17,23 @@ import java.util.Collections;
 public class CustomUserPrincipal implements UserDetails {
 
     private final User user;
+    private final List<String> permissions;
 
     public CustomUserPrincipal(User user) {
         this.user = user;
+        this.permissions = Collections.emptyList();
+    }
+
+    public CustomUserPrincipal(User user, List<String> permissions) {
+        this.user = user;
+        this.permissions = permissions != null ? permissions : Collections.emptyList();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: 在后续任务中实现角色权限加载
-        return Collections.emptyList();
+        return permissions.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override

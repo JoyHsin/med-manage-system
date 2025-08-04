@@ -22,6 +22,7 @@ import MedicalOrderCreation from './pages/MedicalOrderCreation';
 import BillingManagement from './pages/BillingManagement';
 import InventoryManagement from './pages/InventoryManagement';
 import PharmacyDispensing from './pages/PharmacyDispensing';
+import PrescriptionQueueManagement from './pages/PrescriptionQueueManagement';
 import StaffManagement from './pages/StaffManagement';
 import './App.css';
 
@@ -70,6 +71,7 @@ const App: React.FC = () => {
                             <Route path="/billing" element={<BillingManagement />} />
                             <Route path="/inventory" element={<InventoryManagement />} />
                             <Route path="/pharmacy-dispensing" element={<PharmacyDispensing />} />
+                            <Route path="/prescription-queue" element={<PrescriptionQueueManagement />} />
                           </Routes>
                         </ErrorBoundary>
                       </Layout>

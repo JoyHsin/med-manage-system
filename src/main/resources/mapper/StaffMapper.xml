@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.StaffMapper">
+
+    <!-- 根据员工编号查找员工 -->
+    <select id="findByStaffNumber" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE staff_number = #{staffNumber} AND deleted = 0
+    </select>
+
+    <!-- 根据身份证号查找员工 -->
+    <select id="findByIdCard" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE id_card = #{idCard} AND deleted = 0
+    </select>
+
+    <!-- 根据手机号查找员工 -->
+    <select id="findByPhone" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE phone = #{phone} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据姓名模糊查找员工 -->
+    <select id="findByNameLike" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE name LIKE CONCAT('%', #{name}, '%') AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据职位查找员工 -->
+    <select id="findByPosition" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE position = #{position} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据科室查找员工 -->
+    <select id="findByDepartment" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE department = #{department} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据工作状态查找员工 -->
+    <select id="findByWorkStatus" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE work_status = #{workStatus} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 查找在职员工 -->
+    <select id="findActiveStaff" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE work_status = '在职' AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 查找可排班员工 -->
+    <select id="findSchedulableStaff" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE work_status = '在职' AND is_schedulable = 1 AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据职位和科室查找员工 -->
+    <select id="findByPositionAndDepartment" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE position = #{position} AND department = #{department} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据入职日期范围查找员工 -->
+    <select id="findByHireDateRange" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE deleted = 0
+        AND hire_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY hire_date DESC
+    </select>
+
+    <!-- 查找执业证书即将过期的员工 -->
+    <select id="findByLicenseExpiring" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE deleted = 0
+        AND license_expiry_date IS NOT NULL 
+        AND license_expiry_date &lt;= #{expiryDate}
+        ORDER BY license_expiry_date ASC
+    </select>
+
+    <!-- 搜索员工 -->
+    <select id="searchStaff" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE deleted = 0
+        AND (
+            name LIKE CONCAT('%', #{keyword}, '%')
+            OR phone LIKE CONCAT('%', #{keyword}, '%')
+            OR staff_number LIKE CONCAT('%', #{keyword}, '%')
+            OR id_card LIKE CONCAT('%', #{keyword}, '%')
+        )
+        ORDER BY 
+            CASE 
+                WHEN name = #{keyword} THEN 1
+                WHEN staff_number = #{keyword} THEN 2
+                WHEN phone = #{keyword} THEN 3
+                WHEN id_card = #{keyword} THEN 4
+                ELSE 5
+            END,
+            created_at DESC
+    </select>
+
+    <!-- 根据用户ID查找员工 -->
+    <select id="findByUserId" resultType="org.me.joy.clinic.entity.Staff">
+        SELECT * FROM staff 
+        WHERE user_id = #{userId} AND deleted = 0
+    </select>
+
+    <!-- 统计员工总数 -->
+    <select id="countAllStaff" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM staff WHERE deleted = 0
+    </select>
+
+    <!-- 统计指定职位的员工数量 -->
+    <select id="countStaffByPosition" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM staff 
+        WHERE position = #{position} AND deleted = 0
+    </select>
+
+    <!-- 统计指定科室的员工数量 -->
+    <select id="countStaffByDepartment" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM staff 
+        WHERE department = #{department} AND deleted = 0
+    </select>
+
+    <!-- 统计在职员工数量 -->
+    <select id="countActiveStaff" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM staff 
+        WHERE work_status = '在职' AND deleted = 0
+    </select>
+
+    <!-- 批量更新员工状态 -->
+    <update id="batchUpdateWorkStatus">
+        UPDATE staff 
+        SET work_status = #{workStatus}, updated_at = NOW()
+        WHERE id IN
+        <foreach collection="staffIds" item="staffId" open="(" separator="," close=")">
+            #{staffId}
+        </foreach>
+        AND deleted = 0
+    </update>
+
+    <!-- 更新员工最后工作日期 -->
+    <update id="updateLastWorkDate">
+        UPDATE staff 
+        SET last_work_date = #{lastWorkDate}, updated_at = NOW()
+        WHERE id = #{staffId} AND deleted = 0
+    </update>
+
+</mapper>

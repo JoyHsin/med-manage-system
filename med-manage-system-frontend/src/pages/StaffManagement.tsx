@@ -24,35 +24,11 @@ import {
   ReloadOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { apiClient } from '../services/apiClient';
+import { staffService } from '../services/staffService';
+import type { Staff, CreateStaffRequest, UpdateStaffRequest } from '../types/staff';
 
 const { Search } = Input;
 const { Option } = Select;
-
-interface Staff {
-  id: number;
-  fullName: string;
-  employeeId: string;
-  department: string;
-  position: string;
-  phone?: string;
-  email?: string;
-  enabled: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface CreateStaffRequest {
-  name: string;
-  gender: string;
-  hireDate: string;
-  position: string;
-  department?: string;
-  phone?: string;
-  email?: string;
-}
-
-interface UpdateStaffRequest extends CreateStaffRequest {}
 
 const StaffManagement: React.FC = () => {
   const [staff, setStaff] = useState<Staff[]>([]);
@@ -69,10 +45,8 @@ const StaffManagement: React.FC = () => {
   const fetchStaff = async () => {
     setLoading(true);
     try {
-      const response = await apiClient.get('/staff');
-      if (response.data.success && response.data.data) {
-        setStaff(response.data.data);
-      }
+      const response = await staffService.getAllStaff();
+      setStaff(response.data || []);
     } catch (error) {
       message.error('获取员工列表失败');
     } finally {
@@ -89,12 +63,13 @@ const StaffManagement: React.FC = () => {
   const handleEditStaff = (staffMember: Staff) => {
     setEditingStaff(staffMember);
     form.setFieldsValue({
-      name: staffMember.fullName,
-      employeeId: staffMember.employeeId,
+      name: staffMember.name,
+      gender: staffMember.gender,
       department: staffMember.department,
       position: staffMember.position,
       phone: staffMember.phone,
       email: staffMember.email,
+      hireDate: staffMember.hireDate ? new Date(staffMember.hireDate) : null,
     });
     setIsModalVisible(true);
   };
@@ -115,14 +90,10 @@ const StaffManagement: React.FC = () => {
           email: values.email,
         };
         
-        const response = await apiClient.put(`/staff/${editingStaff.id}`, updateRequest);
-        if (response.data.success) {
-          message.success('员工信息更新成功');
-          fetchStaff();
-          setIsModalVisible(false);
-        } else {
-          message.error(response.data.message || '员工信息更新失败');
-        }
+        await staffService.updateStaff(editingStaff.id, updateRequest);
+        message.success('员工信息更新成功');
+        fetchStaff();
+        setIsModalVisible(false);
       } else {
         // 创建员工
         const createRequest: CreateStaffRequest = {
@@ -135,14 +106,10 @@ const StaffManagement: React.FC = () => {
           email: values.email,
         };
         
-        const response = await apiClient.post('/staff', createRequest);
-        if (response.data.success) {
-          message.success('员工创建成功');
-          fetchStaff();
-          setIsModalVisible(false);
-        } else {
-          message.error(response.data.message || '员工创建失败');
-        }
+        await staffService.createStaff(createRequest);
+        message.success('员工创建成功');
+        fetchStaff();
+        setIsModalVisible(false);
       }
     } catch (error) {
       console.error('表单验证失败:', error);
@@ -151,13 +118,9 @@ const StaffManagement: React.FC = () => {
 
   const handleDeleteStaff = async (staffId: number) => {
     try {
-      const response = await apiClient.delete(`/staff/${staffId}`);
-      if (response.data.success) {
-        message.success('员工删除成功');
-        fetchStaff();
-      } else {
-        message.error(response.data.message || '员工删除失败');
-      }
+      await staffService.deleteStaff(staffId);
+      message.success('员工删除成功');
+      fetchStaff();
     } catch (error) {
       message.error('员工删除失败');
     }
@@ -166,15 +129,15 @@ const StaffManagement: React.FC = () => {
   const columns: ColumnsType<Staff> = [
     {
       title: '员工姓名',
-      dataIndex: 'fullName',
-      key: 'fullName',
-      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: '员工工号',
-      dataIndex: 'employeeId',
-      key: 'employeeId',
-      sorter: (a, b) => a.employeeId.localeCompare(b.employeeId),
+      dataIndex: 'staffNumber',
+      key: 'staffNumber',
+      sorter: (a, b) => a.staffNumber.localeCompare(b.staffNumber),
     },
     {
       title: '部门',
@@ -197,14 +160,22 @@ const StaffManagement: React.FC = () => {
       key: 'email',
     },
     {
-      title: '状态',
-      dataIndex: 'enabled',
-      key: 'enabled',
-      render: (enabled: boolean) => (
-        <Tag color={enabled ? 'green' : 'red'}>
-          {enabled ? '启用' : '禁用'}
-        </Tag>
-      ),
+      title: '工作状态',
+      dataIndex: 'workStatus',
+      key: 'workStatus',
+      render: (workStatus: string) => {
+        const colorMap: { [key: string]: string } = {
+          '在职': 'green',
+          '离职': 'red',
+          '休假': 'orange',
+          '停职': 'gray',
+        };
+        return (
+          <Tag color={colorMap[workStatus] || 'default'}>
+            {workStatus}
+          </Tag>
+        );
+      },
     },
     {
       title: '创建时间',

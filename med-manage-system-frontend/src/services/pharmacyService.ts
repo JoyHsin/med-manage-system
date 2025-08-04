@@ -20,16 +20,26 @@ export class PharmacyService {
    * 获取待调剂的处方列表
    */
   async getPendingPrescriptions(): Promise<any[]> {
-    const response = await apiClient.get(`${this.baseUrl}/prescriptions/pending`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`${this.baseUrl}/prescriptions/pending`);
+      return response.data || [];
+    } catch (error) {
+      console.error('获取待调剂处方失败:', error);
+      return [];
+    }
   }
 
   /**
    * 检查处方调剂资格
    */
   async checkDispenseEligibility(prescriptionId: number): Promise<DispenseEligibilityResult> {
-    const response = await apiClient.get(`${this.baseUrl}/prescriptions/${prescriptionId}/eligibility`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`${this.baseUrl}/prescriptions/${prescriptionId}/eligibility`);
+      return response.data || { eligible: true, warnings: [] };
+    } catch (error) {
+      console.error('检查调剂资格失败:', error);
+      return { eligible: false, reason: '检查失败', warnings: [] };
+    }
   }
 
   /**
@@ -115,24 +125,39 @@ export class PharmacyService {
    * 获取调剂中的记录列表
    */
   async getInProgressDispenses(): Promise<DispenseRecord[]> {
-    const response = await apiClient.get(`${this.baseUrl}/dispense/in-progress`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`${this.baseUrl}/dispense/in-progress`);
+      return response.data || [];
+    } catch (error) {
+      console.error('获取调剂中记录失败:', error);
+      return [];
+    }
   }
 
   /**
    * 获取待发药的记录列表
    */
   async getReadyForDelivery(): Promise<DispenseRecord[]> {
-    const response = await apiClient.get(`${this.baseUrl}/dispense/ready-for-delivery`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`${this.baseUrl}/dispense/ready-for-delivery`);
+      return response.data || [];
+    } catch (error) {
+      console.error('获取待发药记录失败:', error);
+      return [];
+    }
   }
 
   /**
    * 获取需要复核的记录列表
    */
   async getNeedingReview(): Promise<DispenseRecord[]> {
-    const response = await apiClient.get(`${this.baseUrl}/dispense/needing-review`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`${this.baseUrl}/dispense/needing-review`);
+      return response.data || [];
+    } catch (error) {
+      console.error('获取待复核记录失败:', error);
+      return [];
+    }
   }
 
   /**

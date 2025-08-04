@@ -1,57 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
-  Form,
-  Input,
   Button,
-  Select,
   Row,
   Col,
   Typography,
   message,
   Space,
-  Divider,
   Table,
-  Tag,
   Modal,
-  Alert,
   Tabs,
-  List,
-  Tooltip,
   Badge,
-  InputNumber,
-  Popconfirm,
   Drawer,
-  Descriptions,
   Statistic,
-  Progress,
-  Steps
+  Input
 } from 'antd';
 import {
   ExperimentOutlined,
-  PlusOutlined,
   CheckOutlined,
   EyeOutlined,
-  EditOutlined,
   CloseOutlined,
-  SearchOutlined,
-  ClockCircleOutlined,
-  UserOutlined,
   MedicineBoxOutlined,
   WarningOutlined,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined
+  CheckCircleOutlined
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { pharmacyService } from '../services/pharmacyService';
+import DispensingOperations from '../components/DispensingOperations';
+import MedicineDelivery from '../components/MedicineDelivery';
 
-const { Title, Text, Paragraph } = Typography;
-const { Option } = Select;
-const { TextArea } = Input;
+const { Title, Text } = Typography;
 const { TabPane } = Tabs;
-const { confirm } = Modal;
-const { Step } = Steps;
+const { TextArea } = Input;
 
 const PharmacyDispensing: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -61,6 +42,10 @@ const PharmacyDispensing: React.FC = () => {
   const [needingReview, setNeedingReview] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('pending');
   const [stats, setStats] = useState<any>(null);
+  const [selectedDispenseRecord, setSelectedDispenseRecord] = useState<any>(null);
+  const [operationsDrawerVisible, setOperationsDrawerVisible] = useState(false);
+  const [deliveryDrawerVisible, setDeliveryDrawerVisible] = useState(false);
+  const [selectedDeliveryRecord, setSelectedDeliveryRecord] = useState<any>(null);
 
   // 当前药师ID（实际应用中从认证状态获取）
   const currentPharmacistId = 1;
@@ -142,12 +127,17 @@ const PharmacyDispensing: React.FC = () => {
 
   const startDispensing = async (prescription: any) => {
     try {
-      await pharmacyService.startDispensing({
+      const dispenseRecord = await pharmacyService.startDispensing({
         prescriptionId: prescription.id,
         pharmacistId: currentPharmacistId,
         pharmacistName: currentPharmacistName
       });
       message.success('开始调剂成功');
+      
+      // 打开调剂操作界面
+      setSelectedDispenseRecord(dispenseRecord);
+      setOperationsDrawerVisible(true);
+      
       loadAllData();
     } catch (error) {
       console.error('开始调剂失败:', error);
@@ -155,11 +145,18 @@ const PharmacyDispensing: React.FC = () => {
     }
   };
 
+  // 打开调剂操作界面
+  const handleOpenDispensing = (dispenseRecord: any) => {
+    setSelectedDispenseRecord(dispenseRecord);
+    setOperationsDrawerVisible(true);
+  };
+
   // 完成调剂
   const handleCompleteDispensing = async (dispenseRecord: any) => {
     try {
       await pharmacyService.completeDispensing(dispenseRecord.id);
       message.success('调剂完成');
+      setOperationsDrawerVisible(false);
       loadAllData();
     } catch (error) {
       console.error('完成调剂失败:', error);
@@ -167,20 +164,17 @@ const PharmacyDispensing: React.FC = () => {
     }
   };
 
-  // 发药
-  const handleDeliverMedicine = async (dispenseRecord: any) => {
-    try {
-      await pharmacyService.deliverMedicine(dispenseRecord.id, {
-        dispensingPharmacistId: currentPharmacistId,
-        dispensingPharmacistName: currentPharmacistName,
-        deliveryNotes: '药品已发放给患者'
-      });
-      message.success('发药成功');
-      loadAllData();
-    } catch (error) {
-      console.error('发药失败:', error);
-      message.error('发药失败');
-    }
+  // 打开发药界面
+  const handleOpenDelivery = (dispenseRecord: any) => {
+    setSelectedDeliveryRecord(dispenseRecord);
+    setDeliveryDrawerVisible(true);
+  };
+
+  // 发药完成
+  const handleDeliveryComplete = (dispenseRecord: any) => {
+    message.success('发药完成');
+    setDeliveryDrawerVisible(false);
+    loadAllData();
   };
 
   // 退回处方
@@ -346,10 +340,10 @@ const PharmacyDispensing: React.FC = () => {
           <Button
             type="primary"
             size="small"
-            icon={<CheckCircleOutlined />}
-            onClick={() => handleCompleteDispensing(record)}
+            icon={<ExperimentOutlined />}
+            onClick={() => handleOpenDispensing(record)}
           >
-            完成
+            继续调剂
           </Button>
           <Button
             type="link"
@@ -501,7 +495,7 @@ const PharmacyDispensing: React.FC = () => {
                         type="primary"
                         size="small"
                         icon={<MedicineBoxOutlined />}
-                        onClick={() => handleDeliverMedicine(record)}
+                        onClick={() => handleOpenDelivery(record)}
                       >
                         发药
                       </Button>
@@ -576,6 +570,47 @@ const PharmacyDispensing: React.FC = () => {
           </Card>
         </TabPane>
       </Tabs>
+
+      {/* 调剂操作抽屉 */}
+      <Drawer
+        title="处方调剂操作"
+        placement="right"
+        width={1200}
+        open={operationsDrawerVisible}
+        onClose={() => setOperationsDrawerVisible(false)}
+        destroyOnClose
+      >
+        <DispensingOperations
+          dispenseRecord={selectedDispenseRecord}
+          onComplete={(record) => {
+            handleCompleteDispensing(record);
+          }}
+          onCancel={(record) => {
+            setOperationsDrawerVisible(false);
+            loadAllData();
+          }}
+          onReturn={(record) => {
+            setOperationsDrawerVisible(false);
+            loadAllData();
+          }}
+        />
+      </Drawer>
+
+      {/* 发药管理抽屉 */}
+      <Drawer
+        title="药品发放"
+        placement="right"
+        width={1000}
+        open={deliveryDrawerVisible}
+        onClose={() => setDeliveryDrawerVisible(false)}
+        destroyOnClose
+      >
+        <MedicineDelivery
+          dispenseRecord={selectedDeliveryRecord}
+          onDelivered={handleDeliveryComplete}
+          onCancel={() => setDeliveryDrawerVisible(false)}
+        />
+      </Drawer>
     </div>
   );
 };
