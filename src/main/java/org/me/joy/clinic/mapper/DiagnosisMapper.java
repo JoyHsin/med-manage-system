@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.me.joy.clinic.entity.Diagnosis;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 诊断数据访问接口
@@ -117,4 +119,24 @@ public interface DiagnosisMapper extends BaseMapper<Diagnosis> {
      */
     @Select("SELECT * FROM diagnoses WHERE (is_infectious = 1 OR is_chronic_disease = 1 OR severity IN ('重度', '危重')) AND deleted = 0 ORDER BY diagnosis_time DESC")
     List<Diagnosis> findDiagnosesNeedingSpecialAttention();
+    
+    // Analytics methods
+    
+    /**
+     * 获取常见诊断统计
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 常见诊断统计数据
+     */
+    List<Map<String, Object>> getCommonDiagnoses(@Param("startDate") LocalDate startDate, 
+                                                @Param("endDate") LocalDate endDate);
+    
+    /**
+     * 统计指定时间范围内的总诊断数量
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 总诊断数量
+     */
+    Long countTotalDiagnoses(@Param("startDate") LocalDate startDate, 
+                           @Param("endDate") LocalDate endDate);
 }

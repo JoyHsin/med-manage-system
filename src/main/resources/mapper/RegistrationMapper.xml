@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.RegistrationMapper">
+
+    <!-- Analytics queries -->
+    
+    <!-- 统计新患者数量（首次就诊） -->
+    <select id="countNewPatients" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT r.patient_id)
+        FROM registrations r
+        WHERE r.deleted = 0
+        AND r.registration_date BETWEEN #{startDate} AND #{endDate}
+        AND r.is_first_visit = 1
+    </select>
+    
+    <!-- 统计回访患者数量（非首次就诊） -->
+    <select id="countReturningPatients" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT r.patient_id)
+        FROM registrations r
+        WHERE r.deleted = 0
+        AND r.registration_date BETWEEN #{startDate} AND #{endDate}
+        AND r.is_first_visit = 0
+    </select>
+    
+    <!-- 统计总就诊次数 -->
+    <select id="countTotalVisits" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM registrations r
+        WHERE r.deleted = 0
+        AND r.registration_date BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+</mapper>

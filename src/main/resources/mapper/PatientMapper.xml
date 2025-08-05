@@ -139,4 +139,57 @@
         AND deleted = 0
     </update>
 
+    <!-- Analytics queries -->
+    
+    <!-- 统计总患者数 -->
+    <select id="countTotalPatients" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM patients WHERE deleted = 0
+    </select>
+    
+    <!-- 获取性别分布统计 -->
+    <select id="getGenderDistribution" resultType="java.util.Map">
+        SELECT 
+            gender,
+            COUNT(*) as count
+        FROM patients 
+        WHERE deleted = 0 AND gender IS NOT NULL
+        GROUP BY gender
+    </select>
+    
+    <!-- 获取所有患者的出生日期信息 -->
+    <select id="getAllPatientsWithBirthDate" resultType="java.util.Map">
+        SELECT 
+            id,
+            birth_date
+        FROM patients 
+        WHERE deleted = 0 AND birth_date IS NOT NULL
+    </select>
+    
+    <!-- 获取地区分布统计 -->
+    <!-- TODO: 优化建议 - 在patients表中增加独立的city和province字段以提升查询性能 -->
+    <!-- 当前使用字符串函数的临时解决方案，生产环境建议添加索引: CREATE INDEX idx_patients_address ON patients(address(50)) -->
+    <select id="getLocationDistribution" resultType="java.util.Map">
+        SELECT 
+            CASE 
+                WHEN address LIKE '%北京%' THEN '北京'
+                WHEN address LIKE '%上海%' THEN '上海'
+                WHEN address LIKE '%广州%' THEN '广州'
+                WHEN address LIKE '%深圳%' THEN '深圳'
+                WHEN address LIKE '%杭州%' THEN '杭州'
+                WHEN address LIKE '%南京%' THEN '南京'
+                WHEN address LIKE '%武汉%' THEN '武汉'
+                WHEN address LIKE '%成都%' THEN '成都'
+                WHEN address LIKE '%西安%' THEN '西安'
+                WHEN address LIKE '%重庆%' THEN '重庆'
+                ELSE SUBSTRING_INDEX(address, ' ', 1)
+            END as location,
+            COUNT(*) as count
+        FROM patients 
+        WHERE deleted = 0 AND address IS NOT NULL AND address != ''
+        GROUP BY location
+        HAVING location IS NOT NULL AND location != ''
+        ORDER BY count DESC
+        LIMIT 10
+    </select>
+
 </mapper>

@@ -284,4 +284,30 @@ public interface RegistrationMapper extends BaseMapper<Registration> {
             "WHERE registration_date BETWEEN #{startDate} AND #{endDate} AND deleted = 0 " +
             "GROUP BY HOUR(registration_time) ORDER BY hour")
     List<Map<String, Object>> getHourlyVisitStatistics(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    
+    // Additional analytics methods for patient analytics
+    
+    /**
+     * 统计新患者数量（首次就诊）
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 新患者数量
+     */
+    Long countNewPatients(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    
+    /**
+     * 统计回访患者数量（非首次就诊）
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 回访患者数量
+     */
+    Long countReturningPatients(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    
+    /**
+     * 统计总就诊次数
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 总就诊次数
+     */
+    Long countTotalVisits(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

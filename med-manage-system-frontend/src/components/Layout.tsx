@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { menuItems, filterMenuByPermissions, convertToAntdMenu } from '../config/menuConfig';
+import { useRoutePreloader, useMenuPreloader } from '../hooks/useRoutePreloader';
 
 const { Header, Content, Sider } = AntLayout;
 
@@ -20,6 +21,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  
+  // 使用路由预加载
+  useRoutePreloader();
+  const { handleMenuHover } = useMenuPreloader();
 
   const handleLogout = () => {
     logout();
@@ -86,6 +91,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           selectedKeys={[location.pathname]}
           items={filteredMenuItems}
           onClick={handleMenuClick}
+          onMouseEnter={(e) => {
+            // 鼠标悬停时预加载对应路由
+            const target = e.target as HTMLElement;
+            const menuItem = target.closest('[data-menu-id]');
+            if (menuItem) {
+              const routePath = menuItem.getAttribute('data-menu-id');
+              if (routePath) {
+                const routeName = routePath.replace('/', '').replace('-', '');
+                handleMenuHover(routeName);
+              }
+            }
+          }}
         />
       </Sider>
       

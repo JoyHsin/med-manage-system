@@ -1,0 +1,781 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Card,
+  Form,
+  Select,
+  DatePicker,
+  Button,
+  Space,
+  Row,
+  Col,
+  Divider,
+  Typography,
+  Alert,
+  Spin,
+  message,
+  Modal,
+  Input,
+  Checkbox,
+  Table,
+  Tag,
+  Tooltip,
+  Progress
+} from 'antd';
+import {
+  FileExcelOutlined,
+  FilePdfOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  SettingOutlined,
+  SaveOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  ShareAltOutlined
+} from '@ant-design/icons';
+import dayjs, { Dayjs } from 'dayjs';
+import type { ColumnsType } from 'antd/es/table';
+import ReportTemplateBuilder from './ReportTemplateBuilder';
+import ReportExporter from './ReportExporter';
+
+const { Title, Text } = Typography;
+const { RangePicker } = DatePicker;
+const { Option } = Select;
+const { TextArea } = Input;
+
+// 报表类型定义
+export interface ReportTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  fields: ReportField[];
+  defaultParams: Record<string, any>;
+  isCustom: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ReportField {
+  key: string;
+  label: string;
+  type: 'string' | 'number' | 'date' | 'boolean' | 'select';
+  required: boolean;
+  options?: { label: string; value: any }[];
+  defaultValue?: any;
+}
+
+export interface ReportParams {
+  templateId: string;
+  dateRange?: [string, string];
+  filters: Record<string, any>;
+  format: 'excel' | 'pdf';
+  includeCharts: boolean;
+  groupBy?: string[];
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface GeneratedReport {
+  id: string;
+  templateId: string;
+  templateName: string;
+  params: ReportParams;
+  status: 'generating' | 'completed' | 'failed';
+  progress: number;
+  downloadUrl?: string;
+  createdAt: string;
+  fileSize?: number;
+  error?: string;
+}
+
+interface ReportGeneratorProps {
+  onReportGenerated?: (report: GeneratedReport) => void;
+  onReportDownload?: (reportId: string) => void;
+}
+
+const ReportGenerator: React.FC<ReportGeneratorProps> = ({
+  onReportGenerated,
+  onReportDownload
+}) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [templates, setTemplates] = useState<ReportTemplate[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate | null>(null);
+  const [templateBuilderVisible, setTemplateBuilderVisible] = useState(false);
+  const [previewModalVisible, setPreviewModalVisible] = useState(false);
+  const [exporterVisible, setExporterVisible] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<GeneratedReport | null>(null);
+  const [generatedReports, setGeneratedReports] = useState<GeneratedReport[]>([]);
+
+  // 预定义报表模板
+  const predefinedTemplates: ReportTemplate[] = [
+    {
+      id: 'daily-financial',
+      name: '日财务报表',
+      description: '生成指定日期的财务收入统计报表',
+      category: '财务报表',
+      fields: [
+        {
+          key: 'date',
+          label: '报表日期',
+          type: 'date',
+          required: true,
+          defaultValue: dayjs().format('YYYY-MM-DD')
+        },
+        {
+          key: 'includeRefunds',
+          label: '包含退费',
+          type: 'boolean',
+          required: false,
+          defaultValue: true
+        },
+        {
+          key: 'groupByService',
+          label: '按服务分组',
+          type: 'boolean',
+          required: false,
+          defaultValue: false
+        }
+      ],
+      defaultParams: {
+        format: 'excel',
+        includeCharts: true
+      },
+      isCustom: false
+    },
+    {
+      id: 'monthly-financial',
+      name: '月财务报表',
+      description: '生成指定月份的财务收入统计报表',
+      category: '财务报表',
+      fields: [
+        {
+          key: 'month',
+          label: '报表月份',
+          type: 'date',
+          required: true,
+          defaultValue: dayjs().format('YYYY-MM')
+        },
+        {
+          key: 'includeComparison',
+          label: '包含同比分析',
+          type: 'boolean',
+          required: false,
+          defaultValue: true
+        }
+      ],
+      defaultParams: {
+        format: 'excel',
+        includeCharts: true
+      },
+      isCustom: false
+    },
+    {
+      id: 'patient-demographics',
+      name: '患者统计报表',
+      description: '生成患者人口统计分析报表',
+      category: '患者分析',
+      fields: [
+        {
+          key: 'dateRange',
+          label: '统计时间范围',
+          type: 'date',
+          required: true
+        },
+        {
+          key: 'groupBy',
+          label: '分组方式',
+          type: 'select',
+          required: true,
+          options: [
+            { label: '按性别', value: 'gender' },
+            { label: '按年龄段', value: 'ageGroup' },
+            { label: '按地区', value: 'location' }
+          ],
+          defaultValue: 'gender'
+        }
+      ],
+      defaultParams: {
+        format: 'excel',
+        includeCharts: true
+      },
+      isCustom: false
+    },
+    {
+      id: 'doctor-performance',
+      name: '医生绩效报表',
+      description: '生成医生工作绩效统计报表',
+      category: '运营分析',
+      fields: [
+        {
+          key: 'dateRange',
+          label: '统计时间范围',
+          type: 'date',
+          required: true
+        },
+        {
+          key: 'doctorId',
+          label: '指定医生',
+          type: 'select',
+          required: false,
+          options: [
+            { label: '全部医生', value: 'all' },
+            { label: '张医生', value: '1' },
+            { label: '李医生', value: '2' }
+          ],
+          defaultValue: 'all'
+        },
+        {
+          key: 'includePatientFeedback',
+          label: '包含患者反馈',
+          type: 'boolean',
+          required: false,
+          defaultValue: false
+        }
+      ],
+      defaultParams: {
+        format: 'excel',
+        includeCharts: true
+      },
+      isCustom: false
+    },
+    {
+      id: 'inventory-report',
+      name: '库存统计报表',
+      description: '生成药品库存状况统计报表',
+      category: '库存管理',
+      fields: [
+        {
+          key: 'includeExpiring',
+          label: '包含即将过期药品',
+          type: 'boolean',
+          required: false,
+          defaultValue: true
+        },
+        {
+          key: 'lowStockThreshold',
+          label: '低库存阈值',
+          type: 'number',
+          required: false,
+          defaultValue: 10
+        },
+        {
+          key: 'category',
+          label: '药品分类',
+          type: 'select',
+          required: false,
+          options: [
+            { label: '全部分类', value: 'all' },
+            { label: '处方药', value: 'prescription' },
+            { label: '非处方药', value: 'otc' }
+          ],
+          defaultValue: 'all'
+        }
+      ],
+      defaultParams: {
+        format: 'excel',
+        includeCharts: false
+      },
+      isCustom: false
+    }
+  ];
+
+  // 初始化数据
+  useEffect(() => {
+    loadTemplates();
+    loadGeneratedReports();
+  }, []);
+
+  // 加载报表模板
+  const loadTemplates = async () => {
+    try {
+      // 这里应该从API加载自定义模板，现在使用预定义模板
+      const customTemplates = JSON.parse(localStorage.getItem('customReportTemplates') || '[]');
+      setTemplates([...predefinedTemplates, ...customTemplates]);
+    } catch (error) {
+      console.error('加载报表模板失败:', error);
+      setTemplates(predefinedTemplates);
+    }
+  };
+
+  // 加载已生成的报表
+  const loadGeneratedReports = async () => {
+    try {
+      // 这里应该从API加载，现在使用本地存储模拟
+      const reports = JSON.parse(localStorage.getItem('generatedReports') || '[]');
+      setGeneratedReports(reports);
+    } catch (error) {
+      console.error('加载报表历史失败:', error);
+    }
+  };
+
+  // 选择报表模板
+  const handleTemplateChange = (templateId: string) => {
+    const template = templates.find(t => t.id === templateId);
+    setSelectedTemplate(template || null);
+    
+    if (template) {
+      // 设置默认参数
+      const defaultValues: Record<string, any> = {};
+      template.fields.forEach(field => {
+        if (field.defaultValue !== undefined) {
+          defaultValues[field.key] = field.type === 'date' 
+            ? dayjs(field.defaultValue) 
+            : field.defaultValue;
+        }
+      });
+      form.setFieldsValue(defaultValues);
+    }
+  };
+
+  // 生成报表
+  const handleGenerateReport = async () => {
+    if (!selectedTemplate) {
+      message.error('请选择报表模板');
+      return;
+    }
+
+    try {
+      const values = await form.validateFields();
+      setLoading(true);
+
+      // 构建报表参数
+      const params: ReportParams = {
+        templateId: selectedTemplate.id,
+        filters: values,
+        format: values.format || 'excel',
+        includeCharts: values.includeCharts !== false,
+        groupBy: values.groupBy ? [values.groupBy] : undefined,
+        sortBy: values.sortBy,
+        sortOrder: values.sortOrder || 'desc'
+      };
+
+      // 处理日期范围
+      if (values.dateRange && Array.isArray(values.dateRange)) {
+        params.dateRange = [
+          values.dateRange[0].format('YYYY-MM-DD'),
+          values.dateRange[1].format('YYYY-MM-DD')
+        ];
+      } else if (values.date) {
+        params.dateRange = [
+          values.date.format('YYYY-MM-DD'),
+          values.date.format('YYYY-MM-DD')
+        ];
+      }
+
+      // 创建报表记录
+      const report: GeneratedReport = {
+        id: `report_${Date.now()}`,
+        templateId: selectedTemplate.id,
+        templateName: selectedTemplate.name,
+        params,
+        status: 'generating',
+        progress: 0,
+        createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      };
+
+      // 模拟报表生成过程
+      setGeneratedReports(prev => [report, ...prev]);
+      
+      // 模拟进度更新
+      const progressInterval = setInterval(() => {
+        setGeneratedReports(prev => 
+          prev.map(r => 
+            r.id === report.id 
+              ? { ...r, progress: Math.min(r.progress + 20, 100) }
+              : r
+          )
+        );
+      }, 500);
+
+      // 模拟完成
+      setTimeout(() => {
+        clearInterval(progressInterval);
+        const completedReport: GeneratedReport = {
+          ...report,
+          status: 'completed',
+          progress: 100,
+          downloadUrl: `/api/reports/${report.id}/download`,
+          fileSize: Math.floor(Math.random() * 1000000) + 100000 // 模拟文件大小
+        };
+        
+        setGeneratedReports(prev => 
+          prev.map(r => r.id === report.id ? completedReport : r)
+        );
+        
+        // 保存到本地存储
+        const updatedReports = generatedReports.map(r => 
+          r.id === report.id ? completedReport : r
+        );
+        localStorage.setItem('generatedReports', JSON.stringify(updatedReports));
+        
+        message.success('报表生成完成');
+        onReportGenerated?.(completedReport);
+      }, 3000);
+
+    } catch (error) {
+      console.error('生成报表失败:', error);
+      message.error('生成报表失败，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 下载报表
+  const handleDownloadReport = (report: GeneratedReport) => {
+    if (report.status !== 'completed' || !report.downloadUrl) {
+      message.error('报表尚未生成完成');
+      return;
+    }
+
+    setSelectedReport(report);
+    setExporterVisible(true);
+  };
+
+  // 预览报表
+  const handlePreviewReport = (report: GeneratedReport) => {
+    if (report.status !== 'completed') {
+      message.error('报表尚未生成完成');
+      return;
+    }
+    setPreviewModalVisible(true);
+  };
+
+  // 删除报表
+  const handleDeleteReport = (reportId: string) => {
+    Modal.confirm({
+      title: '确认删除',
+      content: '确定要删除这个报表吗？删除后无法恢复。',
+      onOk: () => {
+        const updatedReports = generatedReports.filter(r => r.id !== reportId);
+        setGeneratedReports(updatedReports);
+        localStorage.setItem('generatedReports', JSON.stringify(updatedReports));
+        message.success('报表已删除');
+      }
+    });
+  };
+
+  // 创建自定义模板
+  const handleCreateCustomTemplate = (templateData: Omit<ReportTemplate, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const customTemplate: ReportTemplate = {
+      id: `custom_${Date.now()}`,
+      ...templateData,
+      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    };
+
+    const customTemplates = JSON.parse(localStorage.getItem('customReportTemplates') || '[]');
+    customTemplates.push(customTemplate);
+    localStorage.setItem('customReportTemplates', JSON.stringify(customTemplates));
+    
+    setTemplates(prev => [...prev, customTemplate]);
+    setTemplateBuilderVisible(false);
+    message.success('自定义模板创建成功');
+  };
+
+  // 报表历史表格列定义
+  const reportColumns: ColumnsType<GeneratedReport> = [
+    {
+      title: '报表名称',
+      dataIndex: 'templateName',
+      key: 'templateName',
+      width: 200
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      width: 120,
+      render: (status: string, record: GeneratedReport) => {
+        const statusConfig = {
+          generating: { color: 'processing', text: '生成中' },
+          completed: { color: 'success', text: '已完成' },
+          failed: { color: 'error', text: '失败' }
+        };
+        const config = statusConfig[status as keyof typeof statusConfig];
+        
+        return (
+          <Space direction="vertical" size={4}>
+            <Tag color={config.color}>{config.text}</Tag>
+            {status === 'generating' && (
+              <Progress 
+                percent={record.progress} 
+                size="small" 
+                showInfo={false}
+              />
+            )}
+          </Space>
+        );
+      }
+    },
+    {
+      title: '生成时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      width: 160
+    },
+    {
+      title: '文件大小',
+      dataIndex: 'fileSize',
+      key: 'fileSize',
+      width: 100,
+      render: (size: number) => size ? `${(size / 1024).toFixed(1)} KB` : '-'
+    },
+    {
+      title: '操作',
+      key: 'actions',
+      width: 200,
+      render: (_, record: GeneratedReport) => (
+        <Space>
+          <Tooltip title="预览">
+            <Button
+              type="text"
+              icon={<EyeOutlined />}
+              onClick={() => handlePreviewReport(record)}
+              disabled={record.status !== 'completed'}
+            />
+          </Tooltip>
+          <Tooltip title="下载">
+            <Button
+              type="text"
+              icon={<DownloadOutlined />}
+              onClick={() => handleDownloadReport(record)}
+              disabled={record.status !== 'completed'}
+            />
+          </Tooltip>
+          <Tooltip title="导出分享">
+            <Button
+              type="text"
+              icon={<ShareAltOutlined />}
+              onClick={() => {
+                setSelectedReport(record);
+                setExporterVisible(true);
+              }}
+              disabled={record.status !== 'completed'}
+            />
+          </Tooltip>
+          <Tooltip title="删除">
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => handleDeleteReport(record.id)}
+            />
+          </Tooltip>
+        </Space>
+      )
+    }
+  ];
+
+  return (
+    <div style={{ padding: '24px' }}>
+      <Title level={2}>
+        <FileExcelOutlined style={{ marginRight: '8px' }} />
+        报表生成器
+      </Title>
+
+      <Row gutter={[24, 24]}>
+        {/* 报表生成区域 */}
+        <Col xs={24} lg={14}>
+          <Card title="生成报表" extra={
+            <Button
+              type="primary"
+              ghost
+              icon={<PlusOutlined />}
+              onClick={() => setTemplateBuilderVisible(true)}
+            >
+              自定义模板
+            </Button>
+          }>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleGenerateReport}
+            >
+              <Form.Item
+                label="报表模板"
+                name="templateId"
+                rules={[{ required: true, message: '请选择报表模板' }]}
+              >
+                <Select
+                  placeholder="选择报表模板"
+                  onChange={handleTemplateChange}
+                  showSearch
+                  optionFilterProp="children"
+                >
+                  {templates.map(template => (
+                    <Option key={template.id} value={template.id}>
+                      <div>
+                        <div>{template.name}</div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>
+                          {template.description}
+                        </Text>
+                      </div>
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              {selectedTemplate && (
+                <>
+                  <Divider orientation="left">报表参数</Divider>
+                  
+                  {selectedTemplate.fields.map(field => (
+                    <Form.Item
+                      key={field.key}
+                      label={field.label}
+                      name={field.key}
+                      rules={[
+                        { required: field.required, message: `请输入${field.label}` }
+                      ]}
+                    >
+                      {field.type === 'string' && <Input />}
+                      {field.type === 'number' && <Input type="number" />}
+                      {field.type === 'date' && field.key === 'dateRange' && (
+                        <RangePicker format="YYYY-MM-DD" />
+                      )}
+                      {field.type === 'date' && field.key !== 'dateRange' && (
+                        <DatePicker format="YYYY-MM-DD" />
+                      )}
+                      {field.type === 'boolean' && <Checkbox />}
+                      {field.type === 'select' && (
+                        <Select>
+                          {field.options?.map(option => (
+                            <Option key={option.value} value={option.value}>
+                              {option.label}
+                            </Option>
+                          ))}
+                        </Select>
+                      )}
+                    </Form.Item>
+                  ))}
+
+                  <Divider orientation="left">输出设置</Divider>
+                  
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label="输出格式"
+                        name="format"
+                        initialValue="excel"
+                      >
+                        <Select>
+                          <Option value="excel">
+                            <FileExcelOutlined /> Excel
+                          </Option>
+                          <Option value="pdf">
+                            <FilePdfOutlined /> PDF
+                          </Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label="包含图表"
+                        name="includeCharts"
+                        valuePropName="checked"
+                        initialValue={true}
+                      >
+                        <Checkbox>生成图表</Checkbox>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={loading}
+                      icon={<DownloadOutlined />}
+                      size="large"
+                      block
+                    >
+                      生成报表
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form>
+          </Card>
+        </Col>
+
+        {/* 报表历史区域 */}
+        <Col xs={24} lg={10}>
+          <Card 
+            title="报表历史" 
+            extra={
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={loadGeneratedReports}
+              >
+                刷新
+              </Button>
+            }
+          >
+            <Table
+              columns={reportColumns}
+              dataSource={generatedReports}
+              rowKey="id"
+              size="small"
+              pagination={{
+                pageSize: 10,
+                showSizeChanger: false,
+                showQuickJumper: true
+              }}
+              scroll={{ y: 400 }}
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      {/* 自定义模板创建弹窗 */}
+      <ReportTemplateBuilder
+        visible={templateBuilderVisible}
+        onCancel={() => setTemplateBuilderVisible(false)}
+        onSave={handleCreateCustomTemplate}
+      />
+
+      {/* 报表预览弹窗 */}
+      <Modal
+        title="报表预览"
+        open={previewModalVisible}
+        onCancel={() => setPreviewModalVisible(false)}
+        footer={null}
+        width={800}
+      >
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <EyeOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+          <p style={{ marginTop: '16px', fontSize: '16px' }}>
+            报表预览功能正在开发中
+          </p>
+          <p style={{ color: '#666' }}>
+            请下载报表文件查看完整内容
+          </p>
+        </div>
+      </Modal>
+
+      {/* 报表导出分享弹窗 */}
+      <ReportExporter
+        visible={exporterVisible}
+        report={selectedReport}
+        onCancel={() => {
+          setExporterVisible(false);
+          setSelectedReport(null);
+        }}
+        onExportComplete={(report, options) => {
+          console.log('导出完成:', report, options);
+          onReportDownload?.(report.id);
+        }}
+        onShareComplete={(report, options) => {
+          console.log('分享完成:', report, options);
+        }}
+        onPrintComplete={(report, options) => {
+          console.log('打印完成:', report, options);
+        }}
+      />
+    </div>
+  );
+};
+
+export default ReportGenerator;

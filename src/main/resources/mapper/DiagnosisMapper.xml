@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.me.joy.clinic.mapper.DiagnosisMapper">
+
+    <!-- Analytics queries -->
+    
+    <!-- 获取常见诊断统计 -->
+    <select id="getCommonDiagnoses" resultType="java.util.Map">
+        SELECT 
+            d.diagnosis_code,
+            d.diagnosis_name,
+            COUNT(*) as count
+        FROM diagnoses d
+        INNER JOIN medical_records mr ON d.medical_record_id = mr.id
+        WHERE d.deleted = 0 
+        AND mr.deleted = 0
+        AND DATE(mr.record_date) BETWEEN #{startDate} AND #{endDate}
+        GROUP BY d.diagnosis_code, d.diagnosis_name
+        ORDER BY count DESC
+        LIMIT 20
+    </select>
+    
+    <!-- 统计指定时间范围内的总诊断数量 -->
+    <select id="countTotalDiagnoses" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM diagnoses d
+        INNER JOIN medical_records mr ON d.medical_record_id = mr.id
+        WHERE d.deleted = 0 
+        AND mr.deleted = 0
+        AND DATE(mr.record_date) BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+</mapper>

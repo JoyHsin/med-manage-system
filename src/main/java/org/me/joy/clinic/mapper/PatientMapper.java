@@ -7,6 +7,7 @@ import org.me.joy.clinic.entity.Patient;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -127,4 +128,30 @@ public interface PatientMapper extends BaseMapper<Patient> {
      * @return 更新记录数
      */
     int batchUpdateStatus(@Param("patientIds") List<Long> patientIds, @Param("status") String status);
+    
+    // Analytics methods
+    
+    /**
+     * 统计总患者数
+     * @return 总患者数
+     */
+    Long countTotalPatients();
+    
+    /**
+     * 获取性别分布统计
+     * @return 性别分布数据
+     */
+    List<Map<String, Object>> getGenderDistribution();
+    
+    /**
+     * 获取所有患者的出生日期信息
+     * @return 患者出生日期列表
+     */
+    List<Map<String, Object>> getAllPatientsWithBirthDate();
+    
+    /**
+     * 获取地区分布统计
+     * @return 地区分布数据
+     */
+    List<Map<String, Object>> getLocationDistribution();
 }

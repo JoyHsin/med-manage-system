@@ -161,6 +161,25 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    key: 'analytics',
+    iconType: 'BarChartOutlined',
+    label: '数据统计',
+    children: [
+      {
+        key: '/statistics',
+        iconType: 'DashboardOutlined',
+        label: '统计仪表盘',
+        permissions: ['ANALYTICS_READ', 'FINANCIAL_REPORT_READ'],
+      },
+      {
+        key: '/reports',
+        iconType: 'FileExcelOutlined',
+        label: '报表管理',
+        permissions: ['REPORT_GENERATE', 'REPORT_VIEW'],
+      },
+    ],
+  },
 ];
 
 // 权限过滤函数

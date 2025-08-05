@@ -54,8 +54,8 @@ public interface InsuranceEligibilityMapper extends BaseMapper<InsuranceEligibil
     /**
      * 查询即将过期的保险资格（30天内）
      */
-    @Select("SELECT * FROM insurance_eligibilities WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) AND deleted = 0 ORDER BY expiry_date ASC")
-    List<InsuranceEligibility> findExpiringSoon();
+    @Select("SELECT * FROM insurance_eligibilities WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL #{days} DAY) AND deleted = 0 ORDER BY expiry_date ASC")
+    List<InsuranceEligibility> findExpiringSoon(@Param("days") int days);
 
     /**
      * 根据状态查询保险资格

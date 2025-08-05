@@ -18,7 +18,7 @@ import java.util.List;
  * 财务报表控制器
  */
 @RestController
-@RequestMapping("/api/financial-reports")
+@RequestMapping("/api/analytics/financial")
 @CrossOrigin(origins = "*")
 public class FinancialReportController {
 
